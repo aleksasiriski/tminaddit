@@ -9,8 +9,8 @@ const flash = require('express-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
 
-const connectDB = require('./back/database')
-const user = require('./back/user')
+const connectDB = require('./database/database')
+const user = require('./database/user')
 
 connectDB()
 app.set('view-engine', 'ejs')
@@ -77,7 +77,7 @@ app.delete('/api/logout', checkAuthenticated, (req, res) => {
     req.logOut()
     res.redirect('/login')
 })
-app.get('/api/getUsername', checkAuthenticated, (req, res) => {
+app.get('/api/user', checkAuthenticated, (req, res) => {
     res.status(200).json({
         success: true,
         username: req.session.passport.user
