@@ -1,0 +1,14 @@
+body { 
+    background-color: #18191b;
+    color: #fff;
+}
+img {
+    max-width: 100%;
+}
+.DisplayNone {
+    display: none;
+}
+iframe {
+    width: 80%;
+    height: 500px;
+}
