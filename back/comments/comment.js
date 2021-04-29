@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 
 var commentSchema = new mongoose.Schema({
     theme: String,
@@ -8,14 +8,14 @@ var commentSchema = new mongoose.Schema({
     text: String,
     like: String,
     dislike: String
-}, { collection: "comments" });
+}, { collection: "comments" })
 
 commentSchema.pre("save", function (next) {
-    var currentDate = new Date();
-    this.updatedAt = currentDate;
+    var currentDate = new Date()
+    this.updatedAt = currentDate
     if (!this.createdAt)
-        this.createdAt = currentDate;
-    next();
-});
+        this.createdAt = currentDate
+    next()
+})
 
-module.exports = mongoose.model("comment", phoneSchema);
+module.exports = mongoose.model("comment", phoneSchema)

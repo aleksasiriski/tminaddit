@@ -9,8 +9,8 @@ const flash = require('express-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
 
-const connectDB = require('./database/database')
-const user = require('./database/user')
+const connectDB = require('./back/database/database')
+const user = require('./back/users/user')
 
 connectDB()
 app.set('view-engine', 'ejs')
@@ -88,7 +88,6 @@ function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next()
     }
-
     res.redirect('/login')
 }
 
@@ -96,7 +95,6 @@ function checkNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return res.redirect('/')
     }
-
     next()
 }
 

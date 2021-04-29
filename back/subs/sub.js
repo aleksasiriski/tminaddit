@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 
 var subSchema = new mongoose.Schema({
     name: {
@@ -10,14 +10,14 @@ var subSchema = new mongoose.Schema({
     icon: String,
     mainmoderator: String,
     moderators: [String]
-}, { collection: "subs" });
+}, { collection: "subs" })
 
 subSchema.pre("save", function (next) {
-    var currentDate = new Date();
-    this.updatedAt = currentDate;
+    var currentDate = new Date()
+    this.updatedAt = currentDate
     if (!this.createdAt)
-        this.createdAt = currentDate;
+        this.createdAt = currentDate
     next();
-});
+})
 
-module.exports = mongoose.model("sub", phoneSchema);
+module.exports = mongoose.model("sub", phoneSchema)

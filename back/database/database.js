@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 
 async function connectDB() {
     try {
-        const url = "mongodb://localhost:27017/tminaddit";
-
+        const url = "mongodb://localhost:27017/tminaddit"
         const connection = await mongoose.connect(url, {
             useUnifiedTopology: true,
             useNewUrlParser: true,
@@ -11,9 +10,9 @@ async function connectDB() {
             useFindAndModify: false
         });
 
-        console.log("Connected to database");
+        console.log("Connected to database")
     } catch (err) {
-        console.log(`Error: ${err.message}`);
+        console.log(`Error: ${err.message}`)
     }
 }
 

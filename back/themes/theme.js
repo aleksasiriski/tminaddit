@@ -1,4 +1,4 @@
-var mongoose = require("mongoose");
+var mongoose = require("mongoose")
 
 var themeSchema = new mongoose.Schema({
     sub:{
@@ -20,14 +20,14 @@ var themeSchema = new mongoose.Schema({
     author:String,
     createdAt: Date,
     updatedAt: Date
-}, { collection: "themes" });
+}, { collection: "themes" })
 
 themeSchema.pre("save", function (next) {
-    var currentDate = new Date();
-    this.updatedAt = currentDate;
+    var currentDate = new Date()
+    this.updatedAt = currentDate
     if (!this.createdAt)
-        this.createdAt = currentDate;
-    next();
-});
+        this.createdAt = currentDate
+    next()
+})
 
-module.exports = mongoose.model("theme", themeSchema);
+module.exports = mongoose.model("theme", themeSchema)
