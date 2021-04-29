@@ -72,7 +72,6 @@ app.post('/api/register', checkNotAuthenticated, async (req, res) => {
         res.redirect('/register')
     }
 })
-
 app.delete('/api/logout', checkAuthenticated, (req, res) => {
     req.logOut()
     res.redirect('/login')
@@ -83,14 +82,12 @@ app.get('/api/user', checkAuthenticated, (req, res) => {
         username: req.session.passport.user
     })
 })
-
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next()
     }
     res.redirect('/login')
 }
-
 function checkNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return res.redirect('/')
