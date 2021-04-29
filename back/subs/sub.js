@@ -20,4 +20,4 @@ subSchema.pre("save", function (next) {
     next();
 })
 
-module.exports = mongoose.model("sub", phoneSchema)
+module.exports = mongoose.model("sub", subSchema)

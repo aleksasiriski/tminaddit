@@ -18,4 +18,4 @@ commentSchema.pre("save", function (next) {
     next()
 })
 
-module.exports = mongoose.model("comment", phoneSchema)
+module.exports = mongoose.model("comment", commentSchema)
