@@ -11,7 +11,6 @@ const methodOverride = require('method-override')
 
 const connectDB = require('./back/database')
 const user = require('./back/user')
-const phone = require('./back/phone')
 
 connectDB()
 app.set('view-engine', 'ejs')
@@ -35,12 +34,71 @@ app.use(methodOverride('_method'))
 app.get('/', (req, res) => {
     res.render('index.ejs')
 })
-app.get('/phone', (req, res) => {
+app.get('/phone', checkAuthenticated, (req, res) => {
     res.render('phone.ejs')
 })
-app.get('/createPhone', (req, res) => {
+app.get('/createPhone', checkAuthenticated, (req, res) => {
     res.render('createPhone.ejs')
 })
+
+// users
+app.get('/login', checkNotAuthenticated, (req, res) => {
+    res.render('login.ejs')
+})
+app.post('/api/login', checkNotAuthenticated, passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true
+}))
+
+app.get('/register', checkNotAuthenticated, (req, res) => {
+    res.render('register.ejs')
+})
+app.post('/api/register', checkNotAuthenticated, async (req, res) => {
+    try {
+        const username = req.body.username
+        const email = req.body.email
+        const password = req.body.password
+
+        const User = new user({
+            username: username,
+            email: email
+        })
+        await User.setPassword(password)
+        await User.save()
+
+        res.redirect('/login')
+    } catch {
+        res.redirect('/register')
+    }
+})
+
+app.delete('/api/logout', checkAuthenticated, (req, res) => {
+    req.logOut()
+    res.redirect('/login')
+})
+app.get('/api/getUsername', checkAuthenticated, (req, res) => {
+    res.status(200).json({
+        success: true,
+        username: req.session.passport.user
+    })
+})
+
+function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next()
+    }
+
+    res.redirect('/login')
+}
+
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return res.redirect('/')
+    }
+
+    next()
+}
 
 // start server
 const port = 3000
