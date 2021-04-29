@@ -1,43 +1,28 @@
 var mongoose = require("mongoose");
 
-var phoneSchema = new mongoose.Schema({
-    model: {
+var themeSchema = new mongoose.Schema({
+    sub:{
+        type:String,
+        required: true
+    },
+    title:{
         type: String,
-        required: true,
-        unique: true
+        required:true,
+        unique:true
     },
-    manufacturer: String,
-    price: String,
-    image: String,
-    dimensions: {
-        length: String,
-        width: String,
-        height: String
+    category:String,
+    content:String,
+    votes:{
+        upvotes:String,
+        downvotes:String
     },
-    display: String,
-    os: String,
-    memory: String,
-    camera: String,
-    battery: String,
-    ratings: String,
-    nratings: String,
-    youtube: String,
-    review: String,
-    experiences: [{
-        name: String,
-        content: String,
-        likes: String,
-        dislikes: String,
-        comments: [{
-            name: String,
-            content: String
-        }]
-    }],
+    comments:[String],
+    author:String,
     createdAt: Date,
     updatedAt: Date
-}, { collection: "phones" });
+}, { collection: "themes" });
 
-phoneSchema.pre("save", function (next) {
+themeSchema.pre("save", function (next) {
     var currentDate = new Date();
     this.updatedAt = currentDate;
     if (!this.createdAt)
@@ -45,4 +30,4 @@ phoneSchema.pre("save", function (next) {
     next();
 });
 
-module.exports = mongoose.model("phone", phoneSchema);
+module.exports = mongoose.model("theme", themeSchema);

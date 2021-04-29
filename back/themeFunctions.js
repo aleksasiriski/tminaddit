@@ -1,10 +1,10 @@
-// phones
-app.get("/api/phones", async (req, res) => {
+// themes
+app.get("/api/themes", async (req, res) => {
     try {
-        const allPhones = await phone.find()
+        const allThemes = await theme.find()
         res.status(200).json({
             success: true,
-            phones: allPhones
+            themes: allThemes
         })
     } catch (err) {
         res.status(404).json({
@@ -13,13 +13,13 @@ app.get("/api/phones", async (req, res) => {
         })
     }
 })
-app.get("/api/phone", async (req, res) => {
+app.get("/api/theme", async (req, res) => {
     try {
         const id = req.query.id
-        const specificPhone = await phone.findById(id)
+        const oneTheme = await theme.findById(id)
         res.status(200).json({
             success: true,
-            phone: specificPhone
+            theme: oneTheme
         })
     } catch (err) {
         res.status(404).json({
@@ -28,13 +28,13 @@ app.get("/api/phone", async (req, res) => {
         })
     }
 })
-app.post("/api/phones", async (req, res) => {
+app.post("/api/themes", async (req, res) => {
     try {
-        const newPhone = new phone(req.body)
-        await newPhone.save()
+        const newTheme= new theme(req.body)
+        await newTheme.save()
         res.status(200).json({
             success: true,
-            phone: newPhone
+            phone: newTheme
         })
     } catch (err) {
         res.status(404).json({
@@ -43,7 +43,7 @@ app.post("/api/phones", async (req, res) => {
         })
     }
 })
-app.post("/api/phonesUpdate", async (req, res) => {
+app.post("/api/themesUpdate", async (req, res) => {
     try {
         phone.findByIdAndUpdate(req.body._id, req.body, (err, doc) => {
             if (err) {
@@ -60,14 +60,14 @@ app.post("/api/phonesUpdate", async (req, res) => {
         })
     }
 })
-app.delete("/api/phones/:id", checkAuthenticated, async (req, res) => {
+app.delete("/api/themes/:id", checkAuthenticated, async (req, res) => {
     try {
-        const phoneId = req.params.id
-        const specificPhone = await phone.findById(phoneId)
-        const deletedPhone = await specificPhone.delete()
+        const themeId = req.params.id
+        const oneTheme = await theme.findById(themeId)
+        const deletedTheme = await oneTheme.delete()
         res.status(200).json({
             success: true,
-            phone: deletedPhone
+            phone: deletedTheme
         })
     } catch (err) {
         res.status(404).json({
