@@ -10,5 +10,5 @@
 * Sara - Komentarisanje tema, HTML i CSS za početnu stranicu i korisničku (profil) stranicu
 ## 14.05 (prave funkcionalnosti za backend u front javascript)
 * Aleksa - Promena tipa korisnika, poruke između korisnika
-* Drago - Dodeljivanje pozitivnih i negativnih glasova temama i komentarima i spisak pozitivnih i negativnih glasova i logičko brisanje komentara
-* Sara -  Pocetna strana i izmena komentara
+* Drago - Dodeljivanje pozitivnih i negativnih glasova temama i komentarima i spisak pozitivnih i negativnih glasova
+* Sara -  Izmena i logičko brisanje komentara
