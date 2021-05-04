@@ -12,7 +12,7 @@ app.get("/api/comments", async (req, res) => {
         })
     }
 })
-app.get("/api/comments/:id", async (req, res) => {
+app.get("/api/comment", async (req, res) => {
     try {
         const id = req.params.id
         const specificcomment = await comment.findById(id)
@@ -63,7 +63,7 @@ app.delete("/api/comments/:id", checkAuthenticated, async (req, res) => {
     try {
         const commentId = req.params.id
         const specificcomment = await comment.findById(commentId)
-        const deletedcomment = await specificomment.delete()
+        const deletedcomment = await specificcomment.delete()
         res.status(200).json({
             success: true,
             comment: deletedcomment

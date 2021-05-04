@@ -12,7 +12,7 @@ app.get("/api/themes", async (req, res) => {
         })
     }
 })
-app.get("/api/themes/:id", async (req, res) => {
+app.get("/api/theme", async (req, res) => {
     try {
         const id = req.params.id
         const oneTheme = await theme.findById(id)
