@@ -12,7 +12,7 @@ app.get("/api/subs", async (req, res) => {
         })
     }
 })
-app.get("/api/sub", async (req, res) => {
+app.get("/api/subs/:id", async (req, res) => {
     try {
         const id = req.params.id
         const specificsub = await sub.findById(id)

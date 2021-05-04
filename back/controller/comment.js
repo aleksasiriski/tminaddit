@@ -12,7 +12,7 @@ app.get("/api/comments", async (req, res) => {
         })
     }
 })
-app.get("/api/comment", async (req, res) => {
+app.get("/api/comments/:id", async (req, res) => {
     try {
         const id = req.params.id
         const specificcomment = await comment.findById(id)

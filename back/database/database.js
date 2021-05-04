@@ -8,12 +8,11 @@ async function connectDB() {
             useNewUrlParser: true,
             useCreateIndex: true,
             useFindAndModify: false
-        });
-
+        })
         console.log("Connected to database")
     } catch (err) {
         console.log(`Error: ${err.message}`)
     }
 }
 
-module.exports = connectDB;
+module.exports = connectDB
