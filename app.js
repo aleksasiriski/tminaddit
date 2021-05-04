@@ -9,17 +9,17 @@ connectDB()
 app.set("view-engine", "ejs")
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
-app.use(express.static("./front"))
+app.use(express.static("./front/static"))
 
 // views
 app.get("/", (req, res) => {
-    res.render("index.ejs")
+    res.render("../front/views/index.ejs")
 })
 app.get("/phone", checkAuthenticated, (req, res) => {
-    res.render("phone.ejs")
+    res.render("../front/views/phone.ejs")
 })
 app.get("/createPhone", checkAuthenticated, (req, res) => {
-    res.render("createPhone.ejs")
+    res.render("../front/views/createPhone.ejs")
 })
 
 // users
