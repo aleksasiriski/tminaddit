@@ -10,7 +10,7 @@ const session = require('express-session')
 const methodOverride = require('method-override')
 
 const connectDB = require('./back/database/database')
-const user = require('./back/users/user')
+const user = require('./back/model/user')
 
 connectDB()
 app.set('view-engine', 'ejs')
@@ -30,7 +30,7 @@ passport.serializeUser(user.serializeUser())
 passport.deserializeUser(user.deserializeUser())
 app.use(methodOverride('_method'))
 
-// index
+// views
 app.get('/', (req, res) => {
     res.render('index.ejs')
 })
@@ -84,18 +84,20 @@ app.get('/api/user', checkAuthenticated, (req, res) => {
 })
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-        return next()
+        next()
+    } else {
+        res.redirect('/login')
     }
-    res.redirect('/login')
 }
 function checkNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-        return res.redirect('/')
+        res.redirect('/')
+    } else {
+        next()
     }
-    next()
 }
 
-// start server
+// startup
 const port = 3000
 app.listen(port, () => {
     console.log("Listening on port: " + port)
