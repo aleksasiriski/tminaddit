@@ -1,9 +1,14 @@
-app.get("/api/comments", async (req, res) => {
+const { Router } = require("express")
+const router = Router()
+const comment = require("../model/comment")
+const checkAuthenticated = require("../controller/checkAuthenticated")
+
+router.get("/comments", async (req, res) => {
     try {
-        const allcomments = await comment.find()
+        const allComments = await comment.find()
         res.status(200).json({
             success: true,
-            comments: allcomments
+            comments: allComments
         })
     } catch (err) {
         res.status(404).json({
@@ -12,13 +17,13 @@ app.get("/api/comments", async (req, res) => {
         })
     }
 })
-app.get("/api/comments/:id", async (req, res) => {
+router.get("/comments/:id", async (req, res) => {
     try {
         const id = req.params.id
-        const specificcomment = await comment.findById(id)
+        const specificComment = await comment.findById(id)
         res.status(200).json({
             success: true,
-            comment: specificcomment
+            comment: specificComment
         })
     } catch (err) {
         res.status(404).json({
@@ -27,13 +32,13 @@ app.get("/api/comments/:id", async (req, res) => {
         })
     }
 })
-app.post("/api/comments", async (req, res) => {
+router.post("/comments", async (req, res) => {
     try {
-        const newcomment = new comment(req.body)
-        await newcomment.save()
+        const newComment = new comment(req.body)
+        await newComment.save()
         res.status(200).json({
             success: true,
-            comment: newcomment
+            comment: newComment
         })
     } catch (err) {
         res.status(404).json({
@@ -42,11 +47,11 @@ app.post("/api/comments", async (req, res) => {
         })
     }
 })
-app.put("/api/comments", async (req, res) => {
+router.put("/comments", async (req, res) => {
     try {
         comment.findByIdAndUpdate(req.body._id, req.body, (err, doc) => {
             if (err) {
-                console.log('Error during record updates: ' + err)
+                console.log("Error during record updates: " + err)
             }
         })
         res.status(200).json({
@@ -59,14 +64,14 @@ app.put("/api/comments", async (req, res) => {
         })
     }
 })
-app.delete("/api/comments/:id", checkAuthenticated, async (req, res) => {
+router.delete("/comments/:id", checkAuthenticated, async (req, res) => {
     try {
         const commentId = req.params.id
-        const specificcomment = await comment.findById(commentId)
-        const deletedcomment = await specificcomment.delete()
+        const specificComment = await comment.findById(commentId)
+        const deletedComment = await specificComment.delete()
         res.status(200).json({
             success: true,
-            comment: deletedcomment
+            comment: deletedComment
         })
     } catch (err) {
         res.status(404).json({
@@ -75,3 +80,5 @@ app.delete("/api/comments/:id", checkAuthenticated, async (req, res) => {
         })
     }
 })
+
+module.exports = router

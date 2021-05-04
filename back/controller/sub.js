@@ -1,4 +1,9 @@
-app.get("/api/subs", async (req, res) => {
+const { Router } = require("express")
+const router = Router()
+const sub = require("../model/sub")
+const checkAuthenticated = require("../controller/checkAuthenticated")
+
+router.get("/subs", async (req, res) => {
     try {
         const allsubs = await sub.find()
         res.status(200).json({
@@ -12,7 +17,7 @@ app.get("/api/subs", async (req, res) => {
         })
     }
 })
-app.get("/api/subs/:id", async (req, res) => {
+router.get("/subs/:id", async (req, res) => {
     try {
         const id = req.params.id
         const specificsub = await sub.findById(id)
@@ -27,7 +32,7 @@ app.get("/api/subs/:id", async (req, res) => {
         })
     }
 })
-app.post("/api/subs", async (req, res) => {
+router.post("/subs", async (req, res) => {
     try {
         const newsub = new sub(req.body)
         await newsub.save()
@@ -42,11 +47,11 @@ app.post("/api/subs", async (req, res) => {
         })
     }
 })
-app.put("/api/subs", async (req, res) => {
+router.put("/subs", async (req, res) => {
     try {
         sub.findByIdAndUpdate(req.body._id, req.body, (err, doc) => {
             if (err) {
-                console.log('Error during record updates: ' + err)
+                console.log("Error during record updates: " + err)
             }
         })
         res.status(200).json({
@@ -59,7 +64,7 @@ app.put("/api/subs", async (req, res) => {
         })
     }
 })
-app.delete("/api/subs/:id", checkAuthenticated, async (req, res) => {
+router.delete("/subs/:id", checkAuthenticated, async (req, res) => {
     try {
         const subId = req.params.id
         const specificsub = await sub.findById(subId)
@@ -75,3 +80,5 @@ app.delete("/api/subs/:id", checkAuthenticated, async (req, res) => {
         })
     }
 })
+
+module.exports = router

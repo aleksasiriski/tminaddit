@@ -1,4 +1,9 @@
-app.get("/api/themes", async (req, res) => {
+const { Router } = require("express")
+const router = Router()
+const theme = require("../model/theme")
+const checkAuthenticated = require("../controller/checkAuthenticated")
+
+router.get("/api/themes", async (req, res) => {
     try {
         const allThemes = await theme.find()
         res.status(200).json({
@@ -12,7 +17,7 @@ app.get("/api/themes", async (req, res) => {
         })
     }
 })
-app.get("/api/themes/:id", async (req, res) => {
+router.get("/api/themes/:id", async (req, res) => {
     try {
         const id = req.params.id
         const oneTheme = await theme.findById(id)
@@ -27,7 +32,7 @@ app.get("/api/themes/:id", async (req, res) => {
         })
     }
 })
-app.post("/api/themes", async (req, res) => {
+router.post("/api/themes", async (req, res) => {
     try {
         const newTheme= new theme(req.body)
         await newTheme.save()
@@ -42,11 +47,11 @@ app.post("/api/themes", async (req, res) => {
         })
     }
 })
-app.put("/api/themes", async (req, res) => {
+router.put("/api/themes", async (req, res) => {
     try {
         phone.findByIdAndUpdate(req.body._id, req.body, (err, doc) => {
             if (err) {
-                console.log('Error during record updates: ' + err)
+                console.log("Error during record updates: " + err)
             }
         })
         res.status(200).json({
@@ -59,7 +64,7 @@ app.put("/api/themes", async (req, res) => {
         })
     }
 })
-app.delete("/api/themes/:id", checkAuthenticated, async (req, res) => {
+router.delete("/api/themes/:id", checkAuthenticated, async (req, res) => {
     try {
         const themeId = req.params.id
         const oneTheme = await theme.findById(themeId)
@@ -75,3 +80,5 @@ app.delete("/api/themes/:id", checkAuthenticated, async (req, res) => {
         })
     }
 })
+
+module.exports = router
