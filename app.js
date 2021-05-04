@@ -15,19 +15,19 @@ app.use(express.static("./front/static"))
 app.get("/", (req, res) => {
     res.render("../front/views/index.ejs")
 })
-app.get("/phone", checkAuthenticated, (req, res) => {
-    res.render("../front/views/phone.ejs")
+app.get("/themes", checkAuthenticated, (req, res) => {
+    res.render("../front/views/themes.ejs")
 })
-app.get("/createPhone", checkAuthenticated, (req, res) => {
-    res.render("../front/views/createPhone.ejs")
+app.get("/posts", checkAuthenticated, (req, res) => {
+    res.render("../front/views/posts.ejs")
 })
 
 // users
 app.get("/login", checkNotAuthenticated, (req, res) => {
-    res.render("login.ejs")
+    res.render("../front/views/login.ejs")
 })
 app.get("/register", checkNotAuthenticated, (req, res) => {
-    res.render("register.ejs")
+    res.render("../front/views/register.ejs")
 })
 const userRoute = require("./back/controller/user")
 app.use("/api", userRoute)
