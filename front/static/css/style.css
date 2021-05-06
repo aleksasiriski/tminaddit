@@ -1,14 +1,44 @@
-body { 
-    background-color: #18191b;
-    color: #fff;
+body {
+    background-color:rgb(3,3,3);
 }
-img {
-    max-width: 100%;
+
+.h7 {
+    font-size: 0.8rem;
 }
-.DisplayNone {
+
+.gedf-wrapper {
+    margin-top: 0.97rem;
+}
+
+@media (min-width: 992px) {
+    .gedf-main {
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
+    .gedf-card {
+        margin-bottom: 2.77rem;
+    }
+}
+
+/**Reset Bootstrap*/
+.dropdown-toggle::after {
+    content: none;
     display: none;
 }
-iframe {
-    width: 80%;
-    height: 500px;
+.headNav {
+    background-color: rgb(26,26,27);
+    border-bottom-width:1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(40,39,41);
+}
+.title{
+    color:  rgb(216,218,220);
+    font-size: larger;
+}
+.search{
+    background-color:rgb(40,39,41);
+    border-width:1px;
+    border-style: solid;
+    border-color: rgb(46,46,48);
+    align-self:center;
 }
