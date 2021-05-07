@@ -82,19 +82,28 @@ router.get("/dms/:id", checkAuthenticated, async (req, res) => {
         const senderId = req.session.passport.user.data._id
         const sender = await user.findById(senderId)
 
-        let specificDm
+        let specificDm = "NULL"
+        let foundDm = false
 
         sender.dms.forEach((dm) => {
             if ( dm.id == recipientId ) {
                 specificDm = dm
+                foundDm = true
                 return
             }
         })
 
-        res.status(200).json({
-            success: true,
-            dm: specificDm
-        })
+        if (foundDm) {
+            res.status(200).json({
+                success: true,
+                dm: specificDm
+            })
+        } else {
+            res.status(404).json({
+                success: true,
+                dm: specificDm
+            })
+        }
     } catch (err) {
         res.status(404).json({
             success: false,
