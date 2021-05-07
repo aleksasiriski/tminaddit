@@ -42,3 +42,44 @@ body {
     border-color: rgb(46,46,48);
     align-self:center;
 }
+
+.nav-link{
+    background-color:rgb(26,26,27);
+    color:rgb(216,218,220);
+}
+.nav-link:hover{
+    background-color:rgb(26,26,27);
+    color:rgb(216,218,220);
+    border-width: 0px;
+}
+.nav-link.active{
+    background-color:rgb(40,39,41);
+}
+.card-header{
+    background-color:rgb(26,26,27);
+  
+
+}
+.card{
+    background-color:rgb(40,39,41);
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+    background-color:rgb(40,39,41);
+    color:rgb(216,218,220);
+    border-width: 1px;
+    border-color: rgb(40,39,41);
+}
+.form-control{
+    background-color:rgb(40,39,41) ;
+    border-width: 2px;
+    border-color: rgb(46,46,48);
+}
+.h5{
+    color:rgb(216,218,220);
+}
+p{
+    color:rgb(216,218,220);
+}
+.title-input{
+margin-bottom: 10px;
+}
