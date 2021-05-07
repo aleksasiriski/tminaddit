@@ -9,8 +9,6 @@ const flash = require("express-flash")
 const session = require("express-session")
 const methodOverride = require("method-override")
 const user = require("../model/user")
-const checkAuthenticated = require("../controller/checkAuthenticated")
-const checkNotAuthenticated = require("../controller/checkNotAuthenticated")
 
 router.use(flash())
 router.use(session({
@@ -58,6 +56,37 @@ router.get("/user", checkAuthenticated, (req, res) => {
         username: req.session.passport.user
     })
 })
+router.get("/username/:id", checkAuthenticated, async (req, res) => {
+    try {
+        const userId = req.params.id
+        const specificUser = await user.findById(userId)
+        const username = specificUser.username
+        res.status(200).json({
+            success: true,
+            username: username
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+
+function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        next()
+    } else {
+        res.redirect('/login')
+    }
+}
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        res.redirect('/')
+    } else {
+        next()
+    }
+}
 
 router.get("/dms", checkAuthenticated, async (req, res) => {
     try {

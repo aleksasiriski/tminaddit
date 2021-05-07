@@ -12,28 +12,15 @@
         <link rel="stylesheet" href="css/style.css">
 		<script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/axios.min.js"></script>
+        <script type="text/javascript" src="js/dms.js"></script>
 	</head>
     <body>
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 text-center">
                     <h1>Login</h1>
-                    <form action="/api/login" method="POST">
-                        <div>
-                            <label for="username">Username</label>
-                            <br/>
-                            <input type="text" id="username" name="username" required>
-                        </div>
-                        <div>
-                            <label for="password">Password</label>
-                            <br/>
-                            <input type="password" id="password" name="password" required>
-                        </div>
-                        <br/>
-                        <button class="btn btn-primary" type="submit">Login</button>
-                    </form>
-                    <br/>
-                    <a href="/register">Register</a>
+                    <div id="dm-list"></div>
                 </div>
             </div>
         </div>

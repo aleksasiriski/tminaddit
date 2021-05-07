@@ -12,14 +12,11 @@ app.use(express.json())
 app.use(express.static("./front/static"))
 
 // views
-app.get("/", (req, res) => {
+app.get("/", checkAuthenticated, (req, res) => {
     res.render("../front/views/index.ejs")
 })
-app.get("/themes", checkAuthenticated, (req, res) => {
-    res.render("../front/views/themes.ejs")
-})
-app.get("/posts", checkAuthenticated, (req, res) => {
-    res.render("../front/views/posts.ejs")
+app.get("/dms", checkAuthenticated, (req, res) => {
+    res.render("../front/views/dms.ejs")
 })
 
 // users

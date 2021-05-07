@@ -1,7 +1,7 @@
 const { Router } = require("express")
 const router = Router()
 const sub = require("../model/sub")
-const checkAuthenticated = require("../controller/checkAuthenticated")
+const checkAuthenticated = require("./checkAuthenticated")
 
 router.get("/subs", async (req, res) => {
     try {

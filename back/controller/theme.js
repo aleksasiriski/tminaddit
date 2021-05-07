@@ -1,7 +1,7 @@
 const { Router } = require("express")
 const router = Router()
 const theme = require("../model/theme")
-const checkAuthenticated = require("../controller/checkAuthenticated")
+const checkAuthenticated = require("./checkAuthenticated")
 
 router.get("/api/themes", async (req, res) => {
     try {
