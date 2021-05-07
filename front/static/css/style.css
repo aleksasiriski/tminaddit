@@ -83,3 +83,28 @@ p{
 .title-input{
 margin-bottom: 10px;
 }
+h1{
+    color:rgb(216,218,220);
+}
+.panel{
+    background-color: rgb(40,39,41);
+}
+.panel-default{
+    border-color: rgb(46,46,48);
+}
+.panel-heading{
+    background-color: rgb(26,26,27);
+}
+.panel-default>.panel-heading{
+    background-color: rgb(26,26,27);
+    border-bottom-width: 0px;
+}
+.list-group-item{
+    background-color: rgb(40,39,41);
+    color:rgb(140,140,140);
+    border-width: 1px;
+    border-color:rgb(46,46,48) ;
+}
+hr{
+    border-top-color:rgb(52,114,176);
+}
