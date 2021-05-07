@@ -59,4 +59,33 @@ router.get("/user", checkAuthenticated, (req, res) => {
     })
 })
 
+router.get("/dms", checkAuthenticated, async (req, res) => {
+    try {
+        const id = req.session.passport.user.data._id
+        res.status(200).json({
+            success: true
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+router.post("/dms/:id", checkAuthenticated, async (req, res) => {
+    try {
+        const recipientID = req.params.id
+        const senderID = req.session.passport.user.data._id
+        const message = req.body.content
+        res.status(200).json({
+            success: true
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+
 module.exports = router

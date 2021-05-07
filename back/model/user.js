@@ -12,6 +12,14 @@ var userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    chats: [{
+        id: String,
+        messages: [{
+            id: String,
+            content: String,
+            sentAt: Date
+        }],
+    }],
     createdAt: Date,
     updatedAt: Date
 }, { collection: "users" })

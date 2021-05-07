@@ -5,10 +5,10 @@ const checkAuthenticated = require("../controller/checkAuthenticated")
 
 router.get("/subs", async (req, res) => {
     try {
-        const allsubs = await sub.find()
+        const allSubs = await sub.find()
         res.status(200).json({
             success: true,
-            subs: allsubs
+            subs: allSubs
         })
     } catch (err) {
         res.status(404).json({
@@ -20,10 +20,10 @@ router.get("/subs", async (req, res) => {
 router.get("/subs/:id", async (req, res) => {
     try {
         const id = req.params.id
-        const specificsub = await sub.findById(id)
+        const specificSub = await sub.findById(id)
         res.status(200).json({
             success: true,
-            sub: specificsub
+            sub: specificSub
         })
     } catch (err) {
         res.status(404).json({
@@ -34,11 +34,11 @@ router.get("/subs/:id", async (req, res) => {
 })
 router.post("/subs", async (req, res) => {
     try {
-        const newsub = new sub(req.body)
-        await newsub.save()
+        const newSub = new sub(req.body)
+        await newSub.save()
         res.status(200).json({
             success: true,
-            sub: newsub
+            sub: newSub
         })
     } catch (err) {
         res.status(404).json({
@@ -67,11 +67,11 @@ router.put("/subs", async (req, res) => {
 router.delete("/subs/:id", checkAuthenticated, async (req, res) => {
     try {
         const subId = req.params.id
-        const specificsub = await sub.findById(subId)
-        const deletedsub = await specificsub.delete()
+        const specificSub = await sub.findById(subId)
+        const deletedSub = await specificSub.delete()
         res.status(200).json({
             success: true,
-            sub: deletedsub
+            sub: deletedSub
         })
     } catch (err) {
         res.status(404).json({
