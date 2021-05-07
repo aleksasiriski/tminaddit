@@ -32,6 +32,10 @@ app.get("/register", checkNotAuthenticated, (req, res) => {
 const userRoute = require("./back/controller/user")
 app.use("/api", userRoute)
 
+// dms
+const dmRoute = require("./back/controller/dm")
+app.use("/api", dmRoute)
+
 // comments
 const commentRoute = require("./back/controller/comment")
 app.use("/api", commentRoute)

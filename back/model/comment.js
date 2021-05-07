@@ -11,7 +11,7 @@ var commentSchema = new mongoose.Schema({
 }, { collection: "comments" })
 
 commentSchema.pre("save", function (next) {
-    var currentDate = new Date()
+    const currentDate = new Date()
     this.updatedAt = currentDate
     if (!this.createdAt)
         this.createdAt = currentDate
