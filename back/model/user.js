@@ -12,6 +12,7 @@ var userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    dmsIds: [String],
     dms: [{
         id: String,
         messages: [{

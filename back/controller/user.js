@@ -63,10 +63,37 @@ router.get("/dms", checkAuthenticated, async (req, res) => {
     try {
         const userId = req.session.passport.user.data._id
         const specificUser = await user.findById(userId)
-        const dms = specificUser.dms
+        const dms = specificUser.dmsIds
         res.status(200).json({
             success: true,
             dms: dms
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+router.get("/dms/:id", checkAuthenticated, async (req, res) => {
+    try {
+        const recipientId = req.params.id
+
+        const senderId = req.session.passport.user.data._id
+        const sender = await user.findById(senderId)
+
+        let specificDm
+
+        sender.dms.forEach((dm) => {
+            if ( dm.id == recipientId ) {
+                specificDm = dm
+                return
+            }
+        })
+
+        res.status(200).json({
+            success: true,
+            dm: specificDm
         })
     } catch (err) {
         res.status(404).json({
@@ -106,15 +133,23 @@ router.post("/dms/:id", checkAuthenticated, async (req, res) => {
                 }
             })
         } else {
+            const senderDmId = {
+                id: recipientId
+            }
             const senderDm = {
                 id: recipientId,
                 message: message
+            }
+            const recipientDmId = {
+                id: senderId
             }
             const recipientDm = {
                 id: senderId,
                 message: message
             }
+            sender.dmsIds.push(senderDmId)
             sender.dms.push(senderDm)
+            recipient.dmsIds.push(recipientDmId)
             recipient.dms.push(recipientDm)
         }
 
