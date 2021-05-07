@@ -61,9 +61,12 @@ router.get("/user", checkAuthenticated, (req, res) => {
 
 router.get("/dms", checkAuthenticated, async (req, res) => {
     try {
-        const id = req.session.passport.user.data._id
+        const userId = req.session.passport.user.data._id
+        const specificUser = await user.findById(userId)
+        const dms = specificUser.dms
         res.status(200).json({
-            success: true
+            success: true,
+            dms: dms
         })
     } catch (err) {
         res.status(404).json({
@@ -74,9 +77,47 @@ router.get("/dms", checkAuthenticated, async (req, res) => {
 })
 router.post("/dms/:id", checkAuthenticated, async (req, res) => {
     try {
-        const recipientID = req.params.id
-        const senderID = req.session.passport.user.data._id
-        const message = req.body.content
+        const recipientId = req.params.id
+        const recipient = await user.findById(recipientId)
+
+        const senderId = req.session.passport.user.data._id
+        const sender = await user.findById(senderId)
+
+        const content = req.body.content
+        const message = {
+            id: senderId,
+            content: content,
+            sentAt: new Date()
+        }
+
+        let foundDm = false
+        sender.dms.forEach((dm) => {
+            if ( dm.id == recipientId ) {
+                dm.messages.push(message)
+                foundDm = true
+                return
+            }
+        })
+        if (foundDm) {
+            recipient.dms.forEach((dm) => {
+                if ( dm.id == senderId ) {
+                    dm.messages.push(message)
+                    return
+                }
+            })
+        } else {
+            const senderDm = {
+                id: recipientId,
+                message: message
+            }
+            const recipientDm = {
+                id: senderId,
+                message: message
+            }
+            sender.dms.push(senderDm)
+            recipient.dms.push(recipientDm)
+        }
+
         res.status(200).json({
             success: true
         })
