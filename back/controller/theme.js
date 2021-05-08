@@ -1,7 +1,6 @@
 const { Router } = require("express")
 const router = Router()
 const theme = require("../model/theme")
-const checkAuthenticated = require("./checkAuthenticated")
 
 router.get("/api/themes", async (req, res) => {
     try {
@@ -64,7 +63,7 @@ router.put("/api/themes", async (req, res) => {
         })
     }
 })
-router.delete("/api/themes/:id", checkAuthenticated, async (req, res) => {
+router.delete("/api/themes/:id", async (req, res) => {
     try {
         const themeId = req.params.id
         const oneTheme = await theme.findById(themeId)

@@ -1,7 +1,6 @@
 const { Router } = require("express")
 const router = Router()
 const comment = require("../model/comment")
-const checkAuthenticated = require("./checkAuthenticated")
 
 router.get("/comments", async (req, res) => {
     try {
@@ -64,7 +63,7 @@ router.put("/comments", async (req, res) => {
         })
     }
 })
-router.delete("/comments/:id", checkAuthenticated, async (req, res) => {
+router.delete("/comments/:id", async (req, res) => {
     try {
         const commentId = req.params.id
         const specificComment = await comment.findById(commentId)

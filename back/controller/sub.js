@@ -1,7 +1,6 @@
 const { Router } = require("express")
 const router = Router()
 const sub = require("../model/sub")
-const checkAuthenticated = require("./checkAuthenticated")
 
 router.get("/subs", async (req, res) => {
     try {
@@ -64,7 +63,7 @@ router.put("/subs", async (req, res) => {
         })
     }
 })
-router.delete("/subs/:id", checkAuthenticated, async (req, res) => {
+router.delete("/subs/:id", async (req, res) => {
     try {
         const subId = req.params.id
         const specificSub = await sub.findById(subId)

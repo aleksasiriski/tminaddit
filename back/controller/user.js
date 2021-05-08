@@ -23,12 +23,22 @@ passport.serializeUser(user.serializeUser())
 passport.deserializeUser(user.deserializeUser())
 router.use(methodOverride("_method"))
 
-router.post("/login", checkNotAuthenticated, passport.authenticate("local", {
+router.get("/dms", checkAuthenticated, (req, res) => {
+    res.render("../front/views/dms.ejs")
+})
+router.get("/login", checkNotAuthenticated, (req, res) => {
+    res.render("../front/views/login.ejs")
+})
+router.get("/register", checkNotAuthenticated, (req, res) => {
+    res.render("../front/views/register.ejs")
+})
+
+router.post("/api/login", checkNotAuthenticated, passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true
 }))
-router.post("/register", checkNotAuthenticated, async (req, res) => {
+router.post("/api/register", checkNotAuthenticated, async (req, res) => {
     try {
         const username = req.body.username
         const email = req.body.email
@@ -46,17 +56,17 @@ router.post("/register", checkNotAuthenticated, async (req, res) => {
         res.redirect("/register")
     }
 })
-router.delete("/logout", checkAuthenticated, (req, res) => {
+router.delete("/api/logout", checkAuthenticated, (req, res) => {
     req.logOut()
     res.redirect("/login")
 })
-router.get("/user", checkAuthenticated, (req, res) => {
+router.get("/api/user", checkAuthenticated, (req, res) => {
     res.status(200).json({
         success: true,
         username: req.session.passport.user
     })
 })
-router.get("/username/:id", checkAuthenticated, async (req, res) => {
+router.get("/api/username/:id", checkAuthenticated, async (req, res) => {
     try {
         const userId = req.params.id
         const specificUser = await user.findById(userId)
@@ -88,7 +98,7 @@ function checkNotAuthenticated(req, res, next) {
     }
 }
 
-router.get("/dms", checkAuthenticated, async (req, res) => {
+router.get("/api/dms", checkAuthenticated, async (req, res) => {
     try {
         const userId = req.session.passport.user.data._id
         const specificUser = await user.findById(userId)
@@ -104,7 +114,7 @@ router.get("/dms", checkAuthenticated, async (req, res) => {
         })
     }
 })
-router.get("/dms/:id", checkAuthenticated, async (req, res) => {
+router.get("/api/dms/:id", checkAuthenticated, async (req, res) => {
     try {
         const recipientId = req.params.id
 
@@ -140,7 +150,7 @@ router.get("/dms/:id", checkAuthenticated, async (req, res) => {
         })
     }
 })
-router.post("/dms/:id", checkAuthenticated, async (req, res) => {
+router.post("/api/dms/:id", checkAuthenticated, async (req, res) => {
     try {
         const recipientId = req.params.id
         const recipient = await user.findById(recipientId)
