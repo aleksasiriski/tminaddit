@@ -13,16 +13,32 @@
 		<script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/axios.min.js"></script>
-        <script type="text/javascript" src="js/dms.js"></script>
 	</head>
     <body>
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 text-center">
-                    <h1>Login</h1>
+                    <br/>
+                    <h1>DMs</h1>
+                    <br/>
                     <div id="dm-list"></div>
                 </div>
             </div>
+            <br/><br/><br/><br/><br/><br/><br/><br/>
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <label for="username">Username:</label>
+                    <br/>
+                    <input type="text" id="username" required>
+                    <br/>
+                    <label for="message">Message:</label>
+                    <br/>
+                    <textarea class="form-control" id="message" rows="5" placeholder="Write your message here..." required></textarea>
+                    <br/>
+                    <button id="send-button" class="btn btn-primary" type="button">Send message</button>
+                </div>
+            </div>
         </div>
+        <script type="text/javascript" src="js/dms.js"></script>
     </body>
 </html>
