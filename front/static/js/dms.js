@@ -3,7 +3,7 @@ loadPage()
 async function loadPage() {
     try {
         const dms = await axios.get("/api/dms")
-        await renderCards(dms.data.dms)
+        renderCards(dms.data.dms)
         addEventListeners()
     } catch (err) {
         console.log(err)
@@ -11,7 +11,7 @@ async function loadPage() {
 }
 
 function addEventListeners() {
-    let messagesBtn = [...document.querySelectorAll(".info-button")]
+    const messagesBtn = [...document.querySelectorAll(".info-button")]
     messagesBtn.forEach((btn) =>
         btn.addEventListener("click", () => {
             window.location.href = `dm?id=${getId(btn)}`
@@ -19,33 +19,26 @@ function addEventListeners() {
     )
 }
 
-async function renderCards(dms) {
-    const cardsDiv = document.querySelector("#dm-list")
-    let cards = ""
-    try {
-        dms.forEach((dm) => {
-            cards += await createCard(dm)
-        })
-    } catch (err) {
-        console.log(err)
-    }
-    cardsDiv.innerHTML = cards
+function renderCards(dms) {
+    const cards = document.querySelector("#dm-list")
+    dms.forEach(async (dm) => {
+        try {
+            const user = await axios.get(`/api/username/${dm}`)
+            cards.innerHTML += createCard(dm, user.data.username)
+        } catch (err) {
+            console.log(err)
+        }
+    })
 }
 
-async function createCard(dm) {
-    try {
-        const user = await axios.get(`/api/username/${dm}`)
-        const username = user.data.username
-        let card = `
-        <div class="col-sm-4 text-center" dm-id="${dm}">
-            <h2>${username}</h2>
-            <button type="button" class="btn btn-primary info-button">View messages...</button>
-            <br/><br/><br/>
-        </div>`
-        return card
-    } catch (err) {
-        console.log(err)
-    }
+function createCard(dm, username) {
+    const card = `
+    <div class="col-sm-4 text-center" dm-id="${dm}">
+        <h2>${username}</h2>
+        <button type="button" class="btn btn-primary info-button">View messages...</button>
+        <br/><br/><br/>
+    </div>`
+    return card
 }
 
 function getId(btn) {
@@ -58,19 +51,17 @@ const sendButton = document.querySelector("#send-button")
 sendButton.addEventListener("click", getInput)
 
 async function getInput() {
-    const username = (document.querySelector("#username")).value
-    const message = (document.querySelector("#message")).value
-
-    const content = {
-        username: username,
-        content: message
-    }
-
     try {
+        const username = (document.querySelector("#username")).value
+        const message = (document.querySelector("#message")).value
+
+        const content = {
+            username: username,
+            content: message
+        }
         await axios.post("api/dms", content)
+        location.reload()
     } catch (err) {
         console.log(err)
     }
-
-    location.reload()
 }
