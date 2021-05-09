@@ -157,11 +157,16 @@ router.get("/api/dms/:id", checkAuthenticated, async (req, res) => {
         })
     }
 })
-router.post("/api/dms", checkAuthenticated, async (req, res) => {
+router.post("/api/dms/:id", checkAuthenticated, async (req, res) => {
     try {
-        const recipientUsername = req.body.username
-        const recipient = await user.findOne({"username": `${recipientUsername}`})
-        const recipientId = recipient._id
+        let recipientId = req.params.id
+        let recipient
+        if (recipientId == "noid") {
+            recipient = await user.findOne({"username": `${req.body.username}`})
+            recipientId = recipient._id
+        } else {
+            recipient = await user.findById(recipientId)
+        }
 
         const senderUsername = req.session.passport.user
         const sender = await user.findOne({"username": `${senderUsername}`})

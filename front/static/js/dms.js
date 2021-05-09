@@ -59,7 +59,7 @@ async function getInput() {
             username: username,
             content: message
         }
-        await axios.post("api/dms", content)
+        await axios.post("api/dms/noid", content)
         location.reload()
     } catch (err) {
         console.log(err)
