@@ -36,6 +36,9 @@ router.get("/register", checkNotAuthenticated, (req, res) => {
 router.get("/dms", checkAuthenticated, (req, res) => {
     res.render("../front/views/dms.ejs")
 })
+router.get("/dm", checkAuthenticated, (req, res) => {
+    res.render("../front/views/dm.ejs")
+})
 
 //users
 router.post("/api/login", checkNotAuthenticated, passport.authenticate("local", {
