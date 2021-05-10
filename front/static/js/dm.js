@@ -44,25 +44,23 @@ function renderCards(dm, username) {
 }
 
 function createCard(message, username) {
+    let prefix = ""
+    let suffix = ""
     if (username == "me") {
-        const card = `
-        <div class="col-sm-4 text-center" message-id="${message._id}">
-            <h2>${username}</h2>
-            <button type="button" class="btn btn-secondary delete-button">Delete</button>
-            <br/><br/><br/>
-        </div>
-        <div class="col-sm-8"></div>`
-        return card
+        prefix = `<div class="col-sm-8"></div>`
     } else {
-        const card = `
-        <div class="col-sm-8"></div>
-        <div class="col-sm-4 text-center" message-id="${message._id}">
-            <h2>${username}</h2>
-            <button type="button" class="btn btn-secondary delete-button">Delete</button>
-            <br/><br/><br/>
-        </div>`
-        return card
+        suffix = `<div class="col-sm-8"></div>`
     }
+    const card = `
+    ${prefix}
+    <div class="col-sm-4 text-center" message-id="${message._id}">
+        <h3>${username}</h2>
+        <p>${message.content}</p>
+    </div>
+    ${suffix}`
+    //<button type="button" class="btn btn-secondary delete-button">Delete</button>
+    //<p>${message.sentAt}</p>
+    return card
 }
 
 function getId(btn) {
