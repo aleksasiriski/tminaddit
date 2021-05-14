@@ -1,14 +1,18 @@
 # tminaddit
 ## Open Source Reddit Clone
-## 30.04 (backend deo)
+## 30.04 (backend osnova)
 * Aleksa - Korisnici: Registracija i prijava na sistem
 * Drago - Podforumi: Kreiranje, brisanje i izmena podforuma
 * Sara - Teme: Kreiranje, brisanje i izmena tema
-## 07.05 (front i javascript za prvi rok)
-* Aleksa - Pregled sadržaja i korisnička stranica, spisak pratećih podforuma i spisak svih primljenih poruka
+## 07.05 (front i javascript)
+* Aleksa - Spisak svih primljenih poruka i poruke između korisnika
 * Drago - HTML i CSS za prikaz podforuma (uključujući prikaz tema iz istog podforuma) i tema (uključujući komentare)
 * Sara - Komentarisanje tema, HTML i CSS za početnu stranicu i korisničku (profil) stranicu
-## 14.05 (prave funkcionalnosti za backend u front javascript)
-* Aleksa - Promena tipa korisnika, poruke između korisnika
-* Drago - Dodeljivanje pozitivnih i negativnih glasova temama i komentarima i spisak pozitivnih i negativnih glasova
+## 14.05 (funkcionalnosti u backend)
+* Aleksa - Promena tipa korisnika, različite uloge tj. vrste korisnika i njihove mogućnosti
+* Drago - Dodeljivanje pozitivnih i negativnih glasova temama i komentarima
 * Sara -  Izmena i logičko brisanje komentara
+## 21.05 (finalan projekat)
+* Aleksa - Debug-ovanje i detaljisane koda, dodavanje dozvola tj. zabrana funkcionalnosti u zavisnosti od vrste korisnika
+* Drago - Uvezivanje frontend-a i backend-a za početnu stranicu, podforume i korisničku (profil) stranicu
+* Sara - Uvezivanje frontend-a i backend-a za teme i komentare
