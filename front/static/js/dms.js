@@ -4,7 +4,6 @@ async function loadPage() {
     try {
         const dms = await axios.get("/api/dms")
         renderCards(dms.data.dms)
-        //addEventListeners() //ovo je dobro ali ne radi, jer je kod "SHREK" problem sto ne znam gde await da stavim pa se generisu DM-ovi nakon sto je pozvana funkcija za dodavanje button event-a
     } catch (err) {
         console.log(err)
     }
@@ -21,14 +20,11 @@ function addEventListeners() {
 
 function renderCards(dms) {
     const cards = document.querySelector("#dm-list")
-    //SHREK
     dms.forEach (async (dm) => {
         try {
             const user = await axios.get(`/api/username/${dm}`)
             cards.innerHTML += createCard(dm, user.data.username)
-            addEventListeners() //ovo je lose, jer se poziva na kreaciji svakog DM-a ali trenutno ovako jedino radi
-            // ne radi jer na += u html se svi eventovi obrisu a ne mogu da awaitujem forEach pa tek onda da pozivam dodavanje eventova
-            // ovako poslednja nit dodavanja u html izvrsava pravljenje svih eventova
+            addEventListeners()
         } catch (err) {
             console.log(err)
         }
