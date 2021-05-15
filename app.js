@@ -10,15 +10,8 @@ app.use(express.json())
 app.use(express.static("./front/static"))
 
 // views
-app.get("/", (req, res) => {
-    res.render("../front/views/index.ejs")
-})
-app.get("/sub", (req, res) => {
-    res.render("../front/views/sub.ejs")
-})
-app.get("/profile_page", (req, res) => {
-    res.render("../front/views/profile_page.ejs")
-})
+const viewRoute = require("./back/controller/view")
+app.use("/", viewRoute)
 
 // users
 const userRoute = require("./back/controller/user")

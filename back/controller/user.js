@@ -27,20 +27,6 @@ passport.serializeUser(user.serializeUser())
 passport.deserializeUser(user.deserializeUser())
 router.use(methodOverride("_method"))
 
-//views
-router.get("/login", check.isNotAuthenticated, (req, res) => {
-    res.render("../front/views/login.ejs")
-})
-router.get("/register", check.isNotAuthenticated, (req, res) => {
-    res.render("../front/views/register.ejs")
-})
-router.get("/dms", check.isAuthenticated, (req, res) => {
-    res.render("../front/views/dms.ejs")
-})
-router.get("/dm", check.isAuthenticated, (req, res) => {
-    res.render("../front/views/dm.ejs")
-})
-
 //users
 router.post("/api/login", check.isNotAuthenticated, passport.authenticate("local", {
     successRedirect: "/",
