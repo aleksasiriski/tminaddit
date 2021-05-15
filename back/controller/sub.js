@@ -1,6 +1,7 @@
 const { Router } = require("express")
 const router = Router()
 const sub = require("../model/sub")
+const check = require("./authentication")
 
 router.get("/subs", async (req, res) => {
     try {
@@ -63,15 +64,20 @@ router.put("/subs", async (req, res) => {
         })
     }
 })
-router.delete("/subs/:id", async (req, res) => {
+router.delete("/subs/:id", check.isAuthenticated, async (req, res) => {
     try {
         const subId = req.params.id
         const specificSub = await sub.findById(subId)
-        const deletedSub = await specificSub.delete()
-        res.status(200).json({
-            success: true,
-            sub: deletedSub
-        })
+        if (isPermitted(specificSub, req.session.passport.user)) {
+            await specificSub.delete()
+            res.status(200).json({
+                success: true
+            })
+        } else {
+            res.status(403).json({
+                success: false
+            })
+        }
     } catch (err) {
         res.status(404).json({
             success: false,
@@ -79,5 +85,27 @@ router.delete("/subs/:id", async (req, res) => {
         })
     }
 })
+function isPermitted(specificSub, user) {
+    if (user.admin == true) {
+        return true
+    }
+    const userId = user._id
+    let isModerator = false
+    if (specificSub.mainmoderator == userId) {
+        isModerator = true
+    } else {
+        specificSub.moderators.forEach((moderator) => {
+            if (moderator == userId) {
+                isModerator = true
+                break
+            }
+        })
+    }
+    if (isModerator) {
+        return true
+    } else {
+        return false
+    }
+}
 
 module.exports = router
