@@ -13,6 +13,12 @@ app.use(express.static("./front/static"))
 app.get("/", (req, res) => {
     res.render("../front/views/index.ejs")
 })
+app.get("/sub", (req, res) => {
+    res.render("../front/views/sub.ejs")
+})
+app.get("/profile_page", (req, res) => {
+    res.render("../front/views/profile_page.ejs")
+})
 
 // users
 const userRoute = require("./back/controller/user")
