@@ -21,11 +21,13 @@ var userSchema = new mongoose.Schema({
             sentAt: Date
         }],
     }],
+    admin: Boolean,
     createdAt: Date,
     updatedAt: Date
 }, { collection: "users" })
 
 userSchema.pre("save", function (next) {
+    this.admin = false
     const currentDate = new Date()
     this.updatedAt = currentDate
     if (!this.createdAt)

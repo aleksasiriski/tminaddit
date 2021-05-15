@@ -11,6 +11,7 @@ const flash = require("express-flash")
 const session = require("express-session")
 const methodOverride = require("method-override")
 const user = require("../model/user")
+const check = require("./authentication")
 
 //express and passport
 router.use(flash())
@@ -27,26 +28,26 @@ passport.deserializeUser(user.deserializeUser())
 router.use(methodOverride("_method"))
 
 //views
-router.get("/login", checkNotAuthenticated, (req, res) => {
+router.get("/login", check.isNotAuthenticated, (req, res) => {
     res.render("../front/views/login.ejs")
 })
-router.get("/register", checkNotAuthenticated, (req, res) => {
+router.get("/register", check.isNotAuthenticated, (req, res) => {
     res.render("../front/views/register.ejs")
 })
-router.get("/dms", checkAuthenticated, (req, res) => {
+router.get("/dms", check.isAuthenticated, (req, res) => {
     res.render("../front/views/dms.ejs")
 })
-router.get("/dm", checkAuthenticated, (req, res) => {
+router.get("/dm", check.isAuthenticated, (req, res) => {
     res.render("../front/views/dm.ejs")
 })
 
 //users
-router.post("/api/login", checkNotAuthenticated, passport.authenticate("local", {
+router.post("/api/login", check.isNotAuthenticated, passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true
 }))
-router.post("/api/register", checkNotAuthenticated, async (req, res) => {
+router.post("/api/register", check.isNotAuthenticated, async (req, res) => {
     try {
         const username = req.body.username
         const email = req.body.email
@@ -64,17 +65,17 @@ router.post("/api/register", checkNotAuthenticated, async (req, res) => {
         res.redirect("/register")
     }
 })
-router.delete("/api/logout", checkAuthenticated, (req, res) => {
+router.delete("/api/logout", check.isAuthenticated, (req, res) => {
     req.logOut()
     res.redirect("/login")
 })
-router.get("/api/user", checkAuthenticated, (req, res) => {
+router.get("/api/user", check.isAuthenticated, (req, res) => {
     res.status(200).json({
         success: true,
-        username: req.session.passport.user
+        user: req.session.passport.user
     })
 })
-router.get("/api/username/:id", checkAuthenticated, async (req, res) => {
+router.get("/api/username/:id", check.isAuthenticated, async (req, res) => {
     try {
         const userId = req.params.id
         const specificUser = await user.findById(userId)
@@ -91,24 +92,8 @@ router.get("/api/username/:id", checkAuthenticated, async (req, res) => {
     }
 })
 
-//authenticated
-function checkAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        next()
-    } else {
-        res.redirect('/login')
-    }
-}
-function checkNotAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        res.redirect('/')
-    } else {
-        next()
-    }
-}
-
 //dms
-router.get("/api/dms", checkAuthenticated, async (req, res) => {
+router.get("/api/dms", check.isAuthenticated, async (req, res) => {
     try {
         const senderUsername = req.session.passport.user
         const sender = await user.findOne({"username": `${senderUsername}`})
@@ -124,7 +109,7 @@ router.get("/api/dms", checkAuthenticated, async (req, res) => {
         })
     }
 })
-router.get("/api/dms/:id", checkAuthenticated, async (req, res) => {
+router.get("/api/dms/:id", check.isAuthenticated, async (req, res) => {
     try {
         const recipientId = req.params.id
 
@@ -160,7 +145,7 @@ router.get("/api/dms/:id", checkAuthenticated, async (req, res) => {
         })
     }
 })
-router.post("/api/dms/:id", checkAuthenticated, async (req, res) => {
+router.post("/api/dms/:id", check.isAuthenticated, async (req, res) => {
     try {
         let recipientId = req.params.id
         let recipient
