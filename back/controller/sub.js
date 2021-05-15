@@ -99,22 +99,16 @@ function isPermitted(specificSub, user) {
         return true
     }
     const userId = user._id
-    let isModerator = false
     if (specificSub.mainmoderator == userId) {
-        isModerator = true
+        return true
     } else {
         specificSub.moderators.forEach((moderator) => {
             if (moderator == userId) {
-                isModerator = true
-                break
+                return true
             }
         })
     }
-    if (isModerator) {
-        return true
-    } else {
-        return false
-    }
+    return false
 }
 
 module.exports = router
