@@ -32,7 +32,7 @@ router.get("/subs/:id", async (req, res) => {
         })
     }
 })
-router.post("/subs", async (req, res) => {
+router.post("/subs", check.isAuthenticated, async (req, res) => {
     try {
         const newSub = new sub(req.body)
         await newSub.save()
@@ -47,16 +47,25 @@ router.post("/subs", async (req, res) => {
         })
     }
 })
-router.put("/subs", async (req, res) => {
+router.put("/subs/:id", check.isAuthenticated, async (req, res) => {
     try {
-        sub.findByIdAndUpdate(req.body._id, req.body, (err, doc) => {
-            if (err) {
-                console.log("Error during record updates: " + err)
-            }
-        })
-        res.status(200).json({
-            success: true
-        })
+        const subId = req.params.id
+        const specificSub = await sub.findById(subId)
+        if (isPermitted(specificSub, req.session.passport.user)) {
+            sub.findByIdAndUpdate(req.body._id, req.body, (err, doc) => {
+                if (err) {
+                    console.log("Error during record updates: " + err)
+                }
+            })
+            res.status(200).json({
+                success: true
+            })
+        }    
+        else {
+            res.status(403).json({
+                success: false
+            })
+        }
     } catch (err) {
         res.status(404).json({
             success: false,
