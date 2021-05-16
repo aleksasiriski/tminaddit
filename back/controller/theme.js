@@ -70,8 +70,8 @@ router.delete("/api/themes/:id", async (req, res) => {
     try {
         const themeId = req.params.id
         const specificTheme = await theme.findById(themeId)
-        const oneSub = await sub.findById(specificTheme.sub)
-        if (isPermitted(specificTheme, oneSub, req.session.passport.user)) {
+        const specificSub = await sub.findById(specificTheme.sub)
+        if (isPermitted(specificTheme, specificSub, req.session.passport.user)) {
             specificTheme.comments.forEach(async (commentId) => {
                 const specificComment = await comment.findById(commentId)
                 specificComment.delete()
@@ -92,7 +92,7 @@ router.delete("/api/themes/:id", async (req, res) => {
         })
     }
 })
-function isPermitted(specificTheme, oneSub, user) {
+function isPermitted(specificTheme, specificSub, user) {
     if (user.admin == true) {
         return true
     }
@@ -100,10 +100,10 @@ function isPermitted(specificTheme, oneSub, user) {
     if  (specificTheme.author == userId) {
         return true
     }
-    if (oneSub.mainmoderator == userId) {
+    if (specificSub.mainmoderator == userId) {
         return true
     } else {
-        oneSub.moderators.forEach((moderator) => {
+        specificSub.moderators.forEach((moderator) => {
             if (moderator == userId) {
                 return true
             }
