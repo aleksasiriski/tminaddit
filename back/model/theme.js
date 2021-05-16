@@ -12,10 +12,8 @@ var themeSchema = new mongoose.Schema({
     },
     category:String,
     content:String,
-    votes:{
-        upvotes:String,
-        downvotes:String
-    },
+    upvotes: Number,
+    downvotes: Number,
     comments:[String],
     author:String,
     createdAt: Date,

@@ -10,8 +10,8 @@ var subSchema = new mongoose.Schema({
     icon: String,
     mainmoderator: String,
     moderators: [String],
-    upVotes: Number,
-    downVotes: Number
+    upvotes: Number,
+    downvotes: Number
 
 }, { collection: "subs" })
 
