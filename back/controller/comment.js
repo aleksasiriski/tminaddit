@@ -66,6 +66,41 @@ router.put("/comments", async (req, res) => {
         })
     }
 })
+
+app.put("/comments/:id/upVote", async (req, res) => {
+    try {
+        const id = req.params.id 
+        const specificComment = await comment.findById(id) 
+        specificComment.upVotes++
+        specificComment.save()
+        res.status(200).json({
+            success: true,
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+
+app.put("/comments/:id/downVote", async (req, res) => {
+    try {
+        const id = req.params.id
+        const specificComment = await comment.findById(id) 
+        specificComment.downVotes++
+        specificComment.save()
+        res.status(200).json({
+            success: true,
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+
 router.delete("/comments/:id", async (req, res) => {
     try {
         const commentId = req.params.id
