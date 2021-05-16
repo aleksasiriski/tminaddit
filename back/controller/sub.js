@@ -1,6 +1,8 @@
 const { Router } = require("express")
 const router = Router()
 const sub = require("../model/sub")
+const theme = require("../model/theme")
+const comment = require("../model/comment")
 const check = require("./authentication")
 
 router.get("/subs", async (req, res) => {
@@ -78,7 +80,15 @@ router.delete("/subs/:id", check.isAuthenticated, async (req, res) => {
         const subId = req.params.id
         const specificSub = await sub.findById(subId)
         if (isPermitted(specificSub, req.session.passport.user)) {
-            await specificSub.delete()
+            specificSub.themes.forEach(async (themeId) => {
+                const specificTheme = await theme.findById(themeId)
+                specificTheme.comments.forEach(async (commentId) => {
+                    const specificComment = await comment.findById(commentId)
+                    specificComment.delete()
+                })
+                specificTheme.delete()
+            })
+            specificSub.delete()
             res.status(200).json({
                 success: true
             })

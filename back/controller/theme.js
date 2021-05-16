@@ -1,6 +1,9 @@
 const { Router } = require("express")
 const router = Router()
+const sub = require("../model/sub")
 const theme = require("../model/theme")
+const comment = require("../model/comment")
+const check = require("./authentication")
 
 router.get("/api/themes", async (req, res) => {
     try {
@@ -19,10 +22,10 @@ router.get("/api/themes", async (req, res) => {
 router.get("/api/themes/:id", async (req, res) => {
     try {
         const id = req.params.id
-        const oneTheme = await theme.findById(id)
+        const specificTheme = await theme.findById(id)
         res.status(200).json({
             success: true,
-            theme: oneTheme
+            theme: specificTheme
         })
     } catch (err) {
         res.status(404).json({
@@ -101,12 +104,22 @@ app.put("/themes/:id/downVote", async (req, res) => {
 router.delete("/api/themes/:id", async (req, res) => {
     try {
         const themeId = req.params.id
-        const oneTheme = await theme.findById(themeId)
-        const deletedTheme = await oneTheme.delete()
-        res.status(200).json({
-            success: true,
-            phone: deletedTheme
-        })
+        const specificTheme = await theme.findById(themeId)
+        const specificSub = await sub.findById(specificTheme.sub)
+        if (isPermitted(specificTheme, specificSub, req.session.passport.user)) {
+            specificTheme.comments.forEach(async (commentId) => {
+                const specificComment = await comment.findById(commentId)
+                specificComment.delete()
+            })
+            specificTheme.delete()
+            res.status(200).json({
+                success: true
+            })
+        } else {
+            res.status(403).json({
+                success: false
+            })
+        }
     } catch (err) {
         res.status(404).json({
             success: false,
@@ -114,5 +127,24 @@ router.delete("/api/themes/:id", async (req, res) => {
         })
     }
 })
+function isPermitted(specificTheme, specificSub, user) {
+    if (user.admin == true) {
+        return true
+    }
+    const userId = user._id
+    if  (specificTheme.author == userId) {
+        return true
+    }
+    if (specificSub.mainmoderator == userId) {
+        return true
+    } else {
+        specificSub.moderators.forEach((moderator) => {
+            if (moderator == userId) {
+                return true
+            }
+        })
+    }
+    return false
+}
 
 module.exports = router
