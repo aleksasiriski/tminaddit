@@ -6,8 +6,8 @@ var commentSchema = new mongoose.Schema({
     detekomentar: String,
     undercoms: String,
     text: String,
-    like: String,
-    dislike: String
+    upvotes: Number,
+    downvotes: Number
 }, { collection: "comments" })
 
 commentSchema.pre("save", function (next) {
