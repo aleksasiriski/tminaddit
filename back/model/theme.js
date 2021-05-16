@@ -18,8 +18,8 @@ var themeSchema = new mongoose.Schema({
     author:String,
     createdAt: Date,
     updatedAt: Date,
-    upVotes: Number,
-    downVotes: Number
+    upvotes: Number,
+    downvotes: Number
 }, { collection: "themes" })
 
 themeSchema.pre("save", function (next) {

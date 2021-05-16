@@ -66,12 +66,12 @@ router.put("/api/themes", async (req, res) => {
         })
     }
 })
-
-app.put("/themes/:id/upVote", async (req, res) => {
+router.put("/themes/:id/upvote", async (req, res) => {
     try {
         const id = req.params.id 
         const specificTheme = await theme.findById(id) 
-        specificTheme.upVotes++
+        specificTheme.upv
+        otes++
         specificTheme.save()
         res.status(200).json({
             success: true,
@@ -83,12 +83,11 @@ app.put("/themes/:id/upVote", async (req, res) => {
         })
     }
 })
-
-app.put("/themes/:id/downVote", async (req, res) => {
+router.put("/themes/:id/downvote", async (req, res) => {
     try {
         const id = req.params.id
         const specificTheme = await theme.findById(id) 
-        specificTheme.downVotes++
+        specificTheme.downvotes++
         specificTheme.save()
         res.status(200).json({
             success: true,
@@ -100,7 +99,6 @@ app.put("/themes/:id/downVote", async (req, res) => {
         })
     }
 })
-
 router.delete("/api/themes/:id", async (req, res) => {
     try {
         const themeId = req.params.id

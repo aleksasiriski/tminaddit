@@ -66,12 +66,11 @@ router.put("/comments", async (req, res) => {
         })
     }
 })
-
-app.put("/comments/:id/upVote", async (req, res) => {
+router.put("/comments/:id/upvote", async (req, res) => {
     try {
         const id = req.params.id 
         const specificComment = await comment.findById(id) 
-        specificComment.upVotes++
+        specificComment.upvotes++
         specificComment.save()
         res.status(200).json({
             success: true,
@@ -83,12 +82,11 @@ app.put("/comments/:id/upVote", async (req, res) => {
         })
     }
 })
-
-app.put("/comments/:id/downVote", async (req, res) => {
+router.put("/comments/:id/downvote", async (req, res) => {
     try {
         const id = req.params.id
         const specificComment = await comment.findById(id) 
-        specificComment.downVotes++
+        specificComment.downvotes++
         specificComment.save()
         res.status(200).json({
             success: true,
@@ -100,7 +98,6 @@ app.put("/comments/:id/downVote", async (req, res) => {
         })
     }
 })
-
 router.delete("/comments/:id", async (req, res) => {
     try {
         const commentId = req.params.id
