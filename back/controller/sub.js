@@ -73,41 +73,6 @@ router.put("/subs/:id", check.isAuthenticated, async (req, res) => {
         })
     }
 })
-
-app.put("/subs/:id/upVote", async (req, res) => {
-    try {
-        const id = req.params.id //uzet je ID iz URL-a
-        const specificSub = await sub.findById(id) 
-        specificSub.upVotes++
-        specificSub.save()
-        res.status(200).json({
-            success: true,
-        })
-    } catch (err) {
-        res.status(404).json({
-            success: false,
-            message: err.message
-        })
-    }
-})
-
-app.put("/subs/:id/downVote", async (req, res) => {
-    try {
-        const id = req.params.id
-        const specificSub = await sub.findById(id) 
-        specificSub.downVotes++
-        specificSub.save()
-        res.status(200).json({
-            success: true,
-        })
-    } catch (err) {
-        res.status(404).json({
-            success: false,
-            message: err.message
-        })
-    }
-})
-
 router.delete("/subs/:id", check.isAuthenticated, async (req, res) => {
     try {
         const subId = req.params.id

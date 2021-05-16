@@ -17,7 +17,9 @@ var themeSchema = new mongoose.Schema({
     comments:[String],
     author:String,
     createdAt: Date,
-    updatedAt: Date
+    updatedAt: Date,
+    upVotes: Number,
+    downVotes: Number
 }, { collection: "themes" })
 
 themeSchema.pre("save", function (next) {

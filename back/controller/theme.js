@@ -63,6 +63,41 @@ router.put("/api/themes", async (req, res) => {
         })
     }
 })
+
+app.put("/themes/:id/upVote", async (req, res) => {
+    try {
+        const id = req.params.id 
+        const specificTheme = await theme.findById(id) 
+        specificTheme.upVotes++
+        specificTheme.save()
+        res.status(200).json({
+            success: true,
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+
+app.put("/themes/:id/downVote", async (req, res) => {
+    try {
+        const id = req.params.id
+        const specificTheme = await theme.findById(id) 
+        specificTheme.downVotes++
+        specificTheme.save()
+        res.status(200).json({
+            success: true,
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+
 router.delete("/api/themes/:id", async (req, res) => {
     try {
         const themeId = req.params.id
