@@ -34,7 +34,7 @@ router.get("/api/themes/:id", async (req, res) => {
         })
     }
 })
-router.post("/api/themes", async (req, res) => {
+router.post("/api/themes",check.isAuthenticated, async (req, res) => {
     try {
         const newTheme= new theme(req.body)
         await newTheme.save()
@@ -49,16 +49,20 @@ router.post("/api/themes", async (req, res) => {
         })
     }
 })
-router.put("/api/themes", async (req, res) => {
+router.put("/api/themes", check.isAuthenticated, async (req, res) => {
     try {
-        phone.findByIdAndUpdate(req.body._id, req.body, (err, doc) => {
+        const themeId=req.params.id
+        specificTheme=await theme.findById(themeId)
+        specificSub=await sub.findById(specificTheme.sub)
+        if (isPermitted(specificTheme, specificSub, req.session.passport.user)) {
+        theme.findByIdAndUpdate(req.body._id, req.body, (err, doc) => {
             if (err) {
                 console.log("Error during record updates: " + err)
             }
         })
         res.status(200).json({
             success: true
-        })
+        })}
     } catch (err) {
         res.status(404).json({
             success: false,
@@ -66,7 +70,7 @@ router.put("/api/themes", async (req, res) => {
         })
     }
 })
-router.put("/themes/:id/upvote", async (req, res) => {
+router.put("/themes/:id/upvote", check.isAuthenticated, async (req, res) => {
     try {
         const id = req.params.id 
         const specificTheme = await theme.findById(id) 
@@ -83,7 +87,7 @@ router.put("/themes/:id/upvote", async (req, res) => {
         })
     }
 })
-router.put("/themes/:id/downvote", async (req, res) => {
+router.put("/themes/:id/downvote", check.isAuthenticated, async (req, res) => {
     try {
         const id = req.params.id
         const specificTheme = await theme.findById(id) 
@@ -99,7 +103,7 @@ router.put("/themes/:id/downvote", async (req, res) => {
         })
     }
 })
-router.delete("/api/themes/:id", async (req, res) => {
+router.delete("/api/themes/:id", check.isAuthenticated, async (req, res) => {
     try {
         const themeId = req.params.id
         const specificTheme = await theme.findById(themeId)
