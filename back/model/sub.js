@@ -8,8 +8,10 @@ var subSchema = new mongoose.Schema({
     },
     description: String,
     icon: String,
-    mainmoderator: String,
-    moderators: [String]
+    mainModerator: String,
+    moderators: [String],
+    createdAt: Date,
+    updatedAt: Date
 }, { collection: "subs" })
 
 subSchema.pre("save", function (next) {

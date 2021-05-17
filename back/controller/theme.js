@@ -137,7 +137,7 @@ function isPermitted(specificTheme, specificSub, user) {
     if  (specificTheme.author == userId) {
         return true
     }
-    if (specificSub.mainmoderator == userId) {
+    if (specificSub.mainModerator == userId) {
         return true
     } else {
         specificSub.moderators.forEach((moderator) => {

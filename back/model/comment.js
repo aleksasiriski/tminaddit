@@ -7,7 +7,9 @@ var commentSchema = new mongoose.Schema({
     undercoms: String,
     content: String,
     upvotes: Number,
-    downvotes: Number
+    downvotes: Number,
+    createdAt: Date,
+    updatedAt: Date
 }, { collection: "comments" })
 
 commentSchema.pre("save", function (next) {

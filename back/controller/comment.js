@@ -137,7 +137,7 @@ function isPermitted(specificComment, specificSub, user) {
     if  (specificComment.author == userId) {
         return true
     }
-    if (specificSub.mainmoderator == userId) {
+    if (specificSub.mainModerator == userId) {
         return true
     } else {
         specificSub.moderators.forEach((moderator) => {

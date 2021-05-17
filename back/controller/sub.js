@@ -109,7 +109,7 @@ function isPermitted(specificSub, user) {
         return true
     }
     const userId = user._id
-    if (specificSub.mainmoderator == userId) {
+    if (specificSub.mainModerator == userId) {
         return true
     } else {
         specificSub.moderators.forEach((moderator) => {
