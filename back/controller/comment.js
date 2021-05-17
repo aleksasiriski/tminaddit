@@ -98,15 +98,24 @@ router.put("/comments/:id/downvote", async (req, res) => {
         })
     }
 })
-router.delete("/comments/:id", async (req, res) => {
+router.delete("/api/comments/:id", async (req, res) => {
     try {
         const commentId = req.params.id
         const specificComment = await comment.findById(commentId)
-        const deletedComment = await specificComment.delete()
-        res.status(200).json({
-            success: true,
-            comment: deletedComment
-        })
+        const specificTheme = await theme.findById(specificComment.theme)
+        const specificSub = await sub.findById(specificTheme.sub)
+
+        if (isPermitted(specificComment, specificSub, req.session.passport.user)) {
+                specificComment.author = "[deleted]"
+                specificComment.content = "[deleted]"
+            res.status(200).json({
+                success: true
+            })
+        } else {
+            res.status(403).json({
+                success: false
+            })
+        }
     } catch (err) {
         res.status(404).json({
             success: false,
@@ -116,3 +125,4 @@ router.delete("/comments/:id", async (req, res) => {
 })
 
 module.exports = router
+
