@@ -86,7 +86,7 @@ router.put("/themes/:id/upvote", check.isAuthenticated, async (req, res) => {
             specificUser.upvotes.themes.push(specificTheme._id)
             specificUser.downvotes.themes.forEach((themeId) => {
                 if (!found && themeId == specificTheme._id) {
-                    await themeId.delete()
+                    themeId.delete()
                     found = true
                 }
             })
@@ -122,7 +122,7 @@ router.put("/themes/:id/downvote", check.isAuthenticated, async (req, res) => {
             specificUser.downvotes.themes.push(specificTheme._id)
             specificUser.upvotes.themes.forEach((themeId) => {
                 if (!found && themeId == specificTheme._id) {
-                    await themeId.delete()
+                    themeId.delete()
                     found = true
                 }
             })

@@ -87,7 +87,7 @@ router.put("/comments/:id/upvote", check.isAuthenticated, async (req, res) => {
             specificUser.upvotes.comments.push(specificComment._id)
             specificUser.downvotes.comments.forEach((commentId) => {
                 if (!found && commentId == specificComment._id) {
-                    await commentId.delete()
+                    commentId.delete()
                     found = true
                 }
             })
@@ -123,7 +123,7 @@ router.put("/comments/:id/downvote", check.isAuthenticated, async (req, res) => 
             specificUser.downvotes.comments.push(specificComment._id)
             specificUser.upvotes.comments.forEach((commentId) => {
                 if (!found && commentId == specificComment._id) {
-                    await commentId.delete()
+                    commentId.delete()
                     found = true
                 }
             })
