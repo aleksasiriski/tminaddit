@@ -5,7 +5,7 @@ const theme = require("../model/theme")
 const comment = require("../model/comment")
 const check = require("./authentication")
 
-router.get("/api/themes", async (req, res) => {
+router.get("/themes", async (req, res) => {
     try {
         const allThemes = await theme.find()
         res.status(200).json({
@@ -19,7 +19,7 @@ router.get("/api/themes", async (req, res) => {
         })
     }
 })
-router.get("/api/themes/:id", async (req, res) => {
+router.get("/themes/:id", async (req, res) => {
     try {
         const id = req.params.id
         const specificTheme = await theme.findById(id)
@@ -34,7 +34,7 @@ router.get("/api/themes/:id", async (req, res) => {
         })
     }
 })
-router.post("/api/themes", check.isAuthenticated, async (req, res) => {
+router.post("/themes", check.isAuthenticated, async (req, res) => {
     try {
         const newTheme= new theme(req.body)
         await newTheme.save()
@@ -49,7 +49,7 @@ router.post("/api/themes", check.isAuthenticated, async (req, res) => {
         })
     }
 })
-router.put("/api/themes", check.isAuthenticated, async (req, res) => {
+router.put("/themes", check.isAuthenticated, async (req, res) => {
     try {
         const themeId=req.params.id
         specificTheme=await theme.findById(themeId)
@@ -142,7 +142,7 @@ router.put("/themes/:id/downvote", check.isAuthenticated, async (req, res) => {
         })
     }
 })
-router.delete("/api/themes/:id", check.isAuthenticated, async (req, res) => {
+router.delete("/themes/:id", check.isAuthenticated, async (req, res) => {
     try {
         const themeId = req.params.id
         const specificTheme = await theme.findById(themeId)

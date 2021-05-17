@@ -143,7 +143,7 @@ router.put("/comments/:id/downvote", check.isAuthenticated, async (req, res) => 
         })
     }
 })
-router.delete("/api/comments/:id", check.isAuthenticated, async (req, res) => {
+router.delete("/comments/:id", check.isAuthenticated, async (req, res) => {
     try {
         const commentId = req.params.id
         const specificComment = await comment.findById(commentId)

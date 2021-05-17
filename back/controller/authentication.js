@@ -7,10 +7,10 @@ function isAuthenticated(req, res, next) {
 }
 
 function isNotAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        res.redirect('/')
-    } else {
+    if (!req.isAuthenticated()) {
         next()
+    } else {
+        res.redirect('/')
     }
 }
 
@@ -18,7 +18,7 @@ function isAdmin(req, res, next) {
     if (req.session.passport.user.admin == true) {
         next()
     } else {
-        res.status(403)
+        res.redirect('/')
     }
 }
 
