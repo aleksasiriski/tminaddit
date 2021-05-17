@@ -4,12 +4,10 @@ var passportLocalMongoose = require("passport-local-mongoose")
 var userSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: true,
         unique: true
     },
     email: {
         type: String,
-        required: true,
         unique: true
     },
     dmsIds: [String],
@@ -21,6 +19,14 @@ var userSchema = new mongoose.Schema({
             sentAt: Date
         }],
     }],
+    upvotes: {
+        themes: [String],
+        comments: [String]
+    },
+    downvotes: {
+        themes: [String],
+        comments: [String]
+    },
     admin: Boolean,
     createdAt: Date,
     updatedAt: Date
