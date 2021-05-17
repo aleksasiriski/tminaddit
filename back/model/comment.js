@@ -3,9 +3,9 @@ const mongoose = require("mongoose")
 var commentSchema = new mongoose.Schema({
     theme: String,
     author: String,
-    detekomentar: String,
+    parentComment: String,
     undercoms: String,
-    text: String,
+    content: String,
     upvotes: Number,
     downvotes: Number
 }, { collection: "comments" })
