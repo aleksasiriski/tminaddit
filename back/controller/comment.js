@@ -124,7 +124,6 @@ router.delete("/api/comments/:id", async (req, res) => {
         })
     }
 })
-
 function isPermitted(specificComment, specificSub, user) {
     if (user.admin == true) {
         return true
@@ -146,4 +145,3 @@ function isPermitted(specificComment, specificSub, user) {
 }
  
 module.exports = router
-
