@@ -1,7 +1,7 @@
 // includes
 const { Router } = require("express")
 const router = Router()
-const check = require("./authentication")
+const check = require("../controller/authentication")
 
 // themes
 router.get("/themes", (req, res) => {

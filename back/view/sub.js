@@ -1,7 +1,7 @@
 // includes
 const { Router } = require("express")
 const router = Router()
-const check = require("./authentication")
+const check = require("../controller/authentication")
 
 // subs
 router.get("/subs", (req, res) => {
