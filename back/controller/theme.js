@@ -73,10 +73,26 @@ router.put("/api/themes", check.isAuthenticated, async (req, res) => {
 router.put("/themes/:id/upvote", check.isAuthenticated, async (req, res) => {
     try {
         const id = req.params.id 
-        const specificTheme = await theme.findById(id) 
-        specificTheme.upv
-        sprecificTheme.upotes++
-        specificTheme.save()
+        const specificTheme = await theme.findById(id)
+        const user = req.session.passport.user
+        let found = false
+        user.upvotes.themes.forEach((theme) => {
+            if (!found && theme._id == specificTheme._id) {
+                found = true
+            }
+        })
+        if (!found) {
+            specificTheme.upvotes++
+            user.downvotes.themes.forEach((theme) => {
+                if (!found && theme._id == specificTheme._id) {
+                    found = true
+                }
+            })
+            if (found) {
+                specificTheme.downvotes--
+            }
+            specificTheme.save()
+        }
         res.status(200).json({
             success: true,
         })
@@ -89,10 +105,27 @@ router.put("/themes/:id/upvote", check.isAuthenticated, async (req, res) => {
 })
 router.put("/themes/:id/downvote", check.isAuthenticated, async (req, res) => {
     try {
-        const id = req.params.id
-        const specificTheme = await theme.findById(id) 
-        specificTheme.downvotes++
-        specificTheme.save()
+        const id = req.params.id 
+        const specificTheme = await theme.findById(id)
+        const user = req.session.passport.user
+        let found = false
+        user.downvotes.themes.forEach((theme) => {
+            if (!found && theme._id == specificTheme._id) {
+                found = true
+            }
+        })
+        if (!found) {
+            specificTheme.downvotes++
+            user.upvotes.themes.forEach((theme) => {
+                if (!found && theme._id == specificTheme._id) {
+                    found = true
+                }
+            })
+            if (found) {
+                specificTheme.upvotes--
+            }
+            specificTheme.save()
+        }
         res.status(200).json({
             success: true,
         })

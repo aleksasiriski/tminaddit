@@ -74,9 +74,26 @@ router.put("/comments", check.isAuthenticated, async (req, res) => {
 router.put("/comments/:id/upvote", check.isAuthenticated, async (req, res) => {
     try {
         const id = req.params.id 
-        const specificComment = await comment.findById(id) 
-        specificComment.upvotes++
-        specificComment.save()
+        const specificComment = await comment.findById(id)
+        const user = req.session.passport.user
+        let found = false
+        user.upvotes.comments.forEach((comment) => {
+            if (!found && comment._id == specificComment._id) {
+                found = true
+            }
+        })
+        if (!found) {
+            specificComment.upvotes++
+            user.downvotes.comments.forEach((comment) => {
+                if (!found && comment._id == specificComment._id) {
+                    found = true
+                }
+            })
+            if (found) {
+                specificComment.downvotes--
+            }
+            specificComment.save()
+        }
         res.status(200).json({
             success: true,
         })
@@ -89,10 +106,27 @@ router.put("/comments/:id/upvote", check.isAuthenticated, async (req, res) => {
 })
 router.put("/comments/:id/downvote", check.isAuthenticated, async (req, res) => {
     try {
-        const id = req.params.id
-        const specificComment = await comment.findById(id) 
-        specificComment.downvotes++
-        specificComment.save()
+        const id = req.params.id 
+        const specificComment = await comment.findById(id)
+        const user = req.session.passport.user
+        let found = false
+        user.downvotes.comments.forEach((comment) => {
+            if (!found && comment._id == specificComment._id) {
+                found = true
+            }
+        })
+        if (!found) {
+            specificComment.downvotes++
+            user.upvotes.comments.forEach((comment) => {
+                if (!found && comment._id == specificComment._id) {
+                    found = true
+                }
+            })
+            if (found) {
+                specificComment.upvotes--
+            }
+            specificComment.save()
+        }
         res.status(200).json({
             success: true,
         })
