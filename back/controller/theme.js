@@ -74,17 +74,19 @@ router.put("/themes/:id/upvote", check.isAuthenticated, async (req, res) => {
     try {
         const id = req.params.id 
         const specificTheme = await theme.findById(id)
-        const user = req.session.passport.user
+        const specificUser = req.session.passport.user
         let found = false
-        user.upvotes.themes.forEach((theme) => {
-            if (!found && theme._id == specificTheme._id) {
+        specificUser.upvotes.themes.forEach((themeId) => {
+            if (!found && themeId == specificTheme._id) {
                 found = true
             }
         })
         if (!found) {
             specificTheme.upvotes++
-            user.downvotes.themes.forEach((theme) => {
-                if (!found && theme._id == specificTheme._id) {
+            specificUser.upvotes.themes.push(specificTheme._id)
+            specificUser.downvotes.themes.forEach((themeId) => {
+                if (!found && themeId == specificTheme._id) {
+                    await themeId.delete()
                     found = true
                 }
             })
@@ -92,6 +94,7 @@ router.put("/themes/:id/upvote", check.isAuthenticated, async (req, res) => {
                 specificTheme.downvotes--
             }
             specificTheme.save()
+            specificUser.save()
         }
         res.status(200).json({
             success: true,
@@ -107,17 +110,19 @@ router.put("/themes/:id/downvote", check.isAuthenticated, async (req, res) => {
     try {
         const id = req.params.id 
         const specificTheme = await theme.findById(id)
-        const user = req.session.passport.user
+        const specificUser = req.session.passport.user
         let found = false
-        user.downvotes.themes.forEach((theme) => {
-            if (!found && theme._id == specificTheme._id) {
+        specificUser.downvotes.themes.forEach((themeId) => {
+            if (!found && themeId == specificTheme._id) {
                 found = true
             }
         })
         if (!found) {
             specificTheme.downvotes++
-            user.upvotes.themes.forEach((theme) => {
-                if (!found && theme._id == specificTheme._id) {
+            specificUser.downvotes.themes.push(specificTheme._id)
+            specificUser.upvotes.themes.forEach((themeId) => {
+                if (!found && themeId == specificTheme._id) {
+                    await themeId.delete()
                     found = true
                 }
             })
@@ -125,6 +130,7 @@ router.put("/themes/:id/downvote", check.isAuthenticated, async (req, res) => {
                 specificTheme.upvotes--
             }
             specificTheme.save()
+            specificUser.save()
         }
         res.status(200).json({
             success: true,
