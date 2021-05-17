@@ -71,7 +71,7 @@ router.put("/comments", check.isAuthenticated, async (req, res) => {
         })
     }
 })
-router.put("/comments/:id/upvote",check.isAuthenticated, async (req, res) => {
+router.put("/comments/:id/upvote", check.isAuthenticated, async (req, res) => {
     try {
         const id = req.params.id 
         const specificComment = await comment.findById(id) 

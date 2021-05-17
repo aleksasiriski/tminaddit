@@ -34,7 +34,7 @@ router.get("/api/themes/:id", async (req, res) => {
         })
     }
 })
-router.post("/api/themes",check.isAuthenticated, async (req, res) => {
+router.post("/api/themes", check.isAuthenticated, async (req, res) => {
     try {
         const newTheme= new theme(req.body)
         await newTheme.save()
