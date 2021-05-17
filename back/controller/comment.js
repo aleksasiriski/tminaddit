@@ -49,7 +49,7 @@ router.post("/comments", check.isAuthenticated, async (req, res) => {
         })
     }
 })
-router.put("/comments", async (req, res) => {
+router.put("/comments", check.isAuthenticated, async (req, res) => {
     try {
         const commentId = req.params.id
         const specificComment = await comment.findById(commentId)
@@ -87,7 +87,7 @@ router.put("/comments/:id/upvote",check.isAuthenticated, async (req, res) => {
         })
     }
 })
-router.put("/comments/:id/downvote",check.isAuthenticated, async (req, res) => {
+router.put("/comments/:id/downvote", check.isAuthenticated, async (req, res) => {
     try {
         const id = req.params.id
         const specificComment = await comment.findById(id) 
@@ -103,7 +103,7 @@ router.put("/comments/:id/downvote",check.isAuthenticated, async (req, res) => {
         })
     }
 })
-router.delete("/api/comments/:id", async (req, res) => {
+router.delete("/api/comments/:id", check.isAuthenticated, async (req, res) => {
     try {
         const commentId = req.params.id
         const specificComment = await comment.findById(commentId)
