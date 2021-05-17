@@ -28,12 +28,12 @@ passport.deserializeUser(user.deserializeUser())
 router.use(methodOverride("_method"))
 
 //users
-router.post("/api/login", check.isNotAuthenticated, passport.authenticate("local", {
+router.post("/login", check.isNotAuthenticated, passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true
 }))
-router.post("/api/register", check.isNotAuthenticated, async (req, res) => {
+router.post("/register", check.isNotAuthenticated, async (req, res) => {
     try {
         const username = req.body.username
         const email = req.body.email
@@ -51,17 +51,17 @@ router.post("/api/register", check.isNotAuthenticated, async (req, res) => {
         res.redirect("/register")
     }
 })
-router.delete("/api/logout", check.isAuthenticated, (req, res) => {
+router.delete("/logout", check.isAuthenticated, (req, res) => {
     req.logOut()
     res.redirect("/login")
 })
-router.get("/api/user", check.isAuthenticated, (req, res) => {
+router.get("/user", check.isAuthenticated, (req, res) => {
     res.status(200).json({
         success: true,
         user: req.session.passport.user
     })
 })
-router.get("/api/username/:id", check.isAuthenticated, async (req, res) => {
+router.get("/username/:id", check.isAuthenticated, async (req, res) => {
     try {
         const userId = req.params.id
         const specificUser = await user.findById(userId)
@@ -79,7 +79,7 @@ router.get("/api/username/:id", check.isAuthenticated, async (req, res) => {
 })
 
 //dms
-router.get("/api/dms", check.isAuthenticated, async (req, res) => {
+router.get("/dms", check.isAuthenticated, async (req, res) => {
     try {
         const senderUsername = req.session.passport.user
         const sender = await user.findOne({"username": `${senderUsername}`})
@@ -95,7 +95,7 @@ router.get("/api/dms", check.isAuthenticated, async (req, res) => {
         })
     }
 })
-router.get("/api/dms/:id", check.isAuthenticated, async (req, res) => {
+router.get("/dms/:id", check.isAuthenticated, async (req, res) => {
     try {
         const recipientId = req.params.id
 
@@ -131,7 +131,7 @@ router.get("/api/dms/:id", check.isAuthenticated, async (req, res) => {
         })
     }
 })
-router.post("/api/dms/:id", check.isAuthenticated, async (req, res) => {
+router.post("/dms/:id", check.isAuthenticated, async (req, res) => {
     try {
         let recipientId = req.params.id
         let recipient
