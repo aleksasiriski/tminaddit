@@ -75,7 +75,7 @@ router.put("/themes/:id/upvote", check.isAuthenticated, async (req, res) => {
         const id = req.params.id 
         const specificTheme = await theme.findById(id) 
         specificTheme.upv
-        otes++
+        sprecificTheme.upotes++
         specificTheme.save()
         res.status(200).json({
             success: true,
