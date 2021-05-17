@@ -1,6 +1,6 @@
-var mongoose = require("mongoose")
+const mongoose = require("mongoose")
 
-var themeSchema = new mongoose.Schema({
+const themeSchema = new mongoose.Schema({
     sub: String,
     title: String,
     category: String,

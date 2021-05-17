@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-var subSchema = new mongoose.Schema({
+const subSchema = new mongoose.Schema({
     name: {
         type: String,
         unique: true
