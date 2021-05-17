@@ -34,7 +34,7 @@ router.get("/comments/:id", async (req, res) => {
         })
     }
 })
-router.post("/comments", async (req, res) => {
+router.post("/comments", check.isAuthenticated, async (req, res) => {
     try {
         const newComment = new comment(req.body)
         await newComment.save()
@@ -51,11 +51,16 @@ router.post("/comments", async (req, res) => {
 })
 router.put("/comments", async (req, res) => {
     try {
+        const commentId = req.params.id
+        const specificComment = await comment.findById(commentId)
+        const specificTheme = await theme.findById(specificComment.theme)
+        const specificSub = await sub.findById(specificTheme.sub)
+        if (isPermitted(specificComment, specificSub, req.session.passport.user)) {
         comment.findByIdAndUpdate(req.body._id, req.body, (err, doc) => {
             if (err) {
                 console.log("Error during record updates: " + err)
             }
-        })
+        })}
         res.status(200).json({
             success: true
         })
@@ -66,7 +71,7 @@ router.put("/comments", async (req, res) => {
         })
     }
 })
-router.put("/comments/:id/upvote", async (req, res) => {
+router.put("/comments/:id/upvote",check.isAuthenticated, async (req, res) => {
     try {
         const id = req.params.id 
         const specificComment = await comment.findById(id) 
@@ -82,7 +87,7 @@ router.put("/comments/:id/upvote", async (req, res) => {
         })
     }
 })
-router.put("/comments/:id/downvote", async (req, res) => {
+router.put("/comments/:id/downvote",check.isAuthenticated, async (req, res) => {
     try {
         const id = req.params.id
         const specificComment = await comment.findById(id) 
