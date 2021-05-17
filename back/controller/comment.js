@@ -125,5 +125,25 @@ router.delete("/api/comments/:id", async (req, res) => {
     }
 })
 
+function isPermitted(specificComment, specificSub, user) {
+    if (user.admin == true) {
+        return true
+    }
+    const userId = user._id
+    if  (specificComment.author == userId) {
+        return true
+    }
+    if (specificSub.mainmoderator == userId) {
+        return true
+    } else {
+        specificSub.moderators.forEach((moderator) => {
+            if (moderator == userId) {
+                return true
+            }
+        })
+    }
+    return false
+}
+ 
 module.exports = router
 
