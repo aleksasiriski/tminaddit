@@ -108,6 +108,7 @@ router.delete("/api/comments/:id", async (req, res) => {
         if (isPermitted(specificComment, specificSub, req.session.passport.user)) {
                 specificComment.author = "[deleted]"
                 specificComment.content = "[deleted]"
+                await specificComment.save()
             res.status(200).json({
                 success: true
             })
