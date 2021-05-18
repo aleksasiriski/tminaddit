@@ -10,14 +10,8 @@ router.get("/login", check.isNotAuthenticated, (req, res) => {
 router.get("/register", check.isNotAuthenticated, (req, res) => {
     res.render("../front/views/register.ejs")
 })
-router.get("/profile_page", (req, res) => {
-    res.render("../front/views/profile_page.ejs")
-})
-router.get("/dms", check.isAuthenticated, (req, res) => {
-    res.render("../front/views/dms.ejs")
-})
-router.get("/dm", check.isAuthenticated, (req, res) => {
-    res.render("../front/views/dm.ejs")
+router.get("/profile", (req, res) => {
+    res.render("../front/views/profile.ejs")
 })
 
 // export

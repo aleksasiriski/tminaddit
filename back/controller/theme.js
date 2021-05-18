@@ -1,5 +1,6 @@
 const { Router } = require("express")
 const router = Router()
+const sub = require("../model/user")
 const sub = require("../model/sub")
 const theme = require("../model/theme")
 const comment = require("../model/comment")
@@ -168,8 +169,9 @@ router.delete("/themes/:id", check.isAuthenticated, async (req, res) => {
         })
     }
 })
-function isPermitted(specificTheme, specificSub, user) {
-    if (user.admin == true) {
+function isPermitted(specificTheme, specificSub, username) {
+    const specificUser = await user.findOne({"username": `${username}`})
+    if (specificUser.admin == true) {
         return true
     }
     const userId = user._id

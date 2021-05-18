@@ -23,6 +23,12 @@ app.use("/", userViewRoute)
 const userRoute = require("./back/controller/user")
 app.use("/api", userRoute)
 
+// chats
+const chatViewRoute = require("./back/view/chat")
+app.use("/", chatViewRoute)
+const chatRoute = require("./back/controller/chat")
+app.use("/api", chatRoute)
+
 // subs
 const subViewRoute = require("./back/view/sub")
 app.use("/", subViewRoute)
