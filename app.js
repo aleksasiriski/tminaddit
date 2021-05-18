@@ -18,25 +18,25 @@ app.get("/", (req, res) => {
 })
 
 // users
-const userViewRoute = require("./back/view/user")
+const userViewRoute = require("./back/views/user")
 app.use("/", userViewRoute)
 const userRoute = require("./back/controller/user")
 app.use("/api", userRoute)
 
 // chats
-const chatViewRoute = require("./back/view/chat")
+const chatViewRoute = require("./back/views/chat")
 app.use("/", chatViewRoute)
 const chatRoute = require("./back/controller/chat")
 app.use("/api", chatRoute)
 
 // subs
-const subViewRoute = require("./back/view/sub")
+const subViewRoute = require("./back/views/sub")
 app.use("/", subViewRoute)
 const subRoute = require("./back/controller/sub")
 app.use("/api", subRoute)
 
 // themes
-const themeViewRoute = require("./back/view/theme")
+const themeViewRoute = require("./back/views/theme")
 app.use("/", themeViewRoute)
 const themeRoute = require("./back/controller/theme")
 app.use("/api", themeRoute)
