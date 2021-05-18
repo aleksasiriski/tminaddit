@@ -1,6 +1,6 @@
 const { Router } = require("express")
 const router = Router()
-const sub = require("../model/user")
+const user = require("../model/user")
 const sub = require("../model/sub")
 const theme = require("../model/theme")
 const comment = require("../model/comment")
@@ -54,7 +54,8 @@ router.put("/subs/:id", check.isAuthenticated, async (req, res) => {
     try {
         const subId = req.params.id
         const specificSub = await sub.findById(subId)
-        if (isPermitted(specificSub, req.session.passport.user)) {
+        const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        if (isPermitted(specificSub, specificUser)) {
             sub.findByIdAndUpdate(req.body._id, req.body, (err, doc) => {
                 if (err) {
                     console.log("Error during record updates: " + err)
@@ -80,7 +81,8 @@ router.delete("/subs/:id", check.isAuthenticated, async (req, res) => {
     try {
         const subId = req.params.id
         const specificSub = await sub.findById(subId)
-        if (isPermitted(specificSub, req.session.passport.user)) {
+        const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        if (isPermitted(specificSub, specificUser)) {
             specificSub.themes.forEach(async (themeId) => {
                 const specificTheme = await theme.findById(themeId)
                 specificTheme.comments.forEach(async (commentId) => {
@@ -105,8 +107,7 @@ router.delete("/subs/:id", check.isAuthenticated, async (req, res) => {
         })
     }
 })
-function isPermitted(specificSub, username) {
-    const specificUser = await user.findOne({"username": `${username}`})
+function isPermitted(specificSub, specificUser) {
     if (specificUser.admin == true) {
         return true
     }

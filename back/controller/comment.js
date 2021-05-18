@@ -1,6 +1,6 @@
 const { Router } = require("express")
 const router = Router()
-const sub = require("../model/user")
+const user = require("../model/user")
 const sub = require("../model/sub")
 const theme = require("../model/theme")
 const comment = require("../model/comment")
@@ -56,7 +56,8 @@ router.put("/comments", check.isAuthenticated, async (req, res) => {
         const specificComment = await comment.findById(commentId)
         const specificTheme = await theme.findById(specificComment.theme)
         const specificSub = await sub.findById(specificTheme.sub)
-        if (isPermitted(specificComment, specificSub, req.session.passport.user)) {
+        const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        if (isPermitted(specificComment, specificSub, specificUser)) {
         comment.findByIdAndUpdate(req.body._id, req.body, (err, doc) => {
             if (err) {
                 console.log("Error during record updates: " + err)
@@ -150,8 +151,8 @@ router.delete("/comments/:id", check.isAuthenticated, async (req, res) => {
         const specificComment = await comment.findById(commentId)
         const specificTheme = await theme.findById(specificComment.theme)
         const specificSub = await sub.findById(specificTheme.sub)
-
-        if (isPermitted(specificComment, specificSub, req.session.passport.user)) {
+        const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        if (isPermitted(specificComment, specificSub, specificUser)) {
                 specificComment.author = "[deleted]"
                 specificComment.content = "[deleted]"
                 await specificComment.save()
@@ -170,8 +171,7 @@ router.delete("/comments/:id", check.isAuthenticated, async (req, res) => {
         })
     }
 })
-function isPermitted(specificComment, specificSub, username) {
-    const specificUser = await user.findOne({"username": `${username}`})
+function isPermitted(specificComment, specificSub, specificUser) {
     if (specificUser.admin == true) {
         return true
     }

@@ -1,6 +1,6 @@
 const { Router } = require("express")
 const router = Router()
-const sub = require("../model/user")
+const user = require("../model/user")
 const sub = require("../model/sub")
 const theme = require("../model/theme")
 const comment = require("../model/comment")
@@ -52,10 +52,11 @@ router.post("/themes", check.isAuthenticated, async (req, res) => {
 })
 router.put("/themes", check.isAuthenticated, async (req, res) => {
     try {
-        const themeId=req.params.id
-        specificTheme=await theme.findById(themeId)
-        specificSub=await sub.findById(specificTheme.sub)
-        if (isPermitted(specificTheme, specificSub, req.session.passport.user)) {
+        const themeId = req.params.id
+        const specificTheme = await theme.findById(themeId)
+        const specificSub = await sub.findById(specificTheme.sub)
+        const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        if (isPermitted(specificTheme, specificSub, specificUser)) {
         theme.findByIdAndUpdate(req.body._id, req.body, (err, doc) => {
             if (err) {
                 console.log("Error during record updates: " + err)
@@ -148,7 +149,8 @@ router.delete("/themes/:id", check.isAuthenticated, async (req, res) => {
         const themeId = req.params.id
         const specificTheme = await theme.findById(themeId)
         const specificSub = await sub.findById(specificTheme.sub)
-        if (isPermitted(specificTheme, specificSub, req.session.passport.user)) {
+        const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        if (isPermitted(specificTheme, specificSub, specificUser)) {
             specificTheme.comments.forEach(async (commentId) => {
                 const specificComment = await comment.findById(commentId)
                 specificComment.delete()
@@ -169,8 +171,7 @@ router.delete("/themes/:id", check.isAuthenticated, async (req, res) => {
         })
     }
 })
-function isPermitted(specificTheme, specificSub, username) {
-    const specificUser = await user.findOne({"username": `${username}`})
+function isPermitted(specificTheme, specificSub, specificUser) {
     if (specificUser.admin == true) {
         return true
     }
