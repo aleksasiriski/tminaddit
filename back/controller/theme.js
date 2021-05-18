@@ -37,7 +37,7 @@ router.get("/themes/:id", async (req, res) => {
 })
 router.post("/themes", check.isAuthenticated, async (req, res) => {
     try {
-        const newTheme= new theme(req.body)
+        const newTheme = new theme(req.body)
         await newTheme.save()
         res.status(200).json({
             success: true,
