@@ -1,9 +1,14 @@
+//.env
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config()
+}
+
 const mongoose = require("mongoose");
 
 async function connectDB() {
     try {
-        const url = "mongodb://server.lavelektronik.com:27017/tminaddit"
-        const connection = await mongoose.connect(url, {
+        const url = process.env.URL_SECRET
+        await mongoose.connect(url, {
             useUnifiedTopology: true,
             useNewUrlParser: true,
             useCreateIndex: true,
