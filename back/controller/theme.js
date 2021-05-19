@@ -52,7 +52,7 @@ router.post("/themes", check.isAuthenticated, async (req, res) => {
             upvotes: 0,
             downvotes: 0
         }
-        const newTheme = new comment(newThemeBody)
+        const newTheme = new theme(newThemeBody)
         const savedTheme = await newTheme.save()
         specificSub.themes.push(savedTheme._id)
         await specificSub.save()
