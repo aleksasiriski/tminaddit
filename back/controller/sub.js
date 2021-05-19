@@ -37,11 +37,23 @@ router.get("/subs/:id", async (req, res) => {
 })
 router.post("/subs", check.isAuthenticated, async (req, res) => {
     try {
-        const newSub = new sub(req.body)
-        await newSub.save()
+        const name = req.body.name
+        const description = req.body.description
+        const icon = req.body.icon
+        const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        const newSubBody = {
+            name: name,
+            description: description,
+            icon: icon,
+            mainModerator: specificUser._id
+        }
+        const newSub = new sub(newSubBody)
+        const savedSub = await newSub.save()
+        specificUser.moderatedSubs.push(savedSub._id)
+        specificUser.created.subs.push(savedSub._id)
+        await specificUser.save()
         res.status(200).json({
-            success: true,
-            sub: newSub
+            success: true
         })
     } catch (err) {
         res.status(404).json({

@@ -37,11 +37,28 @@ router.get("/comments/:id", async (req, res) => {
 })
 router.post("/comments", check.isAuthenticated, async (req, res) => {
     try {
-        const newComment = new comment(req.body)
-        await newComment.save()
+        const specificThemeId = req.body.theme
+        const specificTheme = await theme.findById(specificThemeId)
+        const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        const parentComment = req.body.parentComment
+        const content = req.body.content
+        const newCommentBody = {
+            theme: specificThemeId,
+            author: specificUser._id,
+            parentComment: parentComment,
+            content: content,
+            upvotes: 1,
+            downvotes: 0
+        }
+        const newComment = new comment(newCommentBody)
+        const savedComment = await newComment.save()
+        specificTheme.comments.push(savedComment._id)
+        await specificTheme.save()
+        specificUser.created.comments.push(savedComment._id)
+        specificUser.upvotes.comments.push(savedComment._id)
+        await specificUser.save()
         res.status(200).json({
-            success: true,
-            comment: newComment
+            success: true
         })
     } catch (err) {
         res.status(404).json({

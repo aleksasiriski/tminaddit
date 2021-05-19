@@ -4,7 +4,6 @@ const commentSchema = new mongoose.Schema({
     theme: String,
     author: String,
     parentComment: String,
-    undercoms: String,
     content: String,
     upvotes: Number,
     downvotes: Number,

@@ -37,11 +37,29 @@ router.get("/themes/:id", async (req, res) => {
 })
 router.post("/themes", check.isAuthenticated, async (req, res) => {
     try {
-        const newTheme = new theme(req.body)
-        await newTheme.save()
+        const specificSubId = req.body.sub
+        const specificSub = await sub.findById(specificSubId)
+        const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        const title = req.body.title
+        const category = req.body.category
+        const content = req.body.content
+        const newThemeBody = {
+            sub: specificSubId,
+            author: specificUser._id,
+            title: title,
+            category: category,
+            content: content,
+            upvotes: 0,
+            downvotes: 0
+        }
+        const newTheme = new comment(newThemeBody)
+        const savedTheme = await newTheme.save()
+        specificSub.themes.push(savedTheme._id)
+        await specificSub.save()
+        specificUser.created.themes.push(savedTheme._id)
+        await specificUser.save()
         res.status(200).json({
-            success: true,
-            phone: newTheme
+            success: true
         })
     } catch (err) {
         res.status(404).json({

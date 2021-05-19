@@ -2,13 +2,13 @@ const mongoose = require("mongoose")
 
 const themeSchema = new mongoose.Schema({
     sub: String,
+    author: String,
     title: String,
     category: String,
     content: String,
     upvotes: Number,
     downvotes: Number,
     comments: [String],
-    author: String,
     createdAt: Date,
     updatedAt: Date
 }, { collection: "themes" })

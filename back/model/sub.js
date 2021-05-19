@@ -9,6 +9,7 @@ const subSchema = new mongoose.Schema({
     icon: String,
     mainModerator: String,
     moderators: [String],
+    themes: [String],
     createdAt: Date,
     updatedAt: Date
 }, { collection: "subs" })
