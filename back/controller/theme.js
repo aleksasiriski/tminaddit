@@ -1,5 +1,5 @@
-const { Router } = require("express")
-const router = Router()
+const express = require("express")
+const router = express()
 const user = require("../model/user")
 const sub = require("../model/sub")
 const theme = require("../model/theme")

@@ -4,6 +4,7 @@ const passportLocalMongoose = require("passport-local-mongoose")
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
+        required: true,
         unique: true
     },
     email: {
@@ -36,7 +37,8 @@ const userSchema = new mongoose.Schema({
 }, { collection: "users" })
 
 userSchema.pre("save", function (next) {
-    this.admin = false
+    if (!this.admin)
+        this.admin = false
     const currentDate = new Date()
     this.updatedAt = currentDate
     if (!this.createdAt)

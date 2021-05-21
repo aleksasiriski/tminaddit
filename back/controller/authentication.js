@@ -14,12 +14,4 @@ function isNotAuthenticated(req, res, next) {
     }
 }
 
-function isAdmin(req, res, next) {
-    if (req.session.passport.user.admin == true) {
-        next()
-    } else {
-        res.redirect('/')
-    }
-}
-
-module.exports = {isAuthenticated, isNotAuthenticated, isAdmin}
+module.exports = {isAuthenticated, isNotAuthenticated}

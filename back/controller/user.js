@@ -4,8 +4,8 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 //includes
-const { Router } = require("express")
-const router = Router()
+const express = require("express")
+const router = express()
 const passport = require("passport")
 const session = require("express-session")
 const methodOverride = require("method-override")
@@ -42,21 +42,31 @@ router.post("/register", check.isNotAuthenticated, async (req, res) => {
         })
         await User.setPassword(password)
         await User.save()
-
         res.redirect("/login")
     } catch {
         res.redirect("/register")
     }
 })
-router.delete("/logout", check.isAuthenticated, (req, res) => {
-    req.logOut()
-    res.redirect("/login")
+router.delete("/logout", check.isAuthenticated, async (req, res) => {
+    try {
+        req.logOut()
+        res.redirect("/login")
+    } catch {
+        res.redirect("/")
+    }
 })
-router.get("/user", check.isAuthenticated, (req, res) => {
-    res.status(200).json({
-        success: true,
-        user: req.session.passport.user
-    })
+router.get("/user", check.isAuthenticated, async (req, res) => {
+    try {
+        res.status(200).json({
+            success: true,
+            user: req.session.passport.user
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
 })
 router.get("/username/:id", check.isAuthenticated, async (req, res) => {
     try {
@@ -74,6 +84,5 @@ router.get("/username/:id", check.isAuthenticated, async (req, res) => {
         })
     }
 })
-
 //export
 module.exports = router
