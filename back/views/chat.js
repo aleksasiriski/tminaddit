@@ -8,7 +8,7 @@ router.get("/chats", check.isAuthenticated, (req, res) => {
     res.render("../front/views/chats.ejs")
 })
 router.get("/chat", check.isAuthenticated, (req, res) => {
-    res.render("../front/views/chat.ejs")
+    res.render("../front/views/chat2.ejs")
 })
 
 // export
