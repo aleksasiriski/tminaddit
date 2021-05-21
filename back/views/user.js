@@ -10,7 +10,7 @@ router.get("/login", check.isNotAuthenticated, (req, res) => {
 router.get("/register", check.isNotAuthenticated, (req, res) => {
     res.render("../front/views/register.ejs")
 })
-router.get("/profile", (req, res) => {
+router.get("/profile", check.isAuthenticated, (req, res) => {
     res.render("../front/views/profile.ejs")
 })
 

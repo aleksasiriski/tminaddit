@@ -7,14 +7,12 @@ if (process.env.NODE_ENV !== "production") {
 const { Router } = require("express")
 const router = Router()
 const passport = require("passport")
-const flash = require("express-flash")
 const session = require("express-session")
 const methodOverride = require("method-override")
 const user = require("../model/user")
 const check = require("./authentication")
 
 //express and passport
-router.use(flash())
 router.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -30,8 +28,7 @@ router.use(methodOverride("_method"))
 //users
 router.post("/login", check.isNotAuthenticated, passport.authenticate("local", {
     successRedirect: "/",
-    failureRedirect: "/login",
-    failureFlash: true
+    failureRedirect: "/login"
 }))
 router.post("/register", check.isNotAuthenticated, async (req, res) => {
     try {
