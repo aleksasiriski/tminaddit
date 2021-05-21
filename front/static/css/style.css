@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
 body {
     background-color:rgb(3,3,3);
 }
@@ -256,3 +258,362 @@ img{ max-width:100%;}
   height: 516px;
   overflow-y: auto;
 }
+body {
+    font-family: "Poppins", sans-serif;
+    height: 100vh;
+  }
+  
+  a {
+    color: #aaaaaa;
+    display:inline-block;
+    text-decoration: none;
+    font-weight: 400;
+  }
+  
+  h2 {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    display:inline-block;
+    margin: 40px 8px 10px 8px; 
+    color: #cccccc;
+  }
+  
+  
+  /* STRUCTURE */
+  
+  .wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column; 
+    justify-content: center;
+    width: 100%;
+    min-height: 100%;
+    padding: 20px;
+  }
+  
+  #formContent {
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    background: #242526;
+    padding: 30px;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    padding: 0px;
+    -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+    text-align: center;
+  }
+  
+  #formFooter {
+    background-color: #242526;
+    border-top: 1px solid #dce8f1;
+    padding: 25px;
+    text-align: center;
+    -webkit-border-radius: 0 0 10px 10px;
+    border-radius: 0 0 10px 10px;
+  }
+  
+  
+  
+  /* TABS */
+  
+  h2.inactive {
+    color: #cccccc;
+  }
+  
+  h2.active {
+    color: #cccccc;
+    border-bottom: 2px solid #ceeb35 ;
+  }
+  
+  
+  
+  /* FORM TYPOGRAPHY*/
+ 
+  
+  
+  
+  
+  /* ANIMATIONS */
+  
+  /* Simple CSS3 Fade-in-down Animation */
+  .fadeInDown {
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+  }
+  
+  @-webkit-keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      -webkit-transform: translate3d(0, -100%, 0);
+      transform: translate3d(0, -100%, 0);
+    }
+    100% {
+      opacity: 1;
+      -webkit-transform: none;
+      transform: none;
+    }
+  }
+  
+  @keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      -webkit-transform: translate3d(0, -100%, 0);
+      transform: translate3d(0, -100%, 0);
+    }
+    100% {
+      opacity: 1;
+      -webkit-transform: none;
+      transform: none;
+    }
+  }
+  
+  /* Simple CSS3 Fade-in Animation */
+  @-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  @-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  
+  .fadeIn {
+    opacity:0;
+    -webkit-animation:fadeIn ease-in 1;
+    -moz-animation:fadeIn ease-in 1;
+    animation:fadeIn ease-in 1;
+  
+    -webkit-animation-fill-mode:forwards;
+    -moz-animation-fill-mode:forwards;
+    animation-fill-mode:forwards;
+  
+    -webkit-animation-duration:1s;
+    -moz-animation-duration:1s;
+    animation-duration:1s;
+  }
+  
+  .fadeIn.first {
+    -webkit-animation-delay: 0.4s;
+    -moz-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+  }
+  
+  .fadeIn.second {
+    -webkit-animation-delay: 0.6s;
+    -moz-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+  }
+  
+  .fadeIn.third {
+    -webkit-animation-delay: 0.8s;
+    -moz-animation-delay: 0.8s;
+    animation-delay: 0.8s;
+  }
+  
+  .fadeIn.fourth {
+    -webkit-animation-delay: 1s;
+    -moz-animation-delay: 1s;
+    animation-delay: 1s;
+  }
+  
+  /* Simple CSS3 Fade-in Animation */
+  .underlineHover:after {
+    display: block;
+    left: 0;
+    bottom: -10px;
+    width: 0;
+    height: 2px;
+    background-color: #ceeb35;
+    content: "";
+    transition: width 0.2s;
+  }
+  
+  .underlineHover:hover:after{
+    width: 100%;
+  }
+  #emailError {
+    color: white;
+    display: none;
+    font-size: 0.8em;
+  }
+  #emailError.visible {
+    display: block;
+  }
+  #usernameError {
+    color: white;
+    display: none;
+    font-size: 0.8em;
+  }
+  #usernameError.visible {
+    display: block;
+  }
+  #passwordError {
+    color: white;
+    display: none;
+    font-size: 0.8em;
+  }
+  #passwordError.visible {
+    display: block;
+  }
+  #con_passwordError {
+    color: white;
+    display: none;
+    font-size: 0.8em;
+  }
+  #con_passwordError.visible {
+    display: block;
+  }
+  
+  input.invalid {
+    border-color: red;
+  }
+  
+  
+  /* OTHERS */
+  
+  *:focus {
+      outline: none;
+  } 
+  
+  #icon {
+    width:60%;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  /*LOGO*/
+  @media (min-width:400px){
+    img.site-logo {
+      width: 260px;
+      height: 60px;
+    }
+  } 
+  
+  /* ======== Footer ======== */
+  footer {
+    background-color: #242527;
+    height: 110px;
+    padding: 30px;
+    margin-top: 60px;
+    color: #aaaaaa;
+    font-size: 12px;
+    text-align: center;
+    }
+  footer a {
+    text-decoration: none;
+    color: #cccccc;
+  }
+  footer a:hover {
+    text-decoration: none;
+    color: #ececec;
+  }
+  .footer-nav {
+    padding-top: 20px;
+  }
+  .footer-nav a {
+    color: #cccccc;
+    font-size: 14px;
+  }
+  .login-input
+  {
+      width:350px;
+      margin-left:50px;
+      margin-right:50px;
+      margin-top:20px;
+  }
+  .btn-primary{
+      background-color:rgb(26,26,27);
+      border-color:#ceeb35;
+      margin-bottom:5px;
+  }
+  .btn-primary:hover{
+    background-color:#ceeb35;
+    border-color:#ceeb35;
+    margin-bottom:5px;
+}
+  .btn-outline-primary{
+   
+    border-color:#ceeb35;
+    color:#ceeb35;
+  }
+  
+  a:hover
+  {
+      color:#ceeb35;
+  }
+ .btn-outline-primary:hover {
+    color: #fff;
+    background-color:#ceeb35;
+    border-color:#ceeb35;
+    }
+.btn-link {
+    font-weight: 400;
+    color: #ceeb35;
+    text-decoration: none;
+}
+.btn-link:hover{
+    font-weight: 400;
+    color: #ceeb35;
+    text-decoration: none;
+}
+.badge-primary {
+    color: #fff;
+    background-color: #ceeb35;
+}
+.badge-primary:hover {
+    color: #fff;
+    background-color: #ceeb35;
+    opacity:.6;
+}
+.post-comments {
+    padding-bottom: 9px;
+    margin: 5px 0 5px;
+  }
+  
+  .comments-nav {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 5px;
+  }
+  
+  .post-comments .comment-meta {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 5px;
+  }
+  
+  .post-comments .media {
+    border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
+    margin-bottom: 5px;
+    padding-left: 10px;
+  }
+  
+  .post-comments .media-heading {
+    font-size: 12px;
+    color: grey;
+  }
+  
+  .post-comments .comment-meta a {
+    font-size: 12px;
+    color: grey;
+    font-weight: bolder;
+    margin-right: 5px;
+  }
+  .transparent-btn{
+      background-color:rgb(40,38,40);
+      border-width:0px;
+      color:
+  }
+  .card-link{
+    color: #aaaaaa;
+  }
+  .card-link:hover{
+    color: #ceeb35;
+  }
+  .make-margin{
+      margin-bottom:200px;
+  }

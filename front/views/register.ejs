@@ -14,33 +14,30 @@
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	</head>
     <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 text-center">
-                    <h1>Register</h1>
-                    <form action="/api/register" method="POST">
-                        <div>
-                            <label for="username">Username</label>
-                            <br/>
-                            <input type="text" id="username" name="username" required>
-                        </div>
-                        <div>
-                            <label for="email">Email</label>
-                            <br/>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div>
-                            <label for="password">Password</label>
-                            <br/>
-                            <input type="password" id="password" name="password" required>
-                        </div>
-                        <br/>
-                        <button class="btn btn-primary" type="submit">Register</button>
-                    </form>
-                    <br/>
-                    <a href="/login">Login</a>
-                </div>
+
+        <div class="wrapper fadeInDown">
+            <div id="formContent">
+          
+              <a href="login"><h2 class="inactive underlineHover">Log in</h2></a>
+              <a href="register"><h2 class="active">Sign Up</h2></a>
+          
+              <div class="fadeIn first">
+                <a href="./"><img src="img/etmina-logo.png" alt="website icon" class="site_logo" width="200px" height="46px" /></a>
+              </div>
+          
+              <form method="POST" action="/api/register" name="register">
+                <input type="text" id="username" placeholder="username" class="form-control title-input login-input"></input>
+                <input type="text" id="email" placeholder="email" class="form-control title-input login-input"></input>
+                <input type="text" id="password" placeholder="password" class="form-control title-input login-input" ></input>
+                <button class="btn btn-primary"id="submit" class="fadeIn third" type="submit">Login</button>
+              </form>
+          
+              
+              <div id="formFooter">
+                
+              </div>
+          
             </div>
-        </div>
+          </div>
     </body>
 </html>
