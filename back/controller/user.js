@@ -1,25 +1,12 @@
-//.env
-if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config()
-}
-
 //includes
 const express = require("express")
 const router = express()
 const passport = require("passport")
-const session = require("express-session")
 const methodOverride = require("method-override")
 const user = require("../model/user")
 const check = require("./authentication")
 
 //express and passport
-router.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false
-}))
-router.use(passport.initialize())
-router.use(passport.session())
 passport.use(user.createStrategy())
 passport.serializeUser(user.serializeUser())
 passport.deserializeUser(user.deserializeUser())
