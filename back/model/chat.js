@@ -6,15 +6,14 @@ const chatSchema = new mongoose.Schema({
     messages: [{
         sender: String,
         content: String,
-        sentAt: Date
+        sentAt: Date,
+        edited: Boolean
     }],
-    edited: Boolean,
     createdAt: Date,
     updatedAt: Date
 }, { collection: "chats" })
 
 chatSchema.pre("save", function (next) {
-    this.edited = false
     const currentDate = new Date()
     this.updatedAt = currentDate
     if (!this.createdAt)

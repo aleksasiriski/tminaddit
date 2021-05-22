@@ -2,6 +2,7 @@
 const express = require("express")
 const router = express()
 const user = require("../model/user")
+const chat = require("../model/chat")
 const check = require("./authentication")
 
 //chats
@@ -51,7 +52,7 @@ router.get("/chats/:id", check.isAuthenticated, async (req, res) => {
         })
     }
 })
-router.get("/chats/:id/name", check.isAuthenticated, async (req, res) => {
+router.get("/chats/:id/small", check.isAuthenticated, async (req, res) => {
     try {
         const chatId = req.params.id
         const specificChat = await chat.findById(chatId)
@@ -65,10 +66,21 @@ router.get("/chats/:id/name", check.isAuthenticated, async (req, res) => {
                 found = true
             }
         })
+        const latestMessage = specificChat.messages.pop()
+        let latestMessageSender
+        let latestMessageContent = ""
+        let latestMessageSentAt = new Date()
+        if (latestMessage !== undefined) {
+            latestMessageSender = await user.findById(latestMessage.sender)
+            latestMessageContent = latestMessageSender.username + ": " + latestMessage.content
+            latestMessageSentAt = latestMessage.sentAt
+        }
         if (found) {
             res.status(200).json({
                 success: true,
-                chatName: specificChat.name
+                chatName: specificChat.name,
+                latestMessage: latestMessageContent,
+                time: latestMessageSentAt
             })
         } else {
             res.status(403).json({
@@ -84,23 +96,25 @@ router.get("/chats/:id/name", check.isAuthenticated, async (req, res) => {
 })
 router.post("/chats", check.isAuthenticated, async (req, res) => {
     try {
-        const chatName = req.body.name
+        const chatName = "New chat"
 
         const senderUsername = req.session.passport.user
-        const sender = await user.findOne({"username": `${senderUsername}`})
+        let sender = await user.findOne({"username": `${senderUsername}`})
         const senderId = sender._id
 
         const recipientUsername = req.body.recipient
-        const recipient = await user.findOne({"username": `${recipientUsername}`})
+        let recipient = await user.findOne({"username": `${recipientUsername}`})
         const recipientId = recipient._id
 
-        const newChatBody = {
+        const newChat = new chat({
             name: chatName,
             participants: [senderId, recipientId]
-        }
-
-        const newChat = new chat(newChatBody)
-        await newChat.save()
+        })
+        const savedChat = await newChat.save()
+        sender.chats.push(savedChat._id)
+        recipient.chats.push(savedChat._id)
+        sender.save()
+        recipient.save()
 
         res.status(200).json({
             success: true
@@ -168,7 +182,8 @@ router.post("/chats/:id/messages", check.isAuthenticated, async (req, res) => {
             const message = {
                 sender: senderId,
                 content: content,
-                sentAt: new Date()
+                sentAt: new Date(),
+                edited: false
             }
             chat.messages.push(message)
             await chat.save()
