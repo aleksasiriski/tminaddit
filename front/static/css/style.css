@@ -270,7 +270,6 @@ body {
   
   a {
     color: #aaaaaa;
-    display:inline-block;
     text-decoration: none;
     font-weight: 400;
   }
@@ -868,9 +867,6 @@ hr {
     }
 }
 
-
-
-
 .friend-drawer:hover{
   background-color: rgb(40,39,41);
 }
@@ -887,4 +883,7 @@ hr {
   height: 100vh;
   background-image: var(--body-bg);
   font-family: Helvetica, sans-serif;
+}
+.gedf-card{
+  margin-top:20px;
 }
