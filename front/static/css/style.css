@@ -766,7 +766,6 @@ body {
     color: #fff;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.23s;
   }
   .msger-send-btn:hover {
    opacity: .6;
@@ -776,3 +775,116 @@ body {
     background-color: rgb(40,39,41);
     
   }
+  /*chats*/
+  h6{
+  color: #ccc;
+}
+
+.profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 40px;
+}
+
+.settings-tray {
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgb(50,50,52);
+  border-bottom:none; 
+  background: rgb(40,39,41);
+  padding: 10px 15px;
+}
+  .no-gutters {
+    padding: 0;
+  }
+  
+ 
+.search-box {
+  background: rgb(40,39,41);
+  padding: 10px 13px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgb(50,50,52);
+  
+}
+
+input {
+  background-color:rgb(50,50,52);
+  border: none;
+  border-radius: 30px;
+  width: 80%;
+
+}
+.friend-drawer {
+  padding: 10px 15px;
+  display: flex;
+  vertical-align: baseline;
+  background: rgb(26,26,27);
+  transition: .3s ease;
+
+}
+  .text {
+    margin-left: 12px;
+    width: 70%;
+  }
+    h6{
+      margin-top: 6px;
+      margin-bottom: 0;
+      
+    }
+
+    
+    p {
+      margin: 0;
+    }
+  
+  
+  .time {
+    color: grey;
+  }
+  
+
+hr {
+  margin: 5px auto;
+  width: 60%;
+}
+
+.chat-bubble {
+  padding: 10px 14px;
+  background: #eee;
+  margin: 10px 30px;
+  border-radius: 9px;
+  position: relative;
+  animation: fadeIn 1s ease-in;
+  
+ 
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+
+
+.friend-drawer:hover{
+  background-color: rgb(40,39,41);
+}
+.space{
+  margin-top: 50px;
+}
+.message{
+  margin-top: 20px;
+}
+.inbox{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: var(--body-bg);
+  font-family: Helvetica, sans-serif;
+}
