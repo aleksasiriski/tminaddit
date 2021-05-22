@@ -625,9 +625,7 @@ body {
   .card-link:hover{
     color: #ceeb35;
   }
-  .make-margin{
-      margin-bottom:200px;
-  }
+  
   label{
       color:#ccc;
   }
