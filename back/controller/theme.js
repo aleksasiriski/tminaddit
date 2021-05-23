@@ -38,15 +38,15 @@ router.get("/themes/:id", async (req, res) => {
 router.get("/themes/:id/small", check.isAuthenticated, async (req, res) => {
     try {
         const id = req.params.id
-        const specificTheme= await chat.findById(id)
+        const specificTheme= await theme.findById(id)
 
         res.status(200).json({
             success: true,
-            themeTitle: specificChat.title,
-            themeAuthor: specificChat.author,
-            themeContent: specificChat.content,
-            themeUpvotes: specificChat.upvotes,
-            themeTime: specificChat.createdAt,
+            themeTitle: specificTheme.title,
+            themeAuthor: specificTheme.author,
+            themeContent: specificTheme.content,
+            themeUpvotes: specificTheme.upvotes,
+            themeTime: specificTheme.createdAt,
         })
     } catch (err) {
         res.status(404).json({
