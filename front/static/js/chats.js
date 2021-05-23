@@ -59,11 +59,12 @@ sendButton.addEventListener("click", getInput)
 
 async function getInput() {
     try {
-        const chatname = (document.querySelector("#chatname")).value
-        const username = (document.querySelector("#username")).value
+        const chatName = (document.querySelector("#chatName")).value
+        const participantsString = (document.querySelector("#participants")).value
+        const participants = participantsString.split(",")
         const newChat = {
-            name: chatname,
-            recipient: username
+            name: chatName,
+            participants: participants
         }
         await axios.post("/api/chats", newChat)
         location.reload()

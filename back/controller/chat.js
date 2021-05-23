@@ -127,25 +127,29 @@ router.get("/chats/:id/small", check.isAuthenticated, async (req, res) => {
 })
 router.post("/chats", check.isAuthenticated, async (req, res) => {
     try {
-        const chatName = req.body.name
+        const name = req.body.name
 
         const senderUsername = req.session.passport.user
         let sender = await user.findOne({"username": `${senderUsername}`})
         const senderId = sender._id
 
-        const recipientUsername = req.body.recipient
-        let recipient = await user.findOne({"username": `${recipientUsername}`})
-        const recipientId = recipient._id
+        const participantUsernames = req.body.participants
+        let participants = [senderId]
+        for (const participantUsername of participantUsernames) {
+            const participant = await user.findOne({"username": `${participantUsername}`})
+            participants.push(participant._id)
+        }
 
         const newChat = new chat({
-            name: chatName,
-            participants: [senderId, recipientId]
+            name: name,
+            participants: participants
         })
         const savedChat = await newChat.save()
-        sender.chats.push(savedChat._id)
-        recipient.chats.push(savedChat._id)
-        sender.save()
-        recipient.save()
+        participants.forEach(async (participantId) => {
+            const participant = await user.findById(participantId)
+            participant.chats.push(savedChat._id)
+            participant.save()
+        })
         res.status(200).json({
             success: true
         })
@@ -178,6 +182,8 @@ router.post("/chats/:id/recipients", check.isAuthenticated, async (req, res) => 
             specificChat.participants.push(recipientId)
             specificChat.updatedAt = new Date()
             await specificChat.save()
+            recipient.chats.push(specificChat._id)
+            await recipient.save()
             res.status(200).json({
                 success: true
             })
