@@ -23,10 +23,10 @@ function renderCards(chats) {
     chats.forEach (async (chatId) => {
         try {
             const chatSmall = await axios.get(`/api/chats/${chatId}/small`)
-            const latestMessageHour = chatSmall.data.time.prototype.getHours()
-            const latestMessageMinute = chatSmall.data.time.prototype.getMinutes()
+            const latestMessageDate = new Date(chatSmall.data.time)
+            const latestMessageHour = latestMessageDate.getHours()
+            const latestMessageMinute = latestMessageDate.getMinutes()
             cards.innerHTML += createCard(chatId, chatSmall.data.chatName, chatSmall.data.latestMessage, latestMessageHour, latestMessageMinute)
-            console.log(chatId + chatSmall.data.chatName + chatSmall.data.latestMessage + latestMessageHour + latestMessageMinute)
             addEventListeners()
         } catch (err) {
             console.log(err)
@@ -58,11 +58,13 @@ sendButton.addEventListener("click", getInput)
 
 async function getInput() {
     try {
+        const chatname = (document.querySelector("#chatname")).value
         const username = (document.querySelector("#username")).value
-        const recipient = {
+        const newChat = {
+            name: chatname,
             recipient: username
         }
-        await axios.post("/api/chats", recipient)
+        await axios.post("/api/chats", newChat)
         location.reload()
     } catch (err) {
         console.log(err)

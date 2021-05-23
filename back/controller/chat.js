@@ -69,7 +69,7 @@ router.get("/chats/:id/small", check.isAuthenticated, async (req, res) => {
         const latestMessage = specificChat.messages.pop()
         let latestMessageSender
         let latestMessageContent = ""
-        let latestMessageSentAt = new Date()
+        let latestMessageSentAt = specificChat.updatedAt
         if (latestMessage !== undefined) {
             latestMessageSender = await user.findById(latestMessage.sender)
             latestMessageContent = latestMessageSender.username + ": " + latestMessage.content
@@ -96,7 +96,7 @@ router.get("/chats/:id/small", check.isAuthenticated, async (req, res) => {
 })
 router.post("/chats", check.isAuthenticated, async (req, res) => {
     try {
-        const chatName = "New chat"
+        const chatName = req.body.name
 
         const senderUsername = req.session.passport.user
         let sender = await user.findOne({"username": `${senderUsername}`})
@@ -115,7 +115,6 @@ router.post("/chats", check.isAuthenticated, async (req, res) => {
         recipient.chats.push(savedChat._id)
         sender.save()
         recipient.save()
-
         res.status(200).json({
             success: true
         })
