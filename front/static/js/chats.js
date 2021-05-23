@@ -46,10 +46,10 @@ function createCard(chatId, chatName, latestMessage, latestMessageHour, latestMe
     <div chat-id="${chatId}" class="friend-drawer friend-drawer--onhover">
         <img class="profile-image" src="img/user-white.png" alt="">
         <div class="text">
+            <span class="time text-muted small">${latestMessageHour}:${latestMessageMinute}</span>
             <h6>${chatName}</h6>
             <p class="text-muted">${latestMessage}</p>
         </div>
-        <span class="time text-muted small">${latestMessageHour}:${latestMessageMinute}</span>
         <button id="chat-button" type="button" class="btn btn-primary">Show messages</button>
     </div>`
     return card
@@ -83,15 +83,17 @@ sendButton.addEventListener("click", getInput)
 
 async function getInput() {
     try {
-        const chatName = (document.querySelector("#chatName")).value
-        const participantsString = (document.querySelector("#participants")).value
-        const participantsStringTrimmed = participantsString.replace(/\s+/g, '')
+        const chatName = document.querySelector("#chatName")
+        const participantsString = document.querySelector("#participants")
+        const participantsStringTrimmed = participantsString.value.replace(/\s+/g, '')
         const participants = participantsStringTrimmed.split(",")
         const newChat = {
-            name: chatName,
+            name: chatName.value,
             participants: participants
         }
         await axios.post("/api/chats", newChat)
+        chatName.value = ""
+        participantsString.value = ""
         location.reload()
     } catch (err) {
         console.log(err)
