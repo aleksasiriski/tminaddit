@@ -979,3 +979,7 @@ blog-comment::before,
   background-color: rgb(40,39,41);
   color:#ceeb35;
 }
+.main-card:hover{
+  border-color: #aaa;
+}
+

@@ -95,7 +95,7 @@
                         <button class="transparent-btn card-link" ><i class="fa fa-bookmark"></i> Save</button>
                     </div>
                 </div>
-                <div class="post-comments" id="comment" hidden>
+                <div class="post-comments" id="comment">
 
                   <form>
                     <div class="form-group">
@@ -203,6 +203,7 @@
               </div>
             </div>
             <div class="col-md-1">
+               <a href="./"><i class="fa fa-window-close" aria-hidden="true"> close</i></a>
             </div>
         </div>
     </div>
@@ -230,9 +231,6 @@
         }
         else
         {
-          var att = document.createAttribute("hidden") 
-          att.value = "";   
-          comment.setAttributeNode(att)
           var comments = document.getElementById('comments')
           var at = document.createAttribute("hidden") 
           at.value = "";   
