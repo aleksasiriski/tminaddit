@@ -39,6 +39,7 @@ async function renderCards(chat, userId) {
                 cards.innerHTML += createCard(message, username)
             }
         }
+        checkForUpdates(chat.updatedAt, userId)
     } catch (err) {
         console.log(err)
     }
@@ -64,6 +65,27 @@ function createCard(message, username) {
       </div>
     </div>`
     return card
+}
+
+async function checkForUpdates(chatUpdatedAt, userId) {
+    try {
+        await sleep(5000)
+        const newUpdated = await axios.get(`/api/chats/${urlId}/updated`)
+        const newUpdatedAt = newUpdated.data.updatedAt
+        if (chatUpdatedAt == newUpdatedAt) {
+            checkForUpdates(chatUpdatedAt, userId)
+        } else {
+            const chatData = await axios.get(`/api/chats/${urlId}`)
+            const chat = chatData.data.chat
+            renderCards(chat, userId)
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 const sendButton = document.querySelector("#send-button")
