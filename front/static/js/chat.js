@@ -6,9 +6,9 @@ function getUrlId() {
     return id
 }
 
-loadPage()
+loadPage(false)
 
-async function loadPage() {
+async function loadPage(once) {
     try {
         const chatData = await axios.get(`/api/chats/${urlId}`)
         const chat = chatData.data.chat
@@ -19,14 +19,14 @@ async function loadPage() {
             chatname.innerHTML = chat.name
             const user = await axios.get(`/api/userid/self`)
             const userId = user.data.userId
-            renderCards(chat, userId)
+            renderCards(chat, userId, once)
         }
     } catch (err) {
         console.log(err)
     }
 }
 
-async function renderCards(chat, userId) {
+async function renderCards(chat, userId, once) {
     try {
         const cards = document.querySelector("#message-list")
         cards.innerHTML = ""
@@ -39,7 +39,9 @@ async function renderCards(chat, userId) {
                 cards.innerHTML += createCard(message, username)
             }
         }
-        checkForUpdates(chat.updatedAt, userId)
+        if (!once) {
+            checkForUpdates(chat.updatedAt, userId)
+        }
     } catch (err) {
         console.log(err)
     }
@@ -51,8 +53,14 @@ function createCard(message, username) {
         orient = "right"
     }
     const messageDate = new Date(message.sentAt)
-    const messageHour = messageDate.getHours()
-    const messageMinute = messageDate.getMinutes()
+    let messageHour = messageDate.getHours()
+    if (messageHour < 10) {
+        messageHour = "0" + messageHour
+    }
+    let messageMinute = messageDate.getMinutes()
+    if (messageMinute < 10) {
+        messageMinute = "0" + messageMinute
+    }
     const card = `
     <div class="msg ${orient}-msg">
       <div class="msg-img" style="background-image: url(img/user.png)"></div>
@@ -67,6 +75,16 @@ function createCard(message, username) {
     return card
 }
 
+async function preRenderCards(userId) {
+    try {
+        const chatData = await axios.get(`/api/chats/${urlId}`)
+        const chat = chatData.data.chat
+        renderCards(chat, userId, false)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 async function checkForUpdates(chatUpdatedAt, userId) {
     try {
         await sleep(5000)
@@ -75,9 +93,7 @@ async function checkForUpdates(chatUpdatedAt, userId) {
         if (chatUpdatedAt == newUpdatedAt) {
             checkForUpdates(chatUpdatedAt, userId)
         } else {
-            const chatData = await axios.get(`/api/chats/${urlId}`)
-            const chat = chatData.data.chat
-            renderCards(chat, userId)
+            preRenderCards(userId)
         }
     } catch (err) {
         console.log(err)
@@ -93,9 +109,10 @@ sendButton.addEventListener("click", getInput)
 
 async function getInput() {
     try {
-        const message = (document.querySelector("#message")).value
-        await axios.post(`/api/chats/${urlId}/messages`, {content: message})
-        location.reload()
+        const message = document.querySelector("#message")
+        await axios.post(`/api/chats/${urlId}/messages`, {content: message.value})
+        message.value = ""
+        loadPage(true)
     } catch (err) {
         console.log(err)
     }
