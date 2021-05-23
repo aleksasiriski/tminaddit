@@ -61,7 +61,8 @@ async function getInput() {
     try {
         const chatName = (document.querySelector("#chatName")).value
         const participantsString = (document.querySelector("#participants")).value
-        const participants = participantsString.split(",")
+        const participantsStringTrimmed = participantsString.replace(/\s+/g, '')
+        const participants = participantsStringTrimmed.split(",")
         const newChat = {
             name: chatName,
             participants: participants
