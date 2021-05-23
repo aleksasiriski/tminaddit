@@ -1,10 +1,12 @@
 loadPage()
-let madeChats = 0
+let madeChats
 
 async function loadPage() {
     try {
         const chats = await axios.get("/api/chats")
+        madeChats = 0
         renderCards(chats.data.chats)
+        checkForMadeCards(chats.length)
     } catch (err) {
         console.log(err)
     }
@@ -22,7 +24,7 @@ function addEventListeners() {
 async function renderCards(chats) {
     try {
         const cards = document.querySelector("#chat-list")
-        madeChats = 0
+        cards.innerHTML = ""
         chats.forEach (async (chatId) => {
             try {
                 const chatSmall = await axios.get(`/api/chats/${chatId}/small`)
@@ -41,7 +43,6 @@ async function renderCards(chats) {
                 console.log(err)
             }
         })
-        checkForMadeCards(chats.length)
     } catch (err) {
         console.log(err)
     }
@@ -72,6 +73,8 @@ async function checkForMadeCards(chatLength) {
         await sleep(1000)
         if (madeChats == chatLength) {
             addEventListeners()
+            await sleep(30000)
+            loadPage()
         } else {
             checkForMadeCards(chatLength)
         }
@@ -100,7 +103,7 @@ async function getInput() {
         await axios.post("/api/chats", newChat)
         chatName.value = ""
         participantsString.value = ""
-        location.reload()
+        loadPage()
     } catch (err) {
         console.log(err)
     }
