@@ -1,4 +1,5 @@
 loadPage()
+let madeChats = 0
 
 async function loadPage() {
     try {
@@ -18,20 +19,26 @@ function addEventListeners() {
     )
 }
 
-function renderCards(chats) {
-    const cards = document.querySelector("#chat-list")
-    chats.forEach (async (chatId) => {
-        try {
-            const chatSmall = await axios.get(`/api/chats/${chatId}/small`)
-            const latestMessageDate = new Date(chatSmall.data.time)
-            const latestMessageHour = latestMessageDate.getHours()
-            const latestMessageMinute = latestMessageDate.getMinutes()
-            cards.innerHTML += createCard(chatId, chatSmall.data.chatName, chatSmall.data.latestMessage, latestMessageHour, latestMessageMinute)
-            addEventListeners()
-        } catch (err) {
-            console.log(err)
-        }
-    })
+async function renderCards(chats) {
+    try {
+        const cards = document.querySelector("#chat-list")
+        madeChats = 0
+        chats.forEach (async (chatId) => {
+            try {
+                const chatSmall = await axios.get(`/api/chats/${chatId}/small`)
+                const latestMessageDate = new Date(chatSmall.data.time)
+                const latestMessageHour = latestMessageDate.getHours()
+                const latestMessageMinute = latestMessageDate.getMinutes()
+                cards.innerHTML += createCard(chatId, chatSmall.data.chatName, chatSmall.data.latestMessage, latestMessageHour, latestMessageMinute)
+                madeChats++
+            } catch (err) {
+                console.log(err)
+            }
+        })
+        checkForMadeCards(chats.length)
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 function createCard(chatId, chatName, latestMessage, latestMessageHour, latestMessageMinute) {
@@ -52,6 +59,23 @@ function getId(btn) {
     const parent = btn.parentElement
     const id = parent.getAttribute("chat-id")
     return id
+}
+
+async function checkForMadeCards(chatLength) {
+    try {
+        await sleep(1000)
+        if (madeChats == chatLength) {
+            addEventListeners()
+        } else {
+            checkForMadeCards(chatLength)
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 const sendButton = document.querySelector("#start-chat-button")
