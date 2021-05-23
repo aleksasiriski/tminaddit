@@ -646,7 +646,7 @@ body {
     --msger-bg: #fff;
     --border: 2px solid rgb(39,39,42);
     --left-msg-bg: #ccc;
-    --right-msg-bg: #ceeb35;
+    --right-msg-bg: #1e7e3d;
   }
   html {
     box-sizing: border-box;
