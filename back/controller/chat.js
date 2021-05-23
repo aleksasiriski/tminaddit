@@ -164,28 +164,28 @@ router.post("/chats/:id/recipients", check.isAuthenticated, async (req, res) => 
 router.post("/chats/:id/messages", check.isAuthenticated, async (req, res) => {
     try {
         const chatId = req.params.id
-        const chat = await chat.findById(chatId)
+        const specificChat = await chat.findById(chatId)
 
         const senderUsername = req.session.passport.user
         const sender = await user.findOne({"username": `${senderUsername}`})
         const senderId = sender._id
 
         let found = false
-        chat.participants.forEach((participant) => {
+        specificChat.participants.forEach((participant) => {
             if (!found && participant == senderId) {
                 found = true
             }
         })
         if (found) {
-            const content = req.body.message
+            const content = req.body.content
             const message = {
                 sender: senderId,
                 content: content,
                 sentAt: new Date(),
                 edited: false
             }
-            chat.messages.push(message)
-            await chat.save()
+            specificChat.messages.push(message)
+            await specificChat.save()
             res.status(200).json({
                 success: true
             })

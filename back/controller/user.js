@@ -42,12 +42,21 @@ router.delete("/logout", check.isAuthenticated, async (req, res) => {
         res.redirect("/")
     }
 })
-router.get("/user", check.isAuthenticated, async (req, res) => {
+router.get("/username/:id", check.isAuthenticated, async (req, res) => {
     try {
-        res.status(200).json({
-            success: true,
-            user: req.session.passport.user
-        })
+        const userId = req.params.id
+        if (userId == "self") {
+            res.status(200).json({
+                success: true,
+                username: req.session.passport.user
+            })
+        } else {
+            const specificUser = await user.findById(userId)
+            res.status(200).json({
+                success: true,
+                username: specificUser.username
+            })
+        }
     } catch (err) {
         res.status(404).json({
             success: false,
@@ -55,15 +64,22 @@ router.get("/user", check.isAuthenticated, async (req, res) => {
         })
     }
 })
-router.get("/username/:id", check.isAuthenticated, async (req, res) => {
+router.get("/userId/:username", check.isAuthenticated, async (req, res) => {
     try {
-        const userId = req.params.id
-        const specificUser = await user.findById(userId)
-        const username = specificUser.username
-        res.status(200).json({
-            success: true,
-            username: username
-        })
+        const username = req.params.username
+        if (username == "self") {
+            const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+            res.status(200).json({
+                success: true,
+                userId: specificUser._id
+            })
+        } else {
+            const specificUser = await user.findOne({"username": `${username}`})
+            res.status(200).json({
+                success: true,
+                userId: specificUser._id
+            })
+        }
     } catch (err) {
         res.status(404).json({
             success: false,

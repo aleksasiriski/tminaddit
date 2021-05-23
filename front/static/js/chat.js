@@ -10,74 +10,60 @@ loadPage()
 
 async function loadPage() {
     try {
-        const dmData = await axios.get(`/api/dms/${urlId}`)
-        const dm = dmData.data.dm
-        if (dm == "NULL") {
-            console.log("DM not found")
+        const chatData = await axios.get(`/api/chats/${urlId}`)
+        const chat = chatData.data.chat
+        if (chat == "NULL") {
+            console.log("Chat not found")
         } else {
-            const user = await axios.get(`/api/username/${dm.id}`)
-            const username = user.data.username
-            renderCards(dm, username)
-            addEventListeners()
+            const chatname = document.querySelector("#chatname")
+            chatname.innerHTML = chat.name
+            const user = await axios.get(`/api/userid/self`)
+            const userId = user.data.userId
+            renderCards(chat, userId)
         }
     } catch (err) {
         console.log(err)
     }
 }
 
-function addEventListeners() {
-    const deleteBtns = [...document.querySelectorAll(".delete-button")]
-    deleteBtns.forEach((btn) =>
-        btn.addEventListener("click", () => deleteData(btn))
-    )
-}
-
-function renderCards(dm, username) {
-    const cards = document.querySelector("#message-list")
-    dm.messages.forEach((message) => {
-        if (message.id == dm.id) {
-            cards.innerHTML += createCard(message, username)
-        } else {
-            cards.innerHTML += createCard(message, "me")
+async function renderCards(chat, userId) {
+    try {
+        const cards = document.querySelector("#message-list")
+        cards.innerHTML = ""
+        for (const message of chat.messages) {
+            if (message.sender == userId) {
+                cards.innerHTML += createCard(message, "me")
+            } else {
+                const user = await axios.get(`/api/username/${message.sender}`)
+                const username = user.data.username
+                cards.innerHTML += createCard(message, username)
+            }
         }
-    })
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 function createCard(message, username) {
-    let prefix = ""
-    let suffix = ""
+    let orient = "left"
     if (username == "me") {
-        prefix = `<div class="col-sm-8"></div>`
-    } else {
-        suffix = `<div class="col-sm-8"></div>`
+        orient = "right"
     }
+    const messageDate = new Date(message.sentAt)
+    const messageHour = messageDate.getHours()
+    const messageMinute = messageDate.getMinutes()
     const card = `
-    ${prefix}
-    <div class="col-sm-4 text-center" message-id="${message._id}">
-        <h3>${username}</h2>
-        <p>${message.content}</p>
-    </div>
-    ${suffix}`
-    //<button type="button" class="btn btn-secondary delete-button">Delete</button>
-    //<p>${message.sentAt}</p>
+    <div class="msg ${orient}-msg">
+      <div class="msg-img" style="background-image: url(img/user.png)"></div>
+      <div class="msg-bubble">
+        <div class="msg-info">
+          <div class="msg-info-name">${username}</div>
+          <div class="msg-info-time">${messageHour}:${messageMinute}</div>
+        </div>
+        <div class="msg-text">${message.content}</div>
+      </div>
+    </div>`
     return card
-}
-
-function getId(btn) {
-    const parent = btn.parentElement
-    const id = parent.getAttribute("dm-id")
-    return id
-}
-
-async function deleteData(btn) {
-    const id = getId(btn)
-    try {
-        //await axios.delete(`/api/message/${id}`)
-        //location.reload()
-        console.log("Tried to remove message")
-    } catch (err) {
-        console.log(err)
-    }
 }
 
 const sendButton = document.querySelector("#send-button")
@@ -86,11 +72,7 @@ sendButton.addEventListener("click", getInput)
 async function getInput() {
     try {
         const message = (document.querySelector("#message")).value
-
-        const content = {
-            content: message
-        }
-        await axios.post(`api/dms/${urlId}`, content)
+        await axios.post(`/api/chats/${urlId}/messages`, {content: message})
         location.reload()
     } catch (err) {
         console.log(err)

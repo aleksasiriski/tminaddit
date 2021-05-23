@@ -10,8 +10,8 @@ async function loadPage() {
 }
 
 function addEventListeners() {
-    const messagesBtn = [...document.querySelectorAll("#message-button")]
-    messagesBtn.forEach((btn) =>
+    const chatBtns = [...document.querySelectorAll("#chat-button")]
+    chatBtns.forEach((btn) =>
         btn.addEventListener("click", () => {
             window.location.href = `chat?id=${getId(btn)}`
         })
@@ -36,13 +36,14 @@ function renderCards(chats) {
 
 function createCard(chatId, chatName, latestMessage, latestMessageHour, latestMessageMinute) {
     const card = `
-    <div chat-id=${chatId}" class="friend-drawer friend-drawer--onhover">
+    <div chat-id="${chatId}" class="friend-drawer friend-drawer--onhover">
         <img class="profile-image" src="img/user-white.png" alt="">
         <div class="text">
             <h6>${chatName}</h6>
             <p class="text-muted">${latestMessage}</p>
         </div>
         <span class="time text-muted small">${latestMessageHour}:${latestMessageMinute}</span>
+        <button id="chat-button" type="button" class="btn btn-primary">Show messages</button>
     </div>`
     return card
 }
