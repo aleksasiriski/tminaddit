@@ -27,8 +27,14 @@ async function renderCards(chats) {
             try {
                 const chatSmall = await axios.get(`/api/chats/${chatId}/small`)
                 const latestMessageDate = new Date(chatSmall.data.time)
-                const latestMessageHour = latestMessageDate.getHours()
-                const latestMessageMinute = latestMessageDate.getMinutes()
+                let latestMessageHour = latestMessageDate.getHours()
+                if (latestMessageHour < 10) {
+                    latestMessageHour = "0" + latestMessageHour
+                }
+                let latestMessageMinute = latestMessageDate.getMinutes()
+                if (latestMessageMinute < 10) {
+                    latestMessageMinute = "0" + latestMessageMinute
+                }
                 cards.innerHTML += createCard(chatId, chatSmall.data.chatName, chatSmall.data.latestMessage, latestMessageHour, latestMessageMinute)
                 madeChats++
             } catch (err) {
