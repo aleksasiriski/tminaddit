@@ -1,4 +1,4 @@
-const { post } = require("../../../back/controller/theme");
+//const { theme } = require("../../../back/controller/theme");
 
 GetData();
 
@@ -6,7 +6,7 @@ async function GetData() {
     try {
         let themes = await axios.get("/api/themes");
         RenderCards(themes.data.themes);
-        AddEventListeners();
+        //AddEventListeners();
     } catch (err) {
         console.log(err);
     }
@@ -30,7 +30,7 @@ function RenderCards(themes) {
     const cardsDiv = document.querySelector("#themes");
     let cards = "";
     themes.forEach((theme) => {
-        themes += CreateCard(theme);
+        cards += CreateCard(theme);
     });
 
     cardsDiv.innerHTML = cards;
