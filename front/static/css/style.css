@@ -121,7 +121,7 @@ h1{
     border-color:rgb(46,46,48) ;
 }
 hr{
-    border-top-color:rgb(52,114,176);
+    border-top-color:#ceeb35;
 }
 .log-in-out{
     margin-left: 20px;
@@ -982,4 +982,9 @@ blog-comment::before,
 .main-card:hover{
   border-color: #aaa;
 }
-
+.join-btn{
+  margin-top: 5px;
+}
+h1{
+  text-align: center;
+}
