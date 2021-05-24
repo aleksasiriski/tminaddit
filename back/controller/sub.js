@@ -52,6 +52,22 @@ router.get("/subs/:id/themes", async (req, res) => {
         })
     }
 })
+router.get("/subs/:id/small", async (req, res) => {
+    try {
+        const id = req.params.id
+        const specificSub = await sub.findById(id)
+        res.status(200).json({
+            success: true,
+            name: specificSub.name,
+            description: specificSub.description
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
 router.get("/subs/:id/name", async (req, res) => {
     try {
         const id = req.params.id

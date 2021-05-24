@@ -158,19 +158,20 @@ sendButton.addEventListener("click", getInput)
 async function getInput() {
     try {
         const post= document.querySelector("#posts")
-        if (post.hasAttribute("active"))
-        {
+        
+            
             const title = document.querySelector("#title")
             const content = document.querySelector("#content")
-        }
+        
         const newtheme = {
             title: title.value,
-            content:content.value,
+            content: content.value,
             sub: urlId
         }
         await axios.post("/api/themes", newtheme)
-        themeName.value = ""
-        participantsString.value = ""
+
+        title.value = ""
+        content.value = ""
         loadPage()
     } catch (err) {
         console.log(err)
