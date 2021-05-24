@@ -5,7 +5,7 @@ async function loadPage() {
         const subsIds = await axios.get("/api/user/subs")
         for(const subId of subsIds.data.subs) {
             const sub = await axios.get(`/api/subs/${subId}/themes`)
-            renderCards(sub.data.themes)
+            await renderCards(sub.data.themes)
         }
         addEventListeners()
     } catch (err) {
@@ -14,12 +14,33 @@ async function loadPage() {
 }
 
 function addEventListeners() {
-    const themeBtns = [...document.querySelectorAll("#theme-button")]
-    themeBtns.forEach((btn) =>
+    const upvoteBtns = [...document.querySelectorAll("#upvote-button")]
+    upvoteBtns.forEach((btn) =>
         btn.addEventListener("click", () => {
-            window.location.href = `theme?id=${getId(btn)}`
+            voteOnTheme(btn, "upvote")
         })
     )
+    const downvoteBtns = [...document.querySelectorAll("#downvote-button")]
+    downvoteBtns.forEach((btn) =>
+        btn.addEventListener("click", () => {
+            voteOnTheme(btn, "downvote")
+        })
+    )
+}
+
+async function voteOnTheme(btn, vote) {
+    const themeId = getId(btn)
+    let response = false
+    if (vote == "upvote") {
+        const responseBody = await axios.put(`/api/themes/${themeId}/upvote`)
+        response = responseBody.data.reload
+    } else {
+        const responseBody = await axios.put(`/api/themes/${themeId}/downvote`)
+        response = responseBody.data.reload
+    }
+    if (response) {
+        loadPage()
+    }
 }
 
 async function renderCards(themes) {
@@ -95,8 +116,8 @@ function createCard(theme, authorName, subName, themeTime) {
                             <p class="card-text">${theme.content}</p>
                         </div>
                         <div theme-id="${theme._id}" class="card-footer">
-                            <button class="transparent-btn card-link"><i class="fa fa-arrow-up"></i>${theme.upvotes}</button>
-                            <button class="transparent-btn card-link"><i class="fa fa-arrow-down"></i> </button>
+                            <button id="upvote-button" class="transparent-btn card-link"><i class="fa fa-arrow-up"></i>${theme.upvotes}</button>
+                            <button id="downvote-button" class="transparent-btn card-link"><i class="fa fa-arrow-down"></i> </button>
                             <a href="/theme?id=${theme._id}"><button class="transparent-btn card-link"><i class="fa fa-comment"></i> Comment</button></a>
                             <button class="transparent-btn card-link" onclick="share()"><i class="fa fa-mail-forward"></i> Share</button>
                             <button class="transparent-btn card-link"><i class="fa fa-bookmark"></i> Save</button>
