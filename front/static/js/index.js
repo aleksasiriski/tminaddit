@@ -66,7 +66,7 @@ function createCard(theme, authorName, subName, themeTime) {
                                     </div>
                                     <div class="ml-2">
                                         <div class="h5 m-0">${authorName}</div>
-                                        <a href="/subs?id=${theme.sub}">
+                                        <a href="/sub?id=${theme.sub}">
                                             <div class="h7 text-muted">r/${subName}</div>
                                         </a>
                                     </div>
