@@ -42,11 +42,15 @@ router.get("/themes/:id/small", check.isAuthenticated, async (req, res) => {
 
         res.status(200).json({
             success: true,
-            themeTitle: specificTheme.title,
-            themeAuthor: specificTheme.author,
-            themeContent: specificTheme.content,
-            themeUpvotes: specificTheme.upvotes,
-            themeTime: specificTheme.createdAt,
+            theme: {
+                _id: specificTheme._id,
+                sub: specificTheme.sub,
+                title: specificTheme.title,
+                author: specificTheme.author,
+                content: specificTheme.content,
+                upvotes: specificTheme.upvotes,
+                time: specificTheme.createdAt
+            }
         })
     } catch (err) {
         res.status(404).json({

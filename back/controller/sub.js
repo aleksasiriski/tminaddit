@@ -35,16 +35,46 @@ router.get("/subs/:id", async (req, res) => {
         })
     }
 })
+router.get("/subs/:id/themes", async (req, res) => {
+    try {
+        const id = req.params.id
+        const specificSub = await sub.findById(id)
+        res.status(200).json({
+            success: true,
+            themes: specificSub.themes
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+router.get("/subs/:id/name", async (req, res) => {
+    try {
+        const id = req.params.id
+        const specificSub = await sub.findById(id)
+        res.status(200).json({
+            success: true,
+            name: specificSub.name
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
 router.post("/subs", check.isAuthenticated, async (req, res) => {
     try {
         const name = req.body.name
         const description = req.body.description
-        const icon = req.body.icon
+        //const icon = req.body.icon
         const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
         const newSubBody = {
             name: name,
             description: description,
-            icon: icon,
+            //icon: icon,
             mainModerator: specificUser._id
         }
         const newSub = new sub(newSubBody)

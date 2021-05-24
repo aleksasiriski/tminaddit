@@ -26,11 +26,6 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-// views
-app.get("/", (req, res) => {
-    res.render("../front/views/index.ejs")
-})
-
 // users
 const userViewRoute = require("./back/views/user")
 app.use("/", userViewRoute)

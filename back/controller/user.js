@@ -87,5 +87,19 @@ router.get("/userId/:username", check.isAuthenticated, async (req, res) => {
         })
     }
 })
+router.get("/user/subs", check.isAuthenticated, async (req, res) => {
+    try {
+        const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        res.status(200).json({
+            success: true,
+            subs: specificUser.followedSubs
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
 //export
 module.exports = router
