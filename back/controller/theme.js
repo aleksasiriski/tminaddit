@@ -120,6 +120,7 @@ router.put("/themes/:id/upvote", check.isAuthenticated, async (req, res) => {
         const specificTheme = await theme.findById(id)
         const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
         let found = false
+        let reload = false
         specificUser.upvotes.themes.forEach((themeId) => {
             if (!found && themeId == specificTheme._id) {
                 found = true
@@ -142,9 +143,11 @@ router.put("/themes/:id/upvote", check.isAuthenticated, async (req, res) => {
             }
             specificTheme.save()
             specificUser.save()
+            reload = true
         }
         res.status(200).json({
-            success: true
+            success: true,
+            reload: reload
         })
     } catch (err) {
         res.status(404).json({
