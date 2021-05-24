@@ -54,12 +54,18 @@ function createCard(message, username) {
     }
     const messageDate = new Date(message.sentAt)
     let messageHour = messageDate.getHours()
-    if (messageHour < 10) {
-        messageHour = "0" + messageHour
-    }
     let messageMinute = messageDate.getMinutes()
-    if (messageMinute < 10) {
-        messageMinute = "0" + messageMinute
+    let messageTime = new Date()
+    if (messageTime.getHours() == messageHour && messageTime.getMinutes() == messageMinute) {
+        messageTime = "Now"
+    } else {
+        if (messageHour < 10) {
+            messageHour = "0" + messageHour
+        }
+        if (messageMinute < 10) {
+            messageMinute = "0" + messageMinute
+        }
+        messageTime = messageHour + ":" + messageMinute
     }
     const card = `
     <div class="msg ${orient}-msg">
@@ -67,7 +73,7 @@ function createCard(message, username) {
       <div class="msg-bubble">
         <div class="msg-info">
           <div class="msg-info-name">${username}</div>
-          <div class="msg-info-time">${messageHour}:${messageMinute}</div>
+          <div class="msg-info-time">${messageTime}</div>
         </div>
         <div class="msg-text">${message.content}</div>
       </div>

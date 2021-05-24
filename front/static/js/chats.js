@@ -6,7 +6,7 @@ async function loadPage() {
         const chats = await axios.get("/api/chats")
         madeChats = 0
         renderCards(chats.data.chats)
-        checkForMadeCards(chats.length)
+        checkForMadeCards(chats.data.chats.length)
     } catch (err) {
         console.log(err)
     }
@@ -30,14 +30,20 @@ async function renderCards(chats) {
                 const chatSmall = await axios.get(`/api/chats/${chatId}/small`)
                 const latestMessageDate = new Date(chatSmall.data.time)
                 let latestMessageHour = latestMessageDate.getHours()
-                if (latestMessageHour < 10) {
-                    latestMessageHour = "0" + latestMessageHour
-                }
                 let latestMessageMinute = latestMessageDate.getMinutes()
-                if (latestMessageMinute < 10) {
-                    latestMessageMinute = "0" + latestMessageMinute
+                let latestMessageTime = new Date()
+                if (latestMessageTime.getHours() == latestMessageHour && latestMessageTime.getMinutes() == latestMessageMinute) {
+                    latestMessageTime = "Now"
+                } else {
+                    if (latestMessageHour < 10) {
+                        latestMessageHour = "0" + latestMessageHour
+                    }
+                    if (latestMessageMinute < 10) {
+                        latestMessageMinute = "0" + latestMessageMinute
+                    }
+                    latestMessageTime = latestMessageHour + ":" + latestMessageMinute
                 }
-                cards.innerHTML += createCard(chatId, chatSmall.data.chatName, chatSmall.data.latestMessage, latestMessageHour, latestMessageMinute)
+                cards.innerHTML += createCard(chatId, chatSmall.data.chatName, chatSmall.data.latestMessage, latestMessageTime)
                 madeChats++
             } catch (err) {
                 console.log(err)
@@ -48,12 +54,12 @@ async function renderCards(chats) {
     }
 }
 
-function createCard(chatId, chatName, latestMessage, latestMessageHour, latestMessageMinute) {
+function createCard(chatId, chatName, latestMessage, latestMessageTime) {
     const card = `
     <div chat-id="${chatId}" class="friend-drawer friend-drawer--onhover">
         <img class="profile-image" src="img/user-white.png" alt="">
         <div class="text">
-            <span class="time text-muted small">${latestMessageHour}:${latestMessageMinute}</span>
+            <span class="time text-muted small">${latestMessageTime}</span>
             <h6>${chatName}</h6>
             <p class="text-muted">${latestMessage}</p>
         </div>
