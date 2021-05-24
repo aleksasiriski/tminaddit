@@ -41,7 +41,9 @@ router.get("/subs/:id/themes", async (req, res) => {
         const specificSub = await sub.findById(id)
         res.status(200).json({
             success: true,
-            themes: specificSub.themes
+            name: specificSub.name,
+            themes: specificSub.themes,
+            description: specificSub.description
         })
     } catch (err) {
         res.status(404).json({
