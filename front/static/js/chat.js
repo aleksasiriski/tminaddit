@@ -15,8 +15,8 @@ async function loadPage(once) {
         if (chat == "NULL") {
             console.log("Chat not found")
         } else {
-            const chatname = document.querySelector("#chatname")
-            chatname.innerHTML = chat.name
+            const chatName = document.querySelector("#chatName")
+            chatName.innerHTML = chat.name
             const user = await axios.get(`/api/userid/self`)
             const userId = user.data.userId
             renderCards(chat, userId, once)
