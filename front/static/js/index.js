@@ -138,25 +138,3 @@ function getId(btn) {
     const id = parent.getAttribute("theme-id")
     return id
 }
-
-const sendButton = document.querySelector("#start-theme-button")
-sendButton.addEventListener("click", getInput)
-
-async function getInput() {
-    try {
-        const themeName = document.querySelector("#themeName")
-        const participantsString = document.querySelector("#participants")
-        const participantsStringTrimmed = participantsString.value.replace(/\s+/g, '')
-        const participants = participantsStringTrimmed.split(",")
-        const newtheme = {
-            name: themeName.value,
-            participants: participants
-        }
-        await axios.post("/api/themes", newtheme)
-        themeName.value = ""
-        participantsString.value = ""
-        loadPage()
-    } catch (err) {
-        console.log(err)
-    }
-}
