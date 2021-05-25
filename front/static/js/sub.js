@@ -51,10 +51,10 @@ async function voteOnTheme(btn, vote) {
     let response = false
     if (vote == "upvote") {
         const responseBody = await axios.put(`/api/themes/${themeId}/upvote`)
-        response = responseBody.data.success
+        response = responseBody.data.reload
     } else {
         const responseBody = await axios.put(`/api/themes/${themeId}/downvote`)
-        response = responseBody.data.success
+        response = responseBody.data.reload
     }
     if (response) {
         loadPage()
