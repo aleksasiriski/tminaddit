@@ -7,7 +7,8 @@ async function loadPage() {
             const logInOut = document.querySelector("#logInOut")
             logInOut.innerHTML = "Logout"
             const navbar = document.querySelector("#navbar")
-            navbar.innerHTML = `<a href="/chats"><button class="btn btn-primary">Chats</button></a>`
+            navbar.innerHTML+=`<a href="/chats"><button class="transparent-btn card-link nav-button"><i class="fa fa-comments"></i></button></a>`
+           
             const subsIds = await axios.get("/api/user/subs")
             for(const subId of subsIds.data.subs) {
                 const sub = await axios.get(`/api/subs/${subId}/themes`)

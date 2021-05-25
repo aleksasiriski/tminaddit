@@ -994,3 +994,13 @@ blog-comment::before,
 h1{
   text-align: center;
 }
+.nav-button{
+  background-color: rgb(26,26,27);
+  margin-left: 20px;
+  
+}
+.nav-button:hover{
+  background-color: rgb(26,26,27);
+  margin-left: 20px;
+  
+}
