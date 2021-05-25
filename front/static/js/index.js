@@ -2,12 +2,17 @@ loadPage()
 
 async function loadPage() {
     try {
-        const subsIds = await axios.get("/api/user/subs")
-        for(const subId of subsIds.data.subs) {
-            const sub = await axios.get(`/api/subs/${subId}/themes`)
-            await renderCards(sub.data.themes)
+        const authenticated = await axios.get("/api/authenticated")
+        if (authenticated.data.success) {
+            const logInOut = document.querySelector("#logInOut")
+            logInOut.innerHTML = "Logout"
+            const subsIds = await axios.get("/api/user/subs")
+            for(const subId of subsIds.data.subs) {
+                const sub = await axios.get(`/api/subs/${subId}/themes`)
+                await renderCards(sub.data.themes)
+            }
+            addEventListeners()
         }
-        addEventListeners()
     } catch (err) {
         console.log(err)
     }

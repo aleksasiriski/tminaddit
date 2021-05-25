@@ -13,6 +13,22 @@ passport.deserializeUser(user.deserializeUser())
 router.use(methodOverride("_method"))
 
 //users
+router.get("/authenticated", async (req, res) => {
+    try {
+        let success = false
+        if (req.isAuthenticated()) {
+            success = true
+        }
+        res.status(200).json({
+            success: success
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
 router.post("/login", check.isNotAuthenticated, passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login"
@@ -37,14 +53,14 @@ router.post("/register", check.isNotAuthenticated, async (req, res) => {
 router.delete("/logout", check.isAuthenticated, async (req, res) => {
     try {
         req.logOut()
-        res.redirect("/login")
+        res.redirect("/")
     } catch {
         res.redirect("/")
     }
 })
-router.get("/username/:id", check.isAuthenticated, async (req, res) => {
+router.get("/username/:userId", check.isAuthenticated, async (req, res) => {
     try {
-        const userId = req.params.id
+        const userId = req.params.userId
         if (userId == "self") {
             res.status(200).json({
                 success: true,
