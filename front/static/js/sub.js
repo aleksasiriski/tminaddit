@@ -4,13 +4,22 @@ const urlId = getUrlId()
 function getUrlId() {
     const urlParams = new URLSearchParams(window.location.search)
     const id = urlParams.get("id")
+    if (id == null) {
+        window.location.href = "/subs"
+    }
     return id
 }
 loadPage()
 
 async function loadPage() {
     try {
-
+        const authenticated = await axios.get("/api/authenticated")
+        if (authenticated.data.success) {
+            const logInOut = document.querySelector("#logInOut")
+            logInOut.innerHTML = "Logout"
+            const navbar = document.querySelector("#navbar")
+            navbar.innerHTML = `<a href="/chats"><button class="btn btn-primary">Chats</button></a>`
+        }
         const sub = await axios.get(`/api/subs/${urlId}/themes`)
         const subName = document.querySelector("#subName")
         subName.innerHTML = sub.data.name
@@ -18,9 +27,7 @@ async function loadPage() {
         subNameh4.innerHTML = "t/"+ sub.data.name
         const subDescription= document.querySelector("#subDescription")
         subDescription.innerHTML = sub.data.description
-
         await renderCards(sub.data.themes)
-        
         addEventListeners()
     } catch (err) {
         console.log(err)

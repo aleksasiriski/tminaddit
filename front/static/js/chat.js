@@ -3,6 +3,9 @@ const urlId = getUrlId()
 function getUrlId() {
     const urlParams = new URLSearchParams(window.location.search)
     const id = urlParams.get("id")
+    if (id == null) {
+        window.location.href = "/chats"
+    }
     return id
 }
 

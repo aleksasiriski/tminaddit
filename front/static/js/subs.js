@@ -3,6 +3,13 @@ loadPage()
 
 async function loadPage() {
     try {
+        const authenticated = await axios.get("/api/authenticated")
+        if (authenticated.data.success) {
+            const logInOut = document.querySelector("#logInOut")
+            logInOut.innerHTML = "Logout"
+            const navbar = document.querySelector("#navbar")
+            navbar.innerHTML = `<a href="/chats"><button class="btn btn-primary">Chats</button></a>`
+        }
         const subs = await axios.get("/api/subs")
         await renderCards(subs.data.subs)
         addEventListeners()
