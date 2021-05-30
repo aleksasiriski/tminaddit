@@ -9,8 +9,8 @@ async function loadPage() {
             logInOut.innerHTML = "Logout"
             const navbar = document.querySelector("#navbar")
             navbar.innerHTML = ""
-            navbar.innerHTML+=`<a href="/chats"><button class="transparent-btn card-link nav-button"><i class="fa fa-comments"></i></button></a>`
-            navbar.innerHTML+=`<a href="/profile"><button class="btn btn-primary nav-button">Profile</button></a>"`
+            navbar.innerHTML += `<a href="/chats"><button class="transparent-btn card-link nav-button"><i class="fa fa-comments"></i></button></a>`
+            navbar.innerHTML += `<a href="/profile"><button class="transparent-btn card-link" ><i  class="fa fa-user"></i></button></a>`
         }
         const subs = await axios.get("/api/subs")
         await renderCards(subs.data.subs)
@@ -23,11 +23,11 @@ async function loadPage() {
 
 
 function addEventListeners() {
-    const shareButton=document.querySelector("#btn-post")
+    const shareButton = document.querySelector("#btn-post")
     shareButton.addEventListener("click", () => {
-       getInput()
+        getInput()
     })
-    
+
 }
 
 
@@ -35,11 +35,11 @@ async function renderCards(sub) {
     try {
         const cards = document.querySelector("#sub-list")
         cards.innerHTML = ""
-        subName=sub.data.name
-        subDescription=sub.data.description
-            cards.innerHTML += createCard(subName, subDescription)
-        }
-     catch (err) {
+        subName = sub.data.name
+        subDescription = sub.data.description
+        cards.innerHTML += createCard(subName, subDescription)
+    }
+    catch (err) {
         console.log(err)
     }
 }
@@ -48,7 +48,7 @@ async function renderCards(subs) {
     try {
         const cards = document.querySelector("#sub-list")
         cards.innerHTML = ""
-        for(const sub of subs) {
+        for (const sub of subs) {
             cards.innerHTML += createCard(sub)
         }
     } catch (err) {
@@ -99,9 +99,9 @@ sendButton.addEventListener("click", getInput)
 
 async function getInput() {
     try {
-            const name= document.querySelector("#name")
-            const description = document.querySelector("#description")
-        
+        const name = document.querySelector("#name")
+        const description = document.querySelector("#description")
+
         const newsub = {
             name: name.value,
             description: description.value,
