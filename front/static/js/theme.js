@@ -24,9 +24,9 @@ async function loadPage() {
         const authorObject = await axios.get(`/api/username/${authorID}`)
         const userName = document.querySelector("#userName")
         userName.innerHTML = authorObject.data.username
-        const subID = theme.sub
-        const subObject = await axios.get(`/api/subs/${subID}`)
         const sub = document.querySelector("#sub")
+        const subID = theme.sub
+        const subObject = await axios.get(`/api/subs/${subID}/name`)
         const subName = subObject.data.name
         sub.innerHTML = `<a id = "subName" href="/sub?id=${subID}"><div class="h7 text-muted">${subName}</div></a>`
         const text = document.querySelector("#text")

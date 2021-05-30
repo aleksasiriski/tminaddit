@@ -58,7 +58,7 @@ router.delete("/logout", check.isAuthenticated, async (req, res) => {
         res.redirect("/")
     }
 })
-router.get("/username/:userId", check.isAuthenticated, async (req, res) => {
+router.get("/username/:userId", async (req, res) => {
     try {
         const userId = req.params.userId
         if (userId == "self") {
@@ -80,7 +80,7 @@ router.get("/username/:userId", check.isAuthenticated, async (req, res) => {
         })
     }
 })
-router.get("/userId/:username", check.isAuthenticated, async (req, res) => {
+router.get("/userId/:username", async (req, res) => {
     try {
         const username = req.params.username
         if (username == "self") {
