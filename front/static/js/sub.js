@@ -19,6 +19,7 @@ async function loadPage() {
             logInOut.innerHTML = "Logout"
             const navbar = document.querySelector("#navbar")
             navbar.innerHTML = `<a href="/chats"><button class="btn btn-primary">Chats</button></a>`
+            navbar.innerHTML+=`<a href="/profile"><button class="btn btn-primary nav-button">Profile</button></a>"`
         }
         const sub = await axios.get(`/api/subs/${urlId}/themes`)
         const subName = document.querySelector("#subName")

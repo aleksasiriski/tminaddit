@@ -6,6 +6,7 @@ async function loadPage() {
         const chats = await axios.get("/api/chats")
         madeChats = 0
         renderCards(chats.data.chats)
+        navbar.innerHTML+=`<a href="/profile"><button class="btn btn-primary nav-button">Profile</button></a>"`
         checkForMadeCards(chats.data.chats.length)
     } catch (err) {
         console.log(err)
