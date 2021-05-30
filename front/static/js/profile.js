@@ -13,20 +13,20 @@ async function loadPage() {
 
         }
         else{
-            $('#first-name').attr('placeholder','first name');
+            $('#first-name').attr('placeholder','First name');
         }
         if (user.lname!=""){
             $('#last-name').attr('placeholder',user.lname);
         }
         else{
-            $('#last-name').attr('placeholder','last name');
+            $('#last-name').attr('placeholder','Last name');
         }
         $('#email').attr('placeholder',user.email);
         if(user.admin==true){
-            $('#role').attr('placeholder','admin');
+            $('#role').attr('placeholder','Admin');
         }
         else{
-            $('#role').attr('placeholder','user');
+            $('#role').attr('placeholder','User');
         }
         const upvotes=document.querySelector("#upvotes")
         upvotes.innerHTML=user.upvotes.themes.length + user.upvotes.comments.length

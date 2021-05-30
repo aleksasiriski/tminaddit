@@ -115,7 +115,11 @@ function sleep(ms) {
 
 const sendButton = document.querySelector("#send-button")
 sendButton.addEventListener("click", getInput)
-
+document.querySelector('#message').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      getInput()
+    }
+});
 async function getInput() {
     try {
         const message = document.querySelector("#message")
