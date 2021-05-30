@@ -9,6 +9,7 @@ const themeSchema = new mongoose.Schema({
     upvotes: Number,
     downvotes: Number,
     comments: [String],
+    commentNumber: Number,
     createdAt: Date,
     updatedAt: Date
 }, { collection: "themes" })

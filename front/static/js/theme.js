@@ -38,6 +38,8 @@ async function loadPage() {
         timeObject.innerHTML = time
         const up = document.querySelector("#upVote")
         up.innerHTML = theme.upvotes
+        const commentNumber = document.querySelector("#comment-number")
+        commentNumber.innerHTML = theme.commentNumber
         const commentsHTML = document.querySelector("#comments")
         await addComments(commentsHTML, theme.comments)
         addEventListeners()
