@@ -1,3 +1,5 @@
+
+
 loadPage()
 
 async function loadPage() {
@@ -19,6 +21,19 @@ async function loadPage() {
         else{
             $('#last-name').attr('placeholder','last name');
         }
+        $('#email').attr('placeholder',user.email);
+        if(user.admin==true){
+            $('#role').attr('placeholder','admin');
+        }
+        else{
+            $('#role').attr('placeholder','user');
+        }
+        const upvotes=document.querySelector("#upvotes")
+        upvotes.innerHTML=user.upvotes.themes.length + user.upvotes.comments.length
+
+        const downvotes=document.querySelector("#downvotes")
+        downvotes.innerHTML=user.downvotes.themes.length + user.downvotes.comments.length
+
     } catch (err) {
         console.log(err)
     }
