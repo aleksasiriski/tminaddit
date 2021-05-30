@@ -60,12 +60,12 @@ async function addComments(commentsHTML, comments) {
                       class="btn reply-btn" onclick="reply()"><small>Reply</small></button></i></p>
                 <p>${comment.content}</p>
               </div>
-              <div id="reply" hidden>
+              <div id="reply-${comment._id}" hidden>
                 <div class="form-group">
-                  <label for="comment">Your Comment</label>
-                  <textarea name="comment" class="form-control" rows="3"></textarea>
+                  <label for="comment-${comment._id}">Your comment</label>
+                  <textarea name="comment-${comment._id}" class="form-control" rows="3"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Send</button>
+                <button id="send-${comment._id}" type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i>Send</button>
               </div>`
             await addComments(commentsHTML, comment.children)
             commentsHTML.innerHTML += `</li></ul>`
