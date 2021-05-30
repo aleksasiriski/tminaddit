@@ -37,8 +37,8 @@ router.get("/comments/:id", async (req, res) => {
 })
 router.post("/comments", check.isAuthenticated, async (req, res) => {
     try {
-        const specificThemeId = req.body.theme
         const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        const specificThemeId = req.body.theme
         const parentCommentId = req.body.parent
         const content = req.body.content
         const newCommentBody = {
@@ -52,7 +52,7 @@ router.post("/comments", check.isAuthenticated, async (req, res) => {
         const newComment = new comment(newCommentBody)
         const savedComment = await newComment.save()
         const specificTheme = await theme.findById(specificThemeId)
-        specificTheme.commentNumber++
+        specificTheme.commentNumber += 1
         if (parentCommentId == specificThemeId) {
             specificTheme.comments.push(savedComment._id)
         } else {

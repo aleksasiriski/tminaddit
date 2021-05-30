@@ -51,7 +51,8 @@ async function addComments(commentsHTML, comments) {
     try {
         for (const commentID of comments) {
             const comment = await axios.get(`/api/comments/${commentID}`)
-            const commentAuthor = await axios.get(`/api/username/${comment.author}`)
+            const commentAuthorObject = await axios.get(`/api/username/${comment.author}`)
+            const commentAuthor = commentAuthorObject.data.username
             const commentTime = date(comment.createdAt)
             commentsHTML.innerHTML += `
             <ul class="comments">
@@ -109,17 +110,22 @@ function addEventListeners() {
         })
     )
     const themeCommentBtn = document.querySelector("#theme-send")
-    themeCommentBtn.addEventListener("click", sendComment())
+    themeCommentBtn.addEventListener("click", () => {
+        sendComment()
+    })
 }
 async function sendComment() {
     try {
-        const content = (document.querySelector("#theme-comment")).value
-        const body = {
-            theme: urlId,
-            parent: urlId,
-            content: content
+        const content = document.querySelector("#theme-comment")
+        if (content != "") {
+            const body = {
+                theme: urlId,
+                parent: urlId,
+                content: content.value
+            }
+            await axios.post("/api/comments", body)
+            content.value = ""
         }
-        await axios.post("/api/comments", body)
     } catch (err) {
         console.log(err)
     }
