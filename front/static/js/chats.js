@@ -7,7 +7,7 @@ async function loadPage() {
         madeChats = 0
         renderCards(chats.data.chats)
         navbar.innerHTML = ""
-        navbar.innerHTML+=`<a href="/profile"><button class="btn btn-primary nav-button">Profile</button></a>"`
+        navbar.innerHTML+=`<a href="/profile"><button class="transparent-btn card-link" ><i  class="fa fa-user"></i></button></a>`
         checkForMadeCards(chats.data.chats.length)
     } catch (err) {
         console.log(err)

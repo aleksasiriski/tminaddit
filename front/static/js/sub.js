@@ -19,15 +19,15 @@ async function loadPage() {
             logInOut.innerHTML = "Logout"
             const navbar = document.querySelector("#navbar")
             navbar.innerHTML = ""
-            navbar.innerHTML+=`<a href="/chats"><button class="transparent-btn card-link nav-button"><i class="fa fa-comments"></i></button></a>`
-            navbar.innerHTML+=`<a href="/profile"><button class="btn btn-primary nav-button">Profile</button></a>"`
+            navbar.innerHTML += `<a href="/chats"><button class="transparent-btn card-link nav-button"><i class="fa fa-comments"></i></button></a>`
+            navbar.innerHTML += `<a href="/profile"><button class="transparent-btn card-link" ><i  class="fa fa-user"></i></button></a>`
         }
         const sub = await axios.get(`/api/subs/${urlId}/themes`)
         const subName = document.querySelector("#subName")
         subName.innerHTML = sub.data.name
         const subNameh4 = document.querySelector("#subName-h4")
-        subNameh4.innerHTML = "t/"+ sub.data.name
-        const subDescription= document.querySelector("#subDescription")
+        subNameh4.innerHTML = "t/" + sub.data.name
+        const subDescription = document.querySelector("#subDescription")
         subDescription.innerHTML = sub.data.description
         await renderCards(sub.data.themes)
         addEventListeners()
@@ -37,9 +37,9 @@ async function loadPage() {
 }
 
 function addEventListeners() {
-    const shareButton=document.querySelector("#btn-post")
+    const shareButton = document.querySelector("#btn-post")
     shareButton.addEventListener("click", () => {
-       getInput()
+        getInput()
     })
     const upvoteBtns = [...document.querySelectorAll("#upvote-button")]
     upvoteBtns.forEach((btn) =>
@@ -74,7 +74,7 @@ async function renderCards(themes) {
     try {
         const cards = document.querySelector("#theme-list")
         cards.innerHTML = ""
-        for(const themeId of themes) {
+        for (const themeId of themes) {
             const themeSmallBody = await axios.get(`/api/themes/${themeId}/small`)
             const themeSmall = themeSmallBody.data.theme
             const themeDate = new Date(themeSmall.time)
@@ -89,7 +89,7 @@ async function renderCards(themes) {
                 }
                 if (themeMinute < 10) {
                     themeMinute = "0" + themeMinute
-                    }
+                }
                 themeTime = themeHour + ":" + themeMinute
             }
             const authorNameBody = await axios.get(`/api/username/${themeSmall.author}`)
@@ -166,12 +166,12 @@ sendButton.addEventListener("click", getInput)
 
 async function getInput() {
     try {
-        const post= document.querySelector("#posts")
-        
-            
-            const title = document.querySelector("#title")
-            const content = document.querySelector("#content")
-        
+        const post = document.querySelector("#posts")
+
+
+        const title = document.querySelector("#title")
+        const content = document.querySelector("#content")
+
         const newtheme = {
             title: title.value,
             content: content.value,
