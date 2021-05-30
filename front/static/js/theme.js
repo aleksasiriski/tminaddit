@@ -60,7 +60,7 @@ async function addComments(commentsHTML, comments) {
                       class="btn reply-btn" onclick="reply()"><small>Reply</small></button></i></p>
                 <p>${comment.content}</p>
               </div>
-              <div id="reply-${comment._id}" hidden>
+              <div comment-id="${comment._id}" hidden>
                 <div class="form-group">
                   <label for="comment-${comment._id}">Your comment</label>
                   <textarea name="comment-${comment._id}" class="form-control" rows="3"></textarea>
