@@ -133,18 +133,21 @@ router.get("/user", check.isAuthenticated, async (req, res) => {
 })
 router.put("/user", check.isAuthenticated, async (req, res) => {
     try {
+        const fname = req.body.fname
+        const lname = req.body.lname
+        const email = req.body.email
         const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
         let changed = false
         if (fname != "" && fname != null && fname != undefined) {
-            user.fname = req.body.fname
+            user.fname = fname
             changed = true
         }
         if (lname != "" && lname != null && lname != undefined) {
-            user.lname = req.body.lname
+            user.lname = lname
             changed = true
         }
         if (email != "" && email != null && email != undefined) {
-            user.email = req.body.email
+            user.email = email
             changed = true
         }
         if(changed) {
