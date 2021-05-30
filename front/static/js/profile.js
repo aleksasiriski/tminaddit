@@ -38,4 +38,23 @@ async function loadPage() {
         console.log(err)
     }
 }
+const saveButton = document.querySelector("#save-button")
+saveButton.addEventListener("click", getInput)
 
+async function getInput() {
+    try {
+            const fname= document.querySelector("#first-name")
+            const lname= document.querySelector("#last-name")
+            const email= document.querySelector("#email")
+        
+        const body = {
+            fname: fname.value,
+            lname: lname.value,
+            email: email.value
+        }
+        await axios.put("/api/user", body)
+        loadPage()
+    } catch (err) {
+        console.log(err)
+    }
+}

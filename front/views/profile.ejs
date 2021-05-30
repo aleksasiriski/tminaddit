@@ -89,7 +89,8 @@
                     </li>
                     <li class="list-group-item text-right"><span class="pull-left"><strong>Downvotes</strong></span> <strong id="downvotes"></strong> 
                     </li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> </li> <strong id="posts"></strong>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>My posts</strong></span> </li> <strong id="posts"></strong>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>My comments</strong></span> </li> <strong id="posts"></strong>
                 </ul>
 
 
@@ -102,14 +103,14 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="home">
                         <hr>
-                        <form class="form" action="##" method="post" id="registrationForm">
+                        <div class="form" action="##" method="post" id="registrationForm">
                             <div class="form-group">
 
                                 <div class="col-xs-6">
                                     <label for="first_name">
                                         <h4>First name</h4>
                                     </label>
-                                    <input type="text" class="form-control" name="first_name" id="first-name"
+                                    <input type="text" class="form-control" id="first-name"
                                         placeholder="first name" title="enter your first name if any.">
                                 </div>
                             </div>
@@ -119,7 +120,7 @@
                                     <label for="last_name">
                                         <h4>Last name</h4>
                                     </label>
-                                    <input type="text" class="form-control" name="last_name" id="last-name"
+                                    <input type="text" class="form-control" id="last-name"
                                         placeholder="last name" title="enter your last name if any.">
                                 </div>
                             </div>
@@ -138,7 +139,7 @@
                                     <label for="email">
                                         <h4>Email</h4>
                                     </label>
-                                    <input type="email" class="form-control" name="email" id="email"
+                                    <input type="email" class="form-control"  id="email"
                                         placeholder="" title="enter your email.">
                                 </div>
                             </div>
@@ -149,7 +150,7 @@
                                         <h4>Role</h4>
                                     </label>
                                     <input type="email" class="form-control" id="role" placeholder=""
-                                        title="enter a location">
+                                        title="enter a location"disabled>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -158,7 +159,7 @@
                                     <label for="password">
                                         <h4>Reset password</h4>
                                     </label>
-                                    <input type="password" class="form-control" name="password" id="password"
+                                    <input type="password" class="form-control" id="password"
                                         placeholder="Reset password" title="enter your password.">
                                 </div>
                             </div>
@@ -168,20 +169,20 @@
                                     <label for="password2">
                                         <h4>Verify</h4>
                                     </label>
-                                    <input type="password" class="form-control" name="password2" id="password2"
+                                    <input type="password" class="form-control"  id="password2"
                                         placeholder=" verify password" title="enter your password2.">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12">
                                     <br>
-                                    <button class="btn btn-lg btn-success" type="submit"><i
+                                    <button class="btn btn-lg btn-success" type="submit" id="save-button"><i
                                             class="glyphicon glyphicon-ok-sign"></i> Save</button>
                                     <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i>
                                         Reset</button>
                                 </div>
                             </div>
-                        </form>
+                        </div>
 
                        
 
