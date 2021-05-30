@@ -35,7 +35,7 @@ router.get("/themes/:id", async (req, res) => {
         })
     }
 })
-router.get("/themes/:id/small", check.isAuthenticated, async (req, res) => {
+router.get("/themes/:id/small", async (req, res) => {
     try {
         const id = req.params.id
         const specificTheme= await theme.findById(id)

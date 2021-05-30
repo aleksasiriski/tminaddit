@@ -3,7 +3,8 @@ const mongoose = require("mongoose")
 const commentSchema = new mongoose.Schema({
     theme: String,
     author: String,
-    parentComment: String,
+    parent: String,
+    children: [String],
     content: String,
     upvotes: Number,
     downvotes: Number,
