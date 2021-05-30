@@ -41,6 +41,7 @@ async function loadPage() {
         const commentNumber = document.querySelector("#comment-number")
         commentNumber.innerHTML = "Number of comments: " + theme.commentNumber
         const commentsHTML = document.querySelector("#comments")
+        commentsHTML.innerHTML = ""
         await addComments(commentsHTML, theme.comments)
         addEventListeners()
     } catch (err) {
