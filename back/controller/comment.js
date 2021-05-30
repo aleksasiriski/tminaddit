@@ -51,10 +51,10 @@ router.post("/comments", check.isAuthenticated, async (req, res) => {
         }
         const newComment = new comment(newCommentBody)
         const savedComment = await newComment.save()
+        const specificTheme = await theme.findById(specificThemeId)
+        specificTheme.commentNumber++
         if (parentCommentId == specificThemeId) {
-            const specificTheme = await theme.findById(specificThemeId)
             specificTheme.comments.push(savedComment._id)
-            await specificTheme.save()
         } else {
             const specificComment = await comment.findById(parentCommentId)
             specificComment.children.push(savedComment._id)
@@ -62,6 +62,7 @@ router.post("/comments", check.isAuthenticated, async (req, res) => {
         }
         specificUser.created.comments.push(savedComment._id)
         specificUser.upvotes.comments.push(savedComment._id)
+        await specificTheme.save()
         await specificUser.save()
         res.status(200).json({
             success: true
