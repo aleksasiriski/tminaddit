@@ -39,6 +39,30 @@ async function loadPage() {
         addEventListeners()
         const up = document.querySelector("#upVote")
         up.innerHTML = theme.upvotes
+        const commentsHTML = document.querySelector("#comments")
+        for(const commentID of theme.comments){
+            const comment = await axios.get(`/api/comments/${commentID}`)
+            const commentAuthor = await axios.get(`/api/username/${comment.author}`)
+            const commentTime = await date (comment)
+            commentsHTML.innerHTML += `
+            <ul class="comments">
+            <li class="clearfix">
+              <img src="img/user.png" class="avatar" alt="">
+              <div class="post-comments">
+                <p class="meta"><div id="time" class="text-muted h7 mb-2">${commentTime}<i class="fa fa-clock-o"></i></div> ${commentAuthor}: <i class="pull-right"><button
+                      class="btn reply-btn" onclick="reply()"><small>Reply</small></button></i></p>
+                <p>${comment.content}</p>
+              </div>
+              <div id="reply" hidden>
+                <div class="form-group">
+                  <label for="comment">Your Comment</label>
+                  <textarea name="comment" class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Send</button>
+              </div>`
+            commentsHTML.innerHTML +=`</li>
+          </ul>`
+        }
     } catch (err) {
         console.log(err)
     }
