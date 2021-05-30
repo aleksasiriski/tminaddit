@@ -33,17 +33,24 @@ async function loadPage() {
         text.innerHTML = theme.content
         const title = document.querySelector("#title")
         title.innerHTML = theme.title
-        const time = await date(theme)
+        const time = date(theme.createdAt)
         const timeObject = document.querySelector("#time")
         timeObject.innerHTML = time
         addEventListeners()
         const up = document.querySelector("#upVote")
         up.innerHTML = theme.upvotes
         const commentsHTML = document.querySelector("#comments")
-        for(const commentID of theme.comments){
+        await addComments(commentsHTML, theme.comments)
+    } catch (err) {
+        console.log(err)
+    }
+}
+async function addComments(commentsHTML, comments) {
+    try {
+        for(const commentID of comments){
             const comment = await axios.get(`/api/comments/${commentID}`)
             const commentAuthor = await axios.get(`/api/username/${comment.author}`)
-            const commentTime = await date (comment)
+            const commentTime = date(comment.createdAt)
             commentsHTML.innerHTML += `
             <ul class="comments">
             <li class="clearfix">
@@ -60,34 +67,30 @@ async function loadPage() {
                 </div>
                 <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Send</button>
               </div>`
-            commentsHTML.innerHTML +=`</li>
-          </ul>`
+            await addComments(comment.children, commentsHTML)
+            commentsHTML.innerHTML += `</li></ul>`
         }
     } catch (err) {
         console.log(err)
     }
 }
-async function date(theme) {
-    try {
-            const themeDate = new Date(theme.createdAt)
-            let themeHour = themeDate.getHours()
-            let themeMinute = themeDate.getMinutes()
-            let themeTime = new Date()
-            if (themeTime.getHours() == themeHour && themeTime.getMinutes() == themeMinute) {
-                themeTime = "Now"
-            } else {
-                if (themeHour < 10) {
-                    themeHour = "0" + themeHour
-                }
-                if (themeMinute < 10) {
-                    themeMinute = "0" + themeMinute
-                    }
-                themeTime = themeHour + ":" + themeMinute
+function date(objectCreatedAt) {
+        const objectDate = new Date(objectCreatedAt)
+        let objectHour = objectDate.getHours()
+        let objectMinute = objectDate.getMinutes()
+        let objectTime = new Date()
+        if (objectTime.getHours() == objectHour && objectTime.getMinutes() == objectMinute) {
+            objectTime = "Now"
+        } else {
+            if (objectHour < 10) {
+                objectHour = "0" + objectHour
             }
-        return themeTime
-    } catch (err) {
-        console.log(err)
-    }
+            if (objectMinute < 10) {
+                objectMinute = "0" + objectMinute
+            }
+            objectTime = objectHour + ":" + objectMinute
+        }
+    return objectTime
 }
 function addEventListeners() {
     
