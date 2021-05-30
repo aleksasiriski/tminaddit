@@ -125,6 +125,7 @@ async function sendComment() {
             }
             await axios.post("/api/comments", body)
             content.value = ""
+            loadPage()
         }
     } catch (err) {
         console.log(err)

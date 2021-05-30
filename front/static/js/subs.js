@@ -8,7 +8,7 @@ async function loadPage() {
             const logInOut = document.querySelector("#logInOut")
             logInOut.innerHTML = "Logout"
             const navbar = document.querySelector("#navbar")
-            navbar.innerHTML = `<a href="/chats"><button class="btn btn-primary">Chats</button></a>`
+            navbar.innerHTML+=`<a href="/chats"><button class="transparent-btn card-link nav-button"><i class="fa fa-comments"></i></button></a>`
         }
         const subs = await axios.get("/api/subs")
         await renderCards(subs.data.subs)
