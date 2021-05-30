@@ -7,6 +7,8 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    fname: String,
+    lname: String,
     email: {
         type: String,
         unique: true
@@ -43,6 +45,8 @@ userSchema.pre("save", function (next) {
     this.updatedAt = currentDate
     if (!this.createdAt)
         this.createdAt = currentDate
+    this.fname = ""
+    this.lname = ""
     next()
 })
 
