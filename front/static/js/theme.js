@@ -20,8 +20,7 @@ async function loadPage() {
         }
         const themeBody = await axios.get(`/api/themes/${urlId}`)
         const theme = themeBody.data.theme
-        const authorID = theme.author
-        const authorObject = await axios.get(`/api/username/${authorID}`)
+        const authorObject = await axios.get(`/api/username/${theme.author}`)
         const userName = document.querySelector("#userName")
         userName.innerHTML = authorObject.data.username
         const sub = document.querySelector("#sub")
@@ -39,7 +38,7 @@ async function loadPage() {
         const up = document.querySelector("#upVote")
         up.innerHTML = theme.upvotes
         const commentNumber = document.querySelector("#comment-number")
-        commentNumber.innerHTML = theme.commentNumber
+        commentNumber.innerHTML = "Number of comments: " + theme.commentNumber
         const commentsHTML = document.querySelector("#comments")
         await addComments(commentsHTML, theme.comments)
         addEventListeners()
@@ -50,7 +49,8 @@ async function loadPage() {
 async function addComments(commentsHTML, comments) {
     try {
         for (const commentID of comments) {
-            const comment = await axios.get(`/api/comments/${commentID}`)
+            const commentBody = await axios.get(`/api/comments/${commentID}`)
+            const comment = commentBody.data.comment
             const commentAuthorObject = await axios.get(`/api/username/${comment.author}`)
             const commentAuthor = commentAuthorObject.data.username
             const commentTime = date(comment.createdAt)

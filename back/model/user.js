@@ -45,8 +45,10 @@ userSchema.pre("save", function (next) {
     this.updatedAt = currentDate
     if (!this.createdAt)
         this.createdAt = currentDate
-    this.fname = ""
-    this.lname = ""
+    if (!this.fname)
+        this.fname = ""
+    if (!this.lname)
+        this.lname = ""
     next()
 })
 

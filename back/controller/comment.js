@@ -52,7 +52,7 @@ router.post("/comments", check.isAuthenticated, async (req, res) => {
         const newComment = new comment(newCommentBody)
         const savedComment = await newComment.save()
         const specificTheme = await theme.findById(specificThemeId)
-        specificTheme.commentNumber += 1
+        specificTheme.commentNumber++
         if (parentCommentId == specificThemeId) {
             specificTheme.comments.push(savedComment._id)
         } else {

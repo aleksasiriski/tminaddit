@@ -19,7 +19,8 @@ themeSchema.pre("save", function (next) {
     this.updatedAt = currentDate
     if (!this.createdAt)
         this.createdAt = currentDate
-    this.commentNumber = 0
+    if (!this.commentNumber)
+        this.commentNumber = 0
     next()
 })
 
