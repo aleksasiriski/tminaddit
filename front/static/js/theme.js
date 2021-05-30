@@ -36,18 +36,18 @@ async function loadPage() {
         const time = date(theme.createdAt)
         const timeObject = document.querySelector("#time")
         timeObject.innerHTML = time
-        addEventListeners()
         const up = document.querySelector("#upVote")
         up.innerHTML = theme.upvotes
         const commentsHTML = document.querySelector("#comments")
         await addComments(commentsHTML, theme.comments)
+        addEventListeners()
     } catch (err) {
         console.log(err)
     }
 }
 async function addComments(commentsHTML, comments) {
     try {
-        for(const commentID of comments){
+        for (const commentID of comments) {
             const comment = await axios.get(`/api/comments/${commentID}`)
             const commentAuthor = await axios.get(`/api/username/${comment.author}`)
             const commentTime = date(comment.createdAt)
@@ -75,25 +75,25 @@ async function addComments(commentsHTML, comments) {
     }
 }
 function date(objectCreatedAt) {
-        const objectDate = new Date(objectCreatedAt)
-        let objectHour = objectDate.getHours()
-        let objectMinute = objectDate.getMinutes()
-        let objectTime = new Date()
-        if (objectTime.getHours() == objectHour && objectTime.getMinutes() == objectMinute) {
-            objectTime = "Now"
-        } else {
-            if (objectHour < 10) {
-                objectHour = "0" + objectHour
-            }
-            if (objectMinute < 10) {
-                objectMinute = "0" + objectMinute
-            }
-            objectTime = objectHour + ":" + objectMinute
+    const objectDate = new Date(objectCreatedAt)
+    let objectHour = objectDate.getHours()
+    let objectMinute = objectDate.getMinutes()
+    let objectTime = new Date()
+    if (objectTime.getHours() == objectHour && objectTime.getMinutes() == objectMinute) {
+        objectTime = "Now"
+    } else {
+        if (objectHour < 10) {
+            objectHour = "0" + objectHour
         }
+        if (objectMinute < 10) {
+            objectMinute = "0" + objectMinute
+        }
+        objectTime = objectHour + ":" + objectMinute
+    }
     return objectTime
 }
 function addEventListeners() {
-    
+
     const upvoteBtns = [...document.querySelectorAll("#upButton")]
     upvoteBtns.forEach((btn) =>
         btn.addEventListener("click", () => {
@@ -106,8 +106,22 @@ function addEventListeners() {
             voteOnTheme(btn, "downvote")
         })
     )
+    const themeCommentBtn = document.querySelector("#theme-send")
+    themeCommentBtn.addEventListener("click", sendComment())
 }
-
+async function sendComment() {
+    try {
+        const content = (document.querySelector("#theme-comment")).value
+        const body = {
+            theme: urlId,
+            parent: urlId,
+            content: content
+        }
+        await axios.post("/api/comments", body)
+    } catch (err) {
+        console.log(err)
+    }
+}
 async function voteOnTheme(btn, vote) {
     let response = false
     if (vote == "upvote") {
