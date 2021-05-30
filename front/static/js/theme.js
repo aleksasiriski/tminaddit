@@ -67,7 +67,7 @@ async function addComments(commentsHTML, comments) {
                 </div>
                 <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Send</button>
               </div>`
-            await addComments(comment.children, commentsHTML)
+            await addComments(commentsHTML, comment.children)
             commentsHTML.innerHTML += `</li></ul>`
         }
     } catch (err) {
