@@ -18,7 +18,7 @@ async function loadPage() {
             const navbar = document.querySelector("#navbar")
             navbar.innerHTML = ""
             navbar.innerHTML+=`<a href="/chats"><button class="transparent-btn card-link nav-button"><i class="fa fa-comments"></i></button></a>`
-            navbar.innerHTML+=`<a href="/profile"><button class="transparent-btn card-link" ><i  class="fa fa-user"></i></button></a>`
+            navbar.innerHTML+=`<a href="/profile"><button class="transparent-btn card-link nav-button" ><i  class="fa fa-user"></i></button></a>`
         }
         const themeBody = await axios.get(`/api/themes/${urlId}`)
         const theme = themeBody.data.theme

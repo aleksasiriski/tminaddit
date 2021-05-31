@@ -15,6 +15,8 @@ async function loadPage(once) {
     try {
         const chatData = await axios.get(`/api/chats/${urlId}`)
         const chat = chatData.data.chat
+        var objDiv = document.getElementById("message-list");
+        objDiv.scrollTop = objDiv.scrollHeight;
         if (chat == "NULL") {
             console.log("Chat not found")
         } else {
