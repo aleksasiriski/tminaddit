@@ -125,6 +125,12 @@ h1{
     border-width: 1px;
     border-color:rgb(46,46,48) ;
 }
+.list-group-item:hover{
+  background-color: rgb(46,46,48);
+  color:rgb(140,140,140);
+  border-width: 1px;
+  border-color:rgb(46,46,48) ;
+}
 hr{
     border-top-color:#ceeb35;
 }
