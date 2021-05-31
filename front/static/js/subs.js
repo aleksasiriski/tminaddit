@@ -34,19 +34,6 @@ function addEventListeners() {
 }
 
 
-async function renderCards(sub) {
-    try {
-        const cards = document.querySelector("#sub-list")
-        cards.innerHTML = ""
-        subName = sub.data.name
-        subDescription = sub.data.description
-        cards.innerHTML += createCard(subName, subDescription)
-    }
-    catch (err) {
-        console.log(err)
-    }
-}
-
 async function renderCards(subs) {
     try {
         const cards = document.querySelector("#sub-list")
