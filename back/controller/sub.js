@@ -58,6 +58,7 @@ router.get("/subs/:id/small", async (req, res) => {
         const specificSub = await sub.findById(id)
         res.status(200).json({
             success: true,
+            _id: specificSub._id,
             name: specificSub.name,
             description: specificSub.description
         })
