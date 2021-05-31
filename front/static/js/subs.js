@@ -9,8 +9,8 @@ async function loadPage() {
             logInOut.innerHTML = "Logout"
             const navbar = document.querySelector("#navbar")
             navbar.innerHTML = ""
-            navbar.innerHTML += `<a href="/chats"><button class="transparent-btn card-link nav-button"><i class="fa fa-comments"></i></button></a>`
-            navbar.innerHTML += `<a href="/profile"><button class="transparent-btn card-link nav-button" ><i  class="fa fa-user"></i></button></a>`
+            navbar.innerHTML += `<a href="/chats"><button class="transparent-btn card-link nav-button"><i class="fa fa-comments fa-2x"></i></button></a>`
+            navbar.innerHTML += `<a href="/profile"><button class="transparent-btn card-link nav-button" ><i  class="fa fa-user fa-2x"></i></button></a>`
         }
         const subs = await axios.get("/api/subs")
         await renderCards(subs.data.subs)
