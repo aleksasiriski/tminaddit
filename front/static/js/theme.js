@@ -45,15 +45,15 @@ async function loadPage() {
         const commentNumber = document.querySelector("#comment-number")
         commentNumber.innerHTML = "Number of comments: " + theme.commentNumber
         const commentsHTML = document.querySelector("#comments")
-        commentsHTML.innerHTML = ""
-        await addComments(commentsHTML, theme.comments)
+        commentsHTML.innerHTML = await addComments(theme.comments)
         addEventListeners()
     } catch (err) {
         console.log(err)
     }
 }
-async function addComments(commentsHTML, comments) {
+async function addComments(comments) {
     try {
+        let cards = ""
         for (const commentID of comments) {
             const commentBody = await axios.get(`/api/comments/${commentID}`)
             const comment = commentBody.data.comment
@@ -63,14 +63,14 @@ async function addComments(commentsHTML, comments) {
                 commentAuthor = commentAuthorObject.data.username + ":"
             }
             const commentTime = date(comment.createdAt)
-            commentsHTML.innerHTML += `
+            cards += `
             <ul class="comments">
             <li class="clearfix">
               <img src="img/user.png" class="avatar" alt="">
               <div comment-id="${comment._id}" class="post-comments">
                 <p class="meta"><div id="time" class="text-muted h7 mb-2">${commentTime}<i class="fa fa-clock-o"></i></div> ${commentAuthor} <i class="pull-right"></i></p>
                 <p>${comment.content}</p>
-                <button id="btn-reply" class="btn reply-btn"><small>Reply</small></button>
+                <button id="btn-reply-form" class="btn reply-btn"><small>Reply</small></button>
                 <button id="btn-delete" class="btn reply-btn"><small>Delete</small></button>
                 <button id="btn-save" class="btn reply-btn"><small>Save</small></button>
               </div>
@@ -79,15 +79,28 @@ async function addComments(commentsHTML, comments) {
                   <label for="content-${comment._id}">Your comment</label>
                   <textarea id="content-${comment._id}" name="content-${comment._id}" class="form-control" rows="3"></textarea>
                 </div>
-                <button id="send-${comment._id}" type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i>Send</button>
+                <button id="btn-reply" class="btn btn-primary"><i class="fa fa-paper-plane"></i>Send</button>
               </div>`
-            await addComments(commentsHTML, comment.children)
-            commentsHTML.innerHTML += `</li></ul>`
+            cards += await addComments(comment.children)
+            cards += `</li></ul>`
         }
+        return cards
     } catch (err) {
         console.log(err)
     }
 }
+function replyForm(btn) {
+    const commentId = getParentId(btn)
+    const reply = document.querySelector(`#reply-${commentId}`)
+    if (reply.hasAttribute("hidden")) {
+        reply.removeAttribute("hidden")
+    }
+    else {
+        const att = document.createAttribute("hidden")
+        att.value = ""
+        reply.setAttributeNode(att)
+    }
+  }
 async function deleteComment(btn) {
     const commentId = getParentId(btn)
     const response = await axios.delete(`/api/comments/${commentId}`)
@@ -96,15 +109,29 @@ async function deleteComment(btn) {
     }
 }
 async function replyComment(btn) {
-    const commentId = getParentId(btn)
-    const response = await axios.delete(`/api/comments/${commentId}`)
-    if (response.data.added) {
-        loadPage()
+    try {
+        const commentId = getParentId(btn)
+        const content = document.querySelector(`#content-${commentId}`)
+        if (content.value != "") {
+            const body = {
+                theme: urlId,
+                parent: commentId,
+                content: content.value
+            }
+            await axios.post("/api/comments", body)
+            content.value = ""
+            loadPage()
+        }
+    } catch (err) {
+        console.log(err)
     }
 }
 async function saveComment(btn) {
     const commentId = getParentId(btn)
     await axios.put(`/api/user/saved/comments/${commentId}`)
+}
+async function saveTheme() {
+    await axios.put(`/api/user/saved/themes/${urlId}`)
 }
 function getParentId(btn) {
     const parent = btn.parentElement
@@ -158,17 +185,27 @@ function addEventListeners() {
             replyComment(btn)
         })
     )
+    const replyFormBtns = [...document.querySelectorAll("#btn-reply-form")]
+    replyFormBtns.forEach((btn) =>
+        btn.addEventListener("click", () => {
+            replyForm(btn)
+        })
+    )
     const saveBtns = [...document.querySelectorAll("#btn-save")]
     saveBtns.forEach((btn) =>
         btn.addEventListener("click", () => {
             saveComment(btn)
         })
     )
+    const saveThemeBtn = document.querySelector("#saveButton")
+    saveThemeBtn.addEventListener("click", () => {
+        saveTheme()
+    })
 }
 async function sendComment() {
     try {
         const content = document.querySelector("#theme-comment")
-        if (content != "") {
+        if (content.value != "") {
             const body = {
                 theme: urlId,
                 parent: urlId,

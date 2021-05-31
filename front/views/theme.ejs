@@ -93,9 +93,7 @@
           <div class="card-footer">
             <button id="upButton" class="transparent-btn card-link"><i class="fa fa-arrow-up" id="upVote"></i></button>
             <button id="downButton" class="transparent-btn card-link"><i class="fa fa-arrow-down"></i></button>
-            <button id="shareButton" class="transparent-btn card-link" onclick="share()"><i
-                class="fa fa-mail-forward"></i> Share</button>
-            <button id="shareButton" class="transparent-btn card-link"><i class="fa fa-bookmark"></i> Save</button>
+            <button id="saveButton" class="transparent-btn card-link"><i class="fa fa-bookmark"></i> Save</button>
           </div>
         </div>
         <div class="post-comments" id="comment">
@@ -121,55 +119,6 @@
       </div>
     </div>
   </div>
-  <script>
-    function showComments() {
-      var comments = document.getElementById('comments')
-      if (comments.hasAttribute("hidden")) {
-        comments.removeAttribute("hidden")
-      }
-      else {
-        var att = document.createAttribute("hidden")
-        att.value = ""
-        comments.setAttributeNode(att)
-      }
-    }
-    function showComment() {
-      var comment = document.getElementById('comment')
-      if (comment.hasAttribute("hidden")) {
-        comment.removeAttribute("hidden")
-      }
-      else {
-        var comments = document.getElementById('comments')
-        var at = document.createAttribute("hidden")
-        at.value = "";
-        comments.setAttributeNode(at)
-      }
-    }
-    function share() {
-      console.log("share")
-      if (navigator.share) {
-        navigator.share({
-          title: title.value,
-          url: "window.location.href",
-        })
-          .then(() => console.log('Successful share'))
-          .catch((error) => console.log('Error sharing', error));
-      } else {
-        console.log("Web Share API is not supported in your browser.")
-      }
-    }
-    function reply() {
-      var reply = document.getElementById('reply')
-      if (reply.hasAttribute("hidden")) {
-        reply.removeAttribute("hidden")
-      }
-      else {
-        var att = document.createAttribute("hidden")
-        att.value = "";
-        reply.setAttributeNode(att)
-      }
-    }
-  </script>
   <script type="text/javascript" src="js/theme.js"></script>
 </body>
 </html>
