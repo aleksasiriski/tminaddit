@@ -104,20 +104,6 @@ function createCard(theme, authorName, subName, themeTime) {
                                         </a>
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="dropdown">
-                                        <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-ellipsis-h"></i>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                                            <div class="h6 dropdown-header">Configuration</div>
-                                            <a class="dropdown-item" href="#">Save</a>
-                                            <a class="dropdown-item" href="#">Hide</a>
-                                            <a class="dropdown-item" href="#">Report</a>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="card-body">
@@ -131,7 +117,6 @@ function createCard(theme, authorName, subName, themeTime) {
                             <button id="upvote-button" class="transparent-btn card-link"><i class="fa fa-arrow-up"></i>${theme.upvotes}</button>
                             <button id="downvote-button" class="transparent-btn card-link"><i class="fa fa-arrow-down"></i> </button>
                             <a href="/theme?id=${theme._id}"><button class="transparent-btn card-link"><i class="fa fa-comment"></i> Comment</button></a>
-                            <button class="transparent-btn card-link" onclick="share()"><i class="fa fa-mail-forward"></i> Share</button>
                             <button class="transparent-btn card-link"><i class="fa fa-bookmark"></i> Save</button>
                         </div>
                     </div>`
