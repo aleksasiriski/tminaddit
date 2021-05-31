@@ -11,9 +11,11 @@ async function loadPage() {
             navbar.innerHTML+=`<a href="/chats"><button class="transparent-btn card-link nav-button"><i class="fa fa-comments fa-2x"></i></button></a>`
             navbar.innerHTML+=`<a href="/profile"><button class="transparent-btn card-link nav-button" ><i  class="fa fa-user fa-2x"></i></button></a>`
             const subsIds = await axios.get("/api/user/subs")
+            const cards = document.querySelector("#theme-list")
+            cards.innerHTML = ""
             for(const subId of subsIds.data.subs) {
                 const sub = await axios.get(`/api/subs/${subId}/themes`)
-                await renderCards(sub.data.themes)
+                await renderCards(sub.data.themes, cards)
             }
             addEventListeners()
         } else {
@@ -55,10 +57,8 @@ async function voteOnTheme(btn, vote) {
     }
 }
 
-async function renderCards(themes) {
+async function renderCards(themes, cards) {
     try {
-        const cards = document.querySelector("#theme-list")
-        cards.innerHTML = ""
         for(const themeId of themes) {
             const themeSmallBody = await axios.get(`/api/themes/${themeId}/small`)
             const themeSmall = themeSmallBody.data.theme
