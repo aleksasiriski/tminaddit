@@ -16,14 +16,19 @@ async function loadPage() {
         const authenticated = await axios.get("/api/authenticated")
         const logInOut = document.querySelector("#logInOut")
         const navbar = document.querySelector("#navbar")
+        const followButton = document.querySelector("#btn-follow")
         if (authenticated.data.success) {
             logInOut.innerHTML = "Logout"
             navbar.innerHTML = ""
             navbar.innerHTML += `<a href="/chats"><button class="transparent-btn card-link nav-button"><i class="fa fa-comments fa-2x"></i></button></a>`
             navbar.innerHTML += `<a href="/profile"><button class="transparent-btn card-link nav-button" ><i  class="fa fa-user fa-2x"></i></button></a>`
+            followButton.removeAttribute("hidden")
         } else {
             logInOut.innerHTML = "Login"
             navbar.innerHTML = ""
+            const att = document.createAttribute("hidden")
+            att.value = "";
+            followButton.setAttributeNode(att)
         }
         const sub = await axios.get(`/api/subs/${urlId}/themes`)
         const subName = document.querySelector("#subName")
@@ -40,10 +45,6 @@ async function loadPage() {
 }
 
 function addEventListeners() {
-    const shareButton = document.querySelector("#btn-post")
-    shareButton.addEventListener("click", () => {
-        getInput()
-    })
     const upvoteBtns = [...document.querySelectorAll("#upvote-button")]
     upvoteBtns.forEach((btn) =>
         btn.addEventListener("click", () => {
@@ -165,26 +166,34 @@ function getId(btn) {
 }
 
 const postButton = document.querySelector("#btn-post")
-sendButton.addEventListener("click", getInput)
+postButton.addEventListener("click", getInput)
 
 async function getInput() {
     try {
-        const post = document.querySelector("#posts")
-
-
         const title = document.querySelector("#title")
         const content = document.querySelector("#content")
 
-        const newtheme = {
+        const body = {
+            sub: urlId,
             title: title.value,
-            content: content.value,
-            sub: urlId
+            content: content.value
         }
-        await axios.post("/api/themes", newtheme)
+        await axios.post("/api/themes", body)
 
         title.value = ""
         content.value = ""
         loadPage()
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const followButton = document.querySelector("#btn-follow")
+followButton.addEventListener("click", followSub)
+
+async function followSub() {
+    try {
+        await axios.put(`/api/user/subs/${urlId}`)
     } catch (err) {
         console.log(err)
     }

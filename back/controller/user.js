@@ -163,5 +163,33 @@ router.put("/user", check.isAuthenticated, async (req, res) => {
         })
     }
 })
+router.put("/user/subs/:id", check.isAuthenticated, async (req, res) => {
+    try {
+        const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        const newSubId = req.params.id
+        let found = false
+        let added = false
+        specificUser.followedSubs.forEach((subId) => {
+            if (!found && subId == newSubId) {
+                found = true
+            }
+        })
+        if (!found) {
+            specificUser.followedSubs.push(newSubId)
+            await specificUser.save()
+            added = true
+        }
+        await specificUser.save()
+        res.status(200).json({
+            success: true,
+            added: added
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
 //export
 module.exports = router
