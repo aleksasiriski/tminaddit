@@ -25,6 +25,9 @@ router.get("/profile/upvotedThemes", check.isAuthenticated, (req, res) => {
 router.get("/profile/downvotedThemes", check.isAuthenticated, (req, res) => {
     res.render("../front/views/downvotedThemes.ejs")
 })
+router.get("/profile/savedThemes", check.isAuthenticated, (req, res) => {
+    res.render("../front/views/savedThemes.ejs")
+})
 
 // export
 module.exports = router
