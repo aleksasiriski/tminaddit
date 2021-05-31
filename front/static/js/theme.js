@@ -101,13 +101,18 @@ function replyForm(btn) {
         reply.setAttributeNode(att)
     }
   }
-async function deleteComment(btn) {
-    const commentId = getParentId(btn)
-    const response = await axios.delete(`/api/comments/${commentId}`)
-    if (response.data.reload) {
-        loadPage()
+  async function deleteComment(btn) {
+    try {
+        const commentId = getParentId(btn)
+        const response = await axios.delete(`/api/comments/${commentId}`)
+        if (response.data.reload) {
+            loadPage()
+        }
+    } catch (err) {
+        console.log(err)
     }
 }
+
 async function replyComment(btn) {
     try {
         const commentId = getParentId(btn)
@@ -236,8 +241,12 @@ const deleteButton = document.querySelector("#deleteButton")
 deleteButton.addEventListener("click", deleteTheme())
 
 async function deleteTheme() {
-    const response = await axios.delete(`/api/themes/${urlId}`)
-    if (response.data.reload) {
-        loadPage()
+    try {
+        const response = await axios.delete(`/api/themes/${urlId}`)
+        if (response.data.reload) {
+            window.location.href = "/"
+        }
+    } catch (err) {
+        console.log(err)
     }
 }

@@ -192,3 +192,15 @@ async function followSub() {
         console.log(err)
     }
 }
+const deleteButton = document.querySelector("#deleteButton")
+deleteButton.addEventListener("click", deleteSub())
+async function deleteSub() {
+    try {
+        const response = await axios.delete(`/api/sub/${urlId}`)
+        if (response.data.reload) {
+            window.location.href = "/"
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
