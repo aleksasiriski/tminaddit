@@ -13,6 +13,18 @@ router.get("/register", check.isNotAuthenticated, (req, res) => {
 router.get("/profile", check.isAuthenticated, (req, res) => {
     res.render("../front/views/profile.ejs")
 })
+router.get("/profile/createdSubs", check.isAuthenticated, (req, res) => {
+    res.render("../front/views/createdSubs.ejs")
+})
+router.get("/profile/createdThemes", check.isAuthenticated, (req, res) => {
+    res.render("../front/views/createdThemes.ejs")
+})
+router.get("/profile/upvotedThemes", check.isAuthenticated, (req, res) => {
+    res.render("../front/views/upvotedThemes.ejs")
+})
+router.get("/profile/downvotedThemes", check.isAuthenticated, (req, res) => {
+    res.render("../front/views/downvotedThemes.ejs")
+})
 
 // export
 module.exports = router
