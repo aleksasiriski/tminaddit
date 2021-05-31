@@ -232,4 +232,12 @@ async function voteOnTheme(btn, vote) {
         loadPage()
     }
 }
+const deleteButton = document.querySelector("#deleteButton")
+deleteButton.addEventListener("click", deleteTheme())
 
+async function deleteTheme() {
+    const response = await axios.delete(`/api/themes/${urlId}`)
+    if (response.data.reload) {
+        loadPage()
+    }
+}

@@ -46,13 +46,16 @@ async function getInput() {
             const fname= document.querySelector("#first-name")
             const lname= document.querySelector("#last-name")
             const email= document.querySelector("#email")
-        
         const body = {
             fname: fname.value,
             lname: lname.value,
             email: email.value
         }
+
         await axios.put("/api/user", body)
+        fname.value=""
+        lname.value=""
+        email.value=""
         loadPage()
     } catch (err) {
         console.log(err)
