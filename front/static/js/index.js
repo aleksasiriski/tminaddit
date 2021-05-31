@@ -3,10 +3,10 @@ loadPage()
 async function loadPage() {
     try {
         const authenticated = await axios.get("/api/authenticated")
+        const logInOut = document.querySelector("#logInOut")
+        const navbar = document.querySelector("#navbar")
         if (authenticated.data.success) {
-            const logInOut = document.querySelector("#logInOut")
             logInOut.innerHTML = "Logout"
-            const navbar = document.querySelector("#navbar")
             navbar.innerHTML = ""
             navbar.innerHTML+=`<a href="/chats"><button class="transparent-btn card-link nav-button"><i class="fa fa-comments fa-2x"></i></button></a>`
             navbar.innerHTML+=`<a href="/profile"><button class="transparent-btn card-link nav-button" ><i  class="fa fa-user fa-2x"></i></button></a>`
@@ -16,6 +16,9 @@ async function loadPage() {
                 await renderCards(sub.data.themes)
             }
             addEventListeners()
+        } else {
+            logInOut.innerHTML = "Login"
+            navbar.innerHTML = ""
         }
     } catch (err) {
         console.log(err)
