@@ -211,11 +211,13 @@ router.delete("/themes/:id", check.isAuthenticated, async (req, res) => {
             })
             specificTheme.delete()
             res.status(200).json({
-                success: true
+                success: true,
+                reload: true
             })
         } else {
             res.status(403).json({
-                success: false
+                success: true,
+                reload: false
             })
         }
     } catch (err) {
