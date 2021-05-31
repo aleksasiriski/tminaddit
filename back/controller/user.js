@@ -179,7 +179,60 @@ router.put("/user/subs/:id", check.isAuthenticated, async (req, res) => {
             await specificUser.save()
             added = true
         }
-        await specificUser.save()
+        res.status(200).json({
+            success: true,
+            added: added
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+router.put("/user/saved/themes/:id", check.isAuthenticated, async (req, res) => {
+    try {
+        const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        const newThemeId = req.params.id
+        let found = false
+        let added = false
+        specificUser.saved.themes.forEach((themeId) => {
+            if (!found && themeId == newThemeId) {
+                found = true
+            }
+        })
+        if (!found) {
+            specificUser.saved.themes.push(newThemeId)
+            await specificUser.save()
+            added = true
+        }
+        res.status(200).json({
+            success: true,
+            added: added
+        })
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+router.put("/user/saved/comments/:id", check.isAuthenticated, async (req, res) => {
+    try {
+        const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        const newSubId = req.params.id
+        let found = false
+        let added = false
+        specificUser.saved.comments.forEach((subId) => {
+            if (!found && subId == newSubId) {
+                found = true
+            }
+        })
+        if (!found) {
+            specificUser.saved.comments.push(newSubId)
+            await specificUser.save()
+            added = true
+        }
         res.status(200).json({
             success: true,
             added: added

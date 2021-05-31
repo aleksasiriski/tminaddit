@@ -57,22 +57,27 @@ async function addComments(commentsHTML, comments) {
         for (const commentID of comments) {
             const commentBody = await axios.get(`/api/comments/${commentID}`)
             const comment = commentBody.data.comment
-            const commentAuthorObject = await axios.get(`/api/username/${comment.author}`)
-            const commentAuthor = commentAuthorObject.data.username
+            let commentAuthor = "[deleted]"
+            if (comment.author != "[deleted]") {
+                const commentAuthorObject = await axios.get(`/api/username/${comment.author}`)
+                commentAuthor = commentAuthorObject.data.username + ":"
+            }
             const commentTime = date(comment.createdAt)
             commentsHTML.innerHTML += `
             <ul class="comments">
             <li class="clearfix">
               <img src="img/user.png" class="avatar" alt="">
-              <div class="post-comments">
-                <p class="meta"><div id="time" class="text-muted h7 mb-2">${commentTime}<i class="fa fa-clock-o"></i></div> ${commentAuthor}: <i class="pull-right"><button
-                      class="btn reply-btn" onclick="reply()"><small>Reply</small></button></i></p>
+              <div comment-id="${comment._id}" class="post-comments">
+                <p class="meta"><div id="time" class="text-muted h7 mb-2">${commentTime}<i class="fa fa-clock-o"></i></div> ${commentAuthor} <i class="pull-right"></i></p>
                 <p>${comment.content}</p>
+                <button id="btn-reply" class="btn reply-btn"><small>Reply</small></button>
+                <button id="btn-delete" class="btn reply-btn"><small>Delete</small></button>
+                <button id="btn-save" class="btn reply-btn"><small>Save</small></button>
               </div>
-              <div comment-id="${comment._id}" hidden>
+              <div comment-id="${comment._id}" id="reply-${comment._id}" hidden>
                 <div class="form-group">
-                  <label for="comment-${comment._id}">Your comment</label>
-                  <textarea name="comment-${comment._id}" class="form-control" rows="3"></textarea>
+                  <label for="content-${comment._id}">Your comment</label>
+                  <textarea id="content-${comment._id}" name="content-${comment._id}" class="form-control" rows="3"></textarea>
                 </div>
                 <button id="send-${comment._id}" type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i>Send</button>
               </div>`
@@ -82,6 +87,29 @@ async function addComments(commentsHTML, comments) {
     } catch (err) {
         console.log(err)
     }
+}
+async function deleteComment(btn) {
+    const commentId = getParentId(btn)
+    const response = await axios.delete(`/api/comments/${commentId}`)
+    if (response.data.reload) {
+        loadPage()
+    }
+}
+async function replyComment(btn) {
+    const commentId = getParentId(btn)
+    const response = await axios.delete(`/api/comments/${commentId}`)
+    if (response.data.added) {
+        loadPage()
+    }
+}
+async function saveComment(btn) {
+    const commentId = getParentId(btn)
+    await axios.put(`/api/user/saved/comments/${commentId}`)
+}
+function getParentId(btn) {
+    const parent = btn.parentElement
+    const parentId = parent.getAttribute("comment-id")
+    return parentId
 }
 function date(objectCreatedAt) {
     const objectDate = new Date(objectCreatedAt)
@@ -102,7 +130,10 @@ function date(objectCreatedAt) {
     return objectTime
 }
 function addEventListeners() {
-
+    const themeCommentBtn = document.querySelector("#theme-send")
+    themeCommentBtn.addEventListener("click", () => {
+        sendComment()
+    })
     const upvoteBtns = [...document.querySelectorAll("#upButton")]
     upvoteBtns.forEach((btn) =>
         btn.addEventListener("click", () => {
@@ -115,10 +146,24 @@ function addEventListeners() {
             voteOnTheme(btn, "downvote")
         })
     )
-    const themeCommentBtn = document.querySelector("#theme-send")
-    themeCommentBtn.addEventListener("click", () => {
-        sendComment()
-    })
+    const deleteBtns = [...document.querySelectorAll("#btn-delete")]
+    deleteBtns.forEach((btn) =>
+        btn.addEventListener("click", () => {
+            deleteComment(btn)
+        })
+    )
+    const replyBtns = [...document.querySelectorAll("#btn-reply")]
+    replyBtns.forEach((btn) =>
+        btn.addEventListener("click", () => {
+            replyComment(btn)
+        })
+    )
+    const saveBtns = [...document.querySelectorAll("#btn-save")]
+    saveBtns.forEach((btn) =>
+        btn.addEventListener("click", () => {
+            saveComment(btn)
+        })
+    )
 }
 async function sendComment() {
     try {

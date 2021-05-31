@@ -57,10 +57,16 @@ function addEventListeners() {
             voteOnTheme(btn, "downvote")
         })
     )
+    const saveBtns = [...document.querySelectorAll("#save-button")]
+    saveBtns.forEach((btn) =>
+        btn.addEventListener("click", () => {
+            saveTheme(btn)
+        })
+    )
 }
 
 async function voteOnTheme(btn, vote) {
-    const themeId = getId(btn)
+    const themeId = getParentId(btn)
     let response = false
     if (vote == "upvote") {
         const responseBody = await axios.put(`/api/themes/${themeId}/upvote`)
@@ -72,6 +78,11 @@ async function voteOnTheme(btn, vote) {
     if (response) {
         loadPage()
     }
+}
+
+async function saveTheme(btn) {
+    const themeId = getParentId(btn)
+    await axios.put(`/api/user/saved/themes/${themeId}`)
 }
 
 async function renderCards(themes) {
@@ -106,8 +117,6 @@ async function renderCards(themes) {
         console.log(err)
     }
 }
-
-
 
 function createCard(theme, authorName, subName, themeTime) {
     const card = `
@@ -152,17 +161,16 @@ function createCard(theme, authorName, subName, themeTime) {
                             <button id="upvote-button" class="transparent-btn card-link"><i class="fa fa-arrow-up"></i>${theme.upvotes}</button>
                             <button id="downvote-button" class="transparent-btn card-link"><i class="fa fa-arrow-down"></i> </button>
                             <a href="/theme?id=${theme._id}"><button class="transparent-btn card-link"><i class="fa fa-comment"></i> Comment</button></a>
-                            <button class="transparent-btn card-link" onclick="share()"><i class="fa fa-mail-forward"></i> Share</button>
-                            <button class="transparent-btn card-link"><i class="fa fa-bookmark"></i> Save</button>
-                        </div>s
+                            <button id="save-button" class="transparent-btn card-link"><i class="fa fa-bookmark"></i> Save</button>
+                        </div>
                     </div>`
     return card
 }
 
-function getId(btn) {
+function getParentId(btn) {
     const parent = btn.parentElement
-    const id = parent.getAttribute("theme-id")
-    return id
+    const parentId = parent.getAttribute("theme-id")
+    return parentId
 }
 
 const postButton = document.querySelector("#btn-post")

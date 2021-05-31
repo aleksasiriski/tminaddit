@@ -181,11 +181,13 @@ router.delete("/comments/:id", check.isAuthenticated, async (req, res) => {
                 specificComment.content = "[deleted]"
                 await specificComment.save()
             res.status(200).json({
-                success: true
+                success: true,
+                reload: true
             })
         } else {
             res.status(403).json({
-                success: false
+                success: true,
+                reload: false
             })
         }
     } catch (err) {
@@ -196,10 +198,13 @@ router.delete("/comments/:id", check.isAuthenticated, async (req, res) => {
     }
 })
 function isPermitted(specificComment, specificSub, specificUser) {
+    if (specificComment.author == "[deleted]") {
+        return false
+    }
     if (specificUser.admin == true) {
         return true
     }
-    const userId = user._id
+    const userId = specificUser._id
     if  (specificComment.author == userId) {
         return true
     }
