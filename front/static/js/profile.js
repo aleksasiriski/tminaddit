@@ -28,11 +28,11 @@ async function loadPage() {
         else{
             $('#role').attr('placeholder','User');
         }
-        const upvotes=document.querySelector("#upvotes")
-        upvotes.innerHTML=user.upvotes.themes.length + user.upvotes.comments.length
+        const themeUpvotes=document.querySelector("#themeUpvotes")
+        themeUpvotes.innerHTML=user.upvotes.themes.length
 
-        const downvotes=document.querySelector("#downvotes")
-        downvotes.innerHTML=user.downvotes.themes.length + user.downvotes.comments.length
+        const downvotes=document.querySelector("#themeDownvotes")
+        downvotes.innerHTML=user.downvotes.themes.length 
 
     } catch (err) {
         console.log(err)
