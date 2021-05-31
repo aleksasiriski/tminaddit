@@ -41,7 +41,7 @@ async function renderCards(subs, cards) {
     try {
         for(const subId of subs){
             const sub = await axios.get(`/api/subs/${subId}/small`)
-            cards += createCard(sub)
+            cards.innerHTML += createCard(sub)
         }
     } catch (err) {
         console.log(err)

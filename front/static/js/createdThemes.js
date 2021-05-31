@@ -1,14 +1,3 @@
-
-const urlId = getUrlId()
-
-function getUrlId() {
-    const urlParams = new URLSearchParams(window.location.search)
-    const id = urlParams.get("id")
-    if (id == null) {
-        window.location.href = "/subs"
-    }
-    return id
-}
 loadPage()
 
 async function loadPage() {
@@ -25,10 +14,7 @@ async function loadPage() {
             const user = userBody.data.user
             const cards = document.querySelector("#theme-list")
             cards.innerHTML = ""
-            for(const subId of user.created.subs) {
-                const sub = await axios.get(`/api/subs/${subId}/small`)
-                await renderCards(sub, cards)
-            }
+            await renderCards(user.created.themes, cards)
             addEventListeners()
         } else {
             logInOut.innerHTML = "Login"
@@ -80,10 +66,8 @@ async function saveTheme(btn) {
     await axios.put(`/api/user/saved/themes/${themeId}`)
 }
 
-async function renderCards(themes) {
+async function renderCards(themes, cards) {
     try {
-        const cards = document.querySelector("#theme-list")
-        cards.innerHTML = ""
         for (const themeId of themes) {
             const themeSmallBody = await axios.get(`/api/themes/${themeId}/small`)
             const themeSmall = themeSmallBody.data.theme
@@ -152,38 +136,4 @@ function getParentId(btn) {
     const parent = btn.parentElement
     const parentId = parent.getAttribute("theme-id")
     return parentId
-}
-
-const postButton = document.querySelector("#btn-post")
-postButton.addEventListener("click", getInput)
-
-async function getInput() {
-    try {
-        const title = document.querySelector("#title")
-        const content = document.querySelector("#content")
-
-        const body = {
-            sub: urlId,
-            title: title.value,
-            content: content.value
-        }
-        await axios.post("/api/themes", body)
-
-        title.value = ""
-        content.value = ""
-        loadPage()
-    } catch (err) {
-        console.log(err)
-    }
-}
-
-const followButton = document.querySelector("#btn-follow")
-followButton.addEventListener("click", followSub)
-
-async function followSub() {
-    try {
-        await axios.put(`/api/user/subs/${urlId}`)
-    } catch (err) {
-        console.log(err)
-    }
 }
