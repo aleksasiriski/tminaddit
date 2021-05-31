@@ -14,7 +14,7 @@ async function loadPage() {
             const user = userBody.data.user
             const cards = document.querySelector("#theme-list")
             cards.innerHTML = ""
-            await renderCards(user.downvoted.themes, cards)
+            await renderCards(user.downvotes.themes, cards)
             addEventListeners()
         } else {
             logInOut.innerHTML = "Login"
