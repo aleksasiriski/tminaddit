@@ -251,6 +251,7 @@ router.put("/user/saved/comments/:id", check.isAuthenticated, async (req, res) =
         })
     }
 })
+
 //images
 router.post("/user/profile", upload.single("avatar"), async (req, res, next) => {
     try {
@@ -271,5 +272,7 @@ router.delete("/user/profile", upload.none(), async (req, res, next) => {
     } catch {
         res.redirect("/")
     }
-})//export
+})
+
+//export
 module.exports = router
