@@ -5,6 +5,8 @@ const passport = require("passport")
 const methodOverride = require("method-override")
 const user = require("../model/user")
 const check = require("./authentication")
+const multer = require("multer")
+const upload = multer({ dest: "front/static/uploads/" })
 
 //express and passport
 passport.use(user.createStrategy())
@@ -244,5 +246,25 @@ router.put("/user/saved/comments/:id", check.isAuthenticated, async (req, res) =
         })
     }
 })
-//export
+//images
+router.post("/user/profile", upload.single("avatar"), async (req, res, next) => {
+    try {
+        const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        specificUser.avatar = req.file.filename
+        await specificUser.save()
+        res.redirect("/profile")
+    } catch {
+        res.redirect("/")
+    }
+})
+router.delete("/user/profile", upload.none(), async (req, res, next) => {
+    try {
+        const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
+        specificUser.avatar = ""
+        await specificUser.save()
+        res.redirect("/profile")
+    } catch {
+        res.redirect("/")
+    }
+})//export
 module.exports = router

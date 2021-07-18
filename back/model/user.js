@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    avatar: String,
     fname: String,
     lname: String,
     email: {
@@ -49,6 +50,8 @@ userSchema.pre("save", function (next) {
         this.fname = ""
     if (!this.lname)
         this.lname = ""
+    if (!this.pfp)
+        this.pfp = ""
     next()
 })
 

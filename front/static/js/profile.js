@@ -8,9 +8,13 @@ async function loadPage() {
         user=userBody.data.user
         const username=document.querySelector("#username")
         username.innerHTML=user.username
+        if (user.avatar!="") {
+            $('#avatar').attr('src',"uploads/"+user.avatar);
+        } else {
+            $('#avatar').attr('src',"https://ssl.gstatic.com/accounts/ui/avatar_2x.png");
+        }
         if (user.fname!=""){
             $('#first-name').attr('placeholder',user.fname);
-
         }
         else{
             $('#first-name').attr('placeholder','First name');

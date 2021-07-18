@@ -93,10 +93,17 @@
 
 
                 <div class="text-center">
-                    <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail"
+                    <img id="avatar" class="avatar img-circle img-thumbnail"
                         alt="avatar">
-                    <!--h6>Upload a different photo...</h6>
-                    <input type="file" class="text-center center-block file-upload"s-->
+                    <h2>Choose avatar</h2>
+                    <form action="/api/user/profile" method="post" enctype="multipart/form-data">
+                      <input type="file" class="text-center center-block file-upload" name="avatar" />
+                      <input type="submit" value="Upload" class="btn btn-default">
+                    </form>
+                    <h2>Remove avatar</h2>
+                    <form action="/api/user/profile?_method=DELETE" method="post" enctype="multipart/form-data">
+                      <input type="submit" value="Remove" class="btn btn-default">
+                    </form>
                 </div>
                 </hr><br>
 
