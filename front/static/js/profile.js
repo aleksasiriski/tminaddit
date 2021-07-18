@@ -47,19 +47,27 @@ saveButton.addEventListener("click", getInput)
 
 async function getInput() {
     try {
-            const fname= document.querySelector("#first-name")
-            const lname= document.querySelector("#last-name")
-            const email= document.querySelector("#email")
+        const fname = document.querySelector("#first-name")
+        const lname = document.querySelector("#last-name")
+        const email = document.querySelector("#email")
+        const password = document.querySelector("#password")
+        const vpassword = document.querySelector("#vpassword")
+        let newpassword = ""
+        if (password.value == vpassword.value) {
+            newpassword = password.value
+        }
         const body = {
             fname: fname.value,
             lname: lname.value,
-            email: email.value
+            email: email.value,
+            password: newpassword
         }
-
         await axios.put("/api/user", body)
-        fname.value=""
-        lname.value=""
-        email.value=""
+        fname.value = ""
+        lname.value = ""
+        email.value = ""
+        password.value = ""
+        vpassword.value = ""
         loadPage()
     } catch (err) {
         console.log(err)
