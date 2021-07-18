@@ -141,15 +141,15 @@ router.put("/user", check.isAuthenticated, async (req, res) => {
         const specificUser = await user.findOne({"username": `${req.session.passport.user}`})
         let changed = false
         if (fname != "" && fname != null && fname != undefined) {
-            user.fname = fname
+            specificUser.fname = fname
             changed = true
         }
         if (lname != "" && lname != null && lname != undefined) {
-            user.lname = lname
+            specificUser.lname = lname
             changed = true
         }
         if (email != "" && email != null && email != undefined) {
-            user.email = email
+            specificUser.email = email
             changed = true
         }
         if(changed) {
